@@ -39,17 +39,11 @@ class OrderDetailsController extends GetxController {
     const ItemModel(
       id: 1,
       text: '',
-      image: 'pricing-offers',
-      child: _PricingOffersTab(),
-    ),
-    const ItemModel(
-      id: 2,
-      text: '',
       image: 'track',
       child: _StatusData(),
     ),
     const ItemModel(
-      id: 3,
+      id: 2,
       text: '',
       image: 'bill',
       child: _BillDataTab(),
@@ -86,7 +80,7 @@ class OrderDetailsController extends GetxController {
     }
 
     if (serviceType != ServiceTypes.customsClearance) {
-      pages.removeWhere((element) => element.id == 2);
+      pages.removeWhere((element) => element.id == 1);
     }
 
     await Future.delayed(const Duration(milliseconds: 300));

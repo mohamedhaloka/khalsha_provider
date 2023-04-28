@@ -14,11 +14,9 @@ import 'package:khalsha/features/order_details/domain/use_cases/accept_reject_of
 import 'package:khalsha/features/order_details/domain/use_cases/get_order_details_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/rate_order_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/update_order_status_use_case.dart';
-import 'package:khalsha/features/order_details/presentation/bottom_sheets/pricing_offer_details_sheet.dart';
 import 'package:khalsha/features/order_details/presentation/bottom_sheets/rate_order_sheet.dart';
 import 'package:khalsha/features/order_details/presentation/widgets/order_tab_header.dart';
 import 'package:khalsha/features/order_details/presentation/widgets/status_steps.dart';
-import 'package:khalsha/features/service_intro/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/widgets/custom_button.dart';
 import 'package:khalsha/features/widgets/custom_rich_text.dart';
 import 'package:khalsha/features/widgets/headline_bottom_sheet.dart';
@@ -26,6 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/domain/use_cases/delete_file_use_case.dart';
 import '../../../../../core/utils.dart' as util;
+import '../../../core/data/models/enums/service_types.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import '../../orders/domain/entities/order_model.dart';
 import '../../widgets/bill.dart';
@@ -35,7 +34,6 @@ import '../../widgets/stylish_text.dart';
 part 'get/controllers/controller.dart';
 part 'tabs/bill_data.dart';
 part 'tabs/order_data.dart';
-part 'tabs/pricing_offers.dart';
 part 'tabs/status_data.dart';
 
 class OrderDetailsView extends GetView<OrderDetailsController> {

@@ -37,7 +37,7 @@ class LaboratoryOrder extends OrderModel {
   factory LaboratoryOrder.fromJson(Map<String, dynamic> json) =>
       LaboratoryOrder(
         id: json["id"],
-        title: json["title"],
+        title: json["title"] ?? '',
         userId: json["user_id"],
         user: User.fromJson(json["user"] ?? {}),
         testReport: json["test_report"],

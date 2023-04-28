@@ -20,7 +20,7 @@ class HttpService extends GetxService {
 
   static const baseURL = 'https://khalshaa.asdevsop.com/api/';
   static const fileBaseURL = 'https://khalshaa.asdevsop.com/storage/';
-  static const userType = 'importer';
+  static const userType = 'provider';
 
   late Dio _dio;
 

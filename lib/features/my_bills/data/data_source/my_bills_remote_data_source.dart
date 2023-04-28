@@ -3,8 +3,8 @@ import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/features/order_details/data/data_source/order_details_remote_data_source.dart';
 import 'package:khalsha/features/orders/domain/entities/order_model.dart';
 
+import '../../../../core/data/models/enums/service_types.dart';
 import '../../../../core/domain/error/exceptions.dart';
-import '../../../service_intro/presentation/get/controllers/controller.dart';
 
 abstract class MyBillsRemoteDataSource {
   Future<List<OrderModel>> getBills(String type, int pageIndex);
@@ -16,8 +16,8 @@ class MyBillsRemoteDataSourceImpl extends MyBillsRemoteDataSource {
 
   @override
   Future<List<OrderModel>> getBills(String type, int pageIndex) async {
-    final response =
-        await _httpService.get('importer/billing?type=$type&page=$pageIndex');
+    final response = await _httpService
+        .get('${HttpService.userType}/billing?type=$type&page=$pageIndex');
 
     if (response.statusCode == 200) {
       final data = response.data['data']['billings']['data'];

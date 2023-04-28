@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:khalsha/core/data/source/local/user_local.dart';
 import 'package:khalsha/core/domain/use_cases/use_case.dart';
 import 'package:khalsha/features/home/presentation/view.dart';
-import 'package:khalsha/features/my_bills/presentation/view.dart';
 import 'package:khalsha/features/on_boarding/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/orders/presentation/view.dart';
 import 'package:khalsha/features/profile/presentation/view.dart';
@@ -60,8 +59,8 @@ class RootController extends GetxController {
       const ItemModel(
         id: 1,
         image: 'orders',
-        text: 'طلباتي',
-        child: OrdersBody(),
+        text: 'عروضي',
+        child: OrdersView(),
       ),
       const ItemModel(
         id: 2,
@@ -75,27 +74,13 @@ class RootController extends GetxController {
         text: 'الإشعارات',
         child: NotificationsView(),
       ),
+      const ItemModel(
+        id: 4,
+        image: 'settlement',
+        text: 'التسوية',
+        child: SettlementView(),
+      ),
     ];
-
-    if (!UserDataLocal.instance.isImporterExporter) {
-      pages.add(
-        const ItemModel(
-          id: 4,
-          image: 'settlement',
-          text: 'التسوية',
-          child: SettlementView(),
-        ),
-      );
-    } else {
-      pages.add(
-        const ItemModel(
-          id: 4,
-          image: 'my-bills',
-          text: 'فواتير',
-          child: MyBillsView(),
-        ),
-      );
-    }
 
     menu = [
       const ItemModel(
@@ -105,9 +90,24 @@ class RootController extends GetxController {
         arguments: IntroType.aboutApp,
       ),
       const ItemModel(
+        image: 'blog',
+        text: 'الإحصائيات',
+        route: Routes.statistics,
+      ),
+      const ItemModel(
+        image: 'resources',
+        text: 'الطلبات الجديدة',
+        route: Routes.newOrders,
+      ),
+      const ItemModel(
         image: 'common_questions',
         text: 'الأسئلة الشائعة',
         route: Routes.commonQuestions,
+      ),
+      const ItemModel(
+        image: 'my-bills',
+        text: 'الفواتير',
+        route: Routes.myBills,
       ),
       const ItemModel(
         image: 'technical-support',
@@ -131,39 +131,6 @@ class RootController extends GetxController {
       ),
     ];
 
-    if (!UserDataLocal.instance.isImporterExporter) {
-      menu.insertAll(
-        1,
-        const [
-          ItemModel(
-            image: 'blog',
-            text: 'الإحصائيات',
-            route: Routes.statistics,
-          ),
-          ItemModel(
-            image: 'resources',
-            text: 'الطلبات الجديدة',
-            route: Routes.newOrders,
-          ),
-        ],
-      );
-    } else {
-      menu.insertAll(
-        1,
-        const [
-          ItemModel(
-            image: 'blog',
-            text: 'المدونة',
-            route: Routes.blog,
-          ),
-          ItemModel(
-            image: 'resources',
-            text: 'المصادر',
-            route: Routes.sources,
-          ),
-        ],
-      );
-    }
     _refreshToken();
     super.onInit();
   }

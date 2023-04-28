@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/orders/domain/use_cases/get_orders_use_case.dart';
-import 'package:khalsha/features/service_intro/presentation/get/controllers/controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../core/presentation/routes/app_routes.dart';
+import '../../../../../core/data/models/enums/service_types.dart';
 import '../../../../../core/utils.dart';
 import '../../../domain/entities/order_model.dart';
 
@@ -13,16 +12,21 @@ class OrdersController extends GetxController {
     this._getOrdersUseCase,
   );
 
+  final ServiceTypes? serviceType = Get.arguments;
+
   RxInt selectedService = 0.obs;
   int currentPage = 1;
 
-  RxList<OrderModel> orders = <OrderModel>[].obs;
+  RxList<OfferModel> orders = <OfferModel>[].obs;
 
   RxBool loading = true.obs;
 
   RefreshController refreshController = RefreshController();
   @override
   void onInit() {
+    if (serviceType != null) {
+      selectedService(serviceType!.index);
+    }
     _getOrders();
     super.onInit();
   }
@@ -48,25 +52,6 @@ class OrdersController extends GetxController {
         orders.addAll(data);
       },
     );
-  }
-
-  String get route {
-    switch (selectedService.value) {
-      case 0:
-        return Routes.customsClearanceService;
-      case 1:
-        return Routes.personalDomesticLandShipping;
-      case 2:
-        return Routes.stores;
-      case 3:
-        return Routes.marineShipping;
-      case 4:
-        return Routes.airFreight;
-      case 5:
-        return Routes.laboratoryAndStandardsService;
-      default:
-        return '';
-    }
   }
 
   Future<void> onRefresh() async {

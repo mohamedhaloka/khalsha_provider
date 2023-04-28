@@ -12,31 +12,12 @@ import 'package:khalsha/core/domain/use_cases/get_profile_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/update_profile_photo_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/update_profile_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/upload_image_use_case.dart';
-import 'package:khalsha/features/customs_clearance_service/data/data_source/custom_clearance_remote_data_source.dart';
-import 'package:khalsha/features/customs_clearance_service/data/repository_impl/customs_clearance_repository_impl.dart';
-import 'package:khalsha/features/customs_clearance_service/domain/repository/customs_clearance_repository.dart';
-import 'package:khalsha/features/customs_clearance_service/domain/use_cases/add_customs_clearance_use_case.dart';
-import 'package:khalsha/features/customs_clearance_service/domain/use_cases/update_customs_clearance_use_case.dart';
 import 'package:khalsha/features/forget_password/data/repo_impl/forget_password_repository_impl.dart';
 import 'package:khalsha/features/forget_password/data/source/forget_password_remote_data_source.dart';
 import 'package:khalsha/features/forget_password/domain/repository/forget_password_repository.dart';
 import 'package:khalsha/features/forget_password/domain/use_cases/forget_password_use_case.dart';
-import 'package:khalsha/features/home/data/data_source/home_remote_data_source.dart';
-import 'package:khalsha/features/home/data/repo_impl/home_repository_impl.dart';
-import 'package:khalsha/features/home/domain/repository/home_repository.dart';
-import 'package:khalsha/features/home/domain/use_cases/get_statistics_use_case.dart';
-import 'package:khalsha/features/laboratory_and_standards_service/data/data_source/laboratory_remote_data_source.dart';
-import 'package:khalsha/features/laboratory_and_standards_service/data/repository_impl/laboratory_repository_impl.dart';
-import 'package:khalsha/features/laboratory_and_standards_service/domain/repository/laboratory_repository.dart';
-import 'package:khalsha/features/laboratory_and_standards_service/domain/use_case/add_laboratory_use_case.dart';
-import 'package:khalsha/features/laboratory_and_standards_service/domain/use_case/update_laboratory_use_case.dart';
 import 'package:khalsha/features/login/domain/use_cases/login_use_case.dart';
 import 'package:khalsha/features/map/data/data_source/map_remote_data_source.dart';
-import 'package:khalsha/features/marine_shipping/data/data_source/marine_shipment_remote_data_source.dart';
-import 'package:khalsha/features/marine_shipping/data/repository_impl/marine_shippment_repository_impl.dart';
-import 'package:khalsha/features/marine_shipping/domain/repository/marine_shipment_repository.dart';
-import 'package:khalsha/features/marine_shipping/domain/use_cases/add_marine_shipment_use_case.dart';
-import 'package:khalsha/features/marine_shipping/domain/use_cases/update_marine_shipment_use_case.dart';
 import 'package:khalsha/features/my_bills/data/data_source/my_bills_remote_data_source.dart';
 import 'package:khalsha/features/my_bills/data/repo_impl/my_bills_repository_impl.dart';
 import 'package:khalsha/features/my_bills/domain/repository/my_bills_repository.dart';
@@ -76,11 +57,6 @@ import 'package:khalsha/features/settlement/data/data_source/settlement_remote_d
 import 'package:khalsha/features/settlement/data/repo_impl/settlement_repository_impl.dart';
 import 'package:khalsha/features/settlement/domain/repo/settlement_repository.dart';
 import 'package:khalsha/features/settlement/domain/use_cases/get_settlements_use_case.dart';
-import 'package:khalsha/features/stores/data/data_source/ware_house_remote_data_source.dart';
-import 'package:khalsha/features/stores/data/repository_impl/ware_house_repository_impl.dart';
-import 'package:khalsha/features/stores/domain/repository/ware_house_repository.dart';
-import 'package:khalsha/features/stores/domain/use_case/add_ware_house_order_use_case.dart';
-import 'package:khalsha/features/stores/domain/use_case/update_ware_house_order_use_case.dart';
 import 'package:location/location.dart';
 
 import 'core/data/services/http_service.dart';
@@ -165,13 +141,6 @@ class InjectionContainer {
         () => RefreshTokenUseCase(sl()));
     sl.registerLazySingleton<LogOutUseCase>(() => LogOutUseCase(sl()));
 
-    //Home
-    sl.registerLazySingleton<HomeRemoteDataSource>(
-        () => HomeRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
-    sl.registerLazySingleton<GetStatisticsUseCase>(
-        () => GetStatisticsUseCase(sl()));
-
     //Settlements
     sl.registerLazySingleton<SettlementRemoteDataSource>(
         () => SettlementRemoteDataSourceImpl(dioService));
@@ -186,46 +155,6 @@ class InjectionContainer {
     sl.registerLazySingleton<OrdersRepository>(
         () => OrdersRepositoryImpl(sl()));
     sl.registerLazySingleton<GetOrdersUseCase>(() => GetOrdersUseCase(sl()));
-
-    //Customs Clearance
-    sl.registerLazySingleton<CustomsClearanceRemoteDataSource>(
-        () => CustomsClearanceRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<CustomsClearanceRepository>(
-        () => CustomsClearanceRepositoryImpl(sl()));
-    sl.registerLazySingleton<AddCustomsClearanceUseCase>(
-        () => AddCustomsClearanceUseCase(sl()));
-    sl.registerLazySingleton<UpdateCustomsClearanceUseCase>(
-        () => UpdateCustomsClearanceUseCase(sl()));
-
-    //Ware Houses
-    sl.registerLazySingleton<WareHouseRemoteDataSource>(
-        () => WareHouseRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<WareHouseRepository>(
-        () => WareHouseRepositoryImpl(sl()));
-    sl.registerLazySingleton<AddWareHouseOrderUseCase>(
-        () => AddWareHouseOrderUseCase(sl()));
-    sl.registerLazySingleton<UpdateWareHouseOrderUseCase>(
-        () => UpdateWareHouseOrderUseCase(sl()));
-
-    //Laboratory Houses
-    sl.registerLazySingleton<LaboratoryRemoteDataSource>(
-        () => LaboratoryRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<LaboratoryRepository>(
-        () => LaboratoryRepositoryImpl(sl()));
-    sl.registerLazySingleton<AddLaboratoryUseCase>(
-        () => AddLaboratoryUseCase(sl()));
-    sl.registerLazySingleton<UpdateLaboratoryUseCase>(
-        () => UpdateLaboratoryUseCase(sl()));
-
-    //Marine Shipment
-    sl.registerLazySingleton<MarineShipmentRemoteDataSource>(
-        () => MarineShipmentRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<MarineShipmentRepository>(
-        () => MarineShipmentRepositoryImpl(sl()));
-    sl.registerLazySingleton<AddMarineShipmentUseCase>(
-        () => AddMarineShipmentUseCase(sl()));
-    sl.registerLazySingleton<UpdateMarineShipmentUseCase>(
-        () => UpdateMarineShipmentUseCase(sl()));
 
     //New Orders
     sl.registerLazySingleton<NewOrdersRemoteDataSource>(

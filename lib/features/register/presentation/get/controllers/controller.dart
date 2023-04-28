@@ -28,7 +28,7 @@ class RegisterController extends GetxController {
     ItemModel(text: 'Facebook', image: 'facebook'),
   ];
 
-  RxInt currentTab = 0.obs;
+  RxInt currentTab = 1.obs;
   RxBool loading = false.obs,
       passSecure = true.obs,
       passConfirmationSecure = true.obs;

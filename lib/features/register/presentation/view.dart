@@ -140,9 +140,9 @@ class _RegisterTabs extends StatelessWidget {
                 bool selected = currentTab.value == item.id;
                 return InkWell(
                   onTap: () {
-                    if (item.id == 1) {
+                    if (item.id == 0) {
                       util.showDialog(
-                        'يمكنك تحميل تطبيق مقدم الخدمة والإستفاده بكافة مميزاته',
+                        'يمكنك تحميل تطبيق المتسورد/المصدر والإستفاده بكافة مميزاته',
                         doneText: 'تحميل',
                         onDoneTapped: () {},
                         backColor: ColorManager.secondaryColor,

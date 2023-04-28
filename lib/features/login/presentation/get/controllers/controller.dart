@@ -45,9 +45,9 @@ class LoginController extends GetxController {
     result.fold(
       (Failure failure) => showAlertMessage(failure.statusMessage),
       (UserData userData) {
-        if (userData.user?.userType != 'importer_exporter') {
+        if (userData.user?.userType != 'provider') {
           showDialog(
-            'يمكنك تحميل تطبيق مقدم الخدمة والإستفاده بكافة مميزاته',
+            'يمكنك تحميل تطبيق المتسورد/المصدر والإستفاده بكافة مميزاته',
             doneText: 'تحميل',
             onDoneTapped: () {},
             backColor: ColorManager.secondaryColor,

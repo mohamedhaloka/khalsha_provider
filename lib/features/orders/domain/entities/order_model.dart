@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:khalsha/core/data/models/data_model.dart';
 
 import '../../../../core/data/models/item_model.dart';
-import '../../../customs_clearance_service/view/get/models/container_data_model.dart';
-import '../../../customs_clearance_service/view/get/models/parcel_data_model.dart';
 import '../../../order_details/data/models/order_details_item_model.dart';
 import '../../../order_details/data/models/order_section_item_model.dart';
 

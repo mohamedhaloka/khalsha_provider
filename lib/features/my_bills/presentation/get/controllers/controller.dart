@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../core/data/models/enums/service_types.dart';
 import '../../../../../core/utils.dart';
 import '../../../../orders/domain/entities/order_model.dart';
-import '../../../../service_intro/presentation/get/controllers/controller.dart';
 import '../../../domain/use_cases/get_my_bills_use_case.dart';
 
 class MyBillsController extends GetxController {

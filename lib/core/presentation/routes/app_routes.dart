@@ -4,7 +4,6 @@ import 'package:khalsha/features/bill_details/presentation/get/binding/binding.d
 import 'package:khalsha/features/bill_details/presentation/view.dart';
 import 'package:khalsha/features/blog/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/blog/presentation/view.dart';
-import 'package:khalsha/features/choose_shipping_service/presentation/view.dart';
 import 'package:khalsha/features/common_questions/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/common_questions/presentation/view.dart';
 import 'package:khalsha/features/contact_us/presentation/get/binding/binding.dart';
@@ -13,14 +12,12 @@ import 'package:khalsha/features/forget_password/presentation/view.dart';
 import 'package:khalsha/features/how_to_use/presentation/view.dart';
 import 'package:khalsha/features/intro/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/intro/presentation/view.dart';
-import 'package:khalsha/features/land_shipping/presentations/International_bulk_goods_land_shipping/view.dart';
-import 'package:khalsha/features/land_shipping/presentations/International_private_transfer_land_shipping/view.dart';
-import 'package:khalsha/features/land_shipping/presentations/commercial_domestic_land_shipping/view.dart';
-import 'package:khalsha/features/land_shipping/presentations/personal_domestic_land_shipping/view.dart';
 import 'package:khalsha/features/login/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/login/presentation/view.dart';
 import 'package:khalsha/features/map/presentation/getx/bindings/binding.dart';
 import 'package:khalsha/features/map/presentation/view.dart';
+import 'package:khalsha/features/my_bills/presentation/get/binding/binding.dart';
+import 'package:khalsha/features/my_bills/presentation/view.dart';
 import 'package:khalsha/features/new_orders/presentation/view.dart';
 import 'package:khalsha/features/on_boarding/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/on_boarding/presentation/view.dart';
@@ -34,8 +31,6 @@ import 'package:khalsha/features/register/presentation/get/bindings/binding.dart
 import 'package:khalsha/features/register/presentation/view.dart';
 import 'package:khalsha/features/root/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/root/presentation/view.dart';
-import 'package:khalsha/features/service_intro/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/service_intro/presentation/view.dart';
 import 'package:khalsha/features/settlement_details/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/settlement_details/presentation/view.dart';
 import 'package:khalsha/features/share_app/presentation/get/binding/binding.dart';
@@ -45,27 +40,14 @@ import 'package:khalsha/features/statistics/presentation/get/binding/binding.dar
 import 'package:khalsha/features/statistics/presentation/view.dart';
 
 import '../../../features/account_settings/presentation/get/binding/binding.dart';
-import '../../../features/air_freight_service/get/bindings/binding.dart';
-import '../../../features/air_freight_service/view.dart';
-import '../../../features/choose_shipping_service/presentation/get/bindings/binding.dart';
-import '../../../features/customs_clearance_service/customs_clearance.dart';
-import '../../../features/customs_clearance_service/view/get/bindings/binding.dart';
 import '../../../features/forget_password/presentation/get/binding/binding.dart';
 import '../../../features/how_to_use/presentation/get/binding/binding.dart';
-import '../../../features/laboratory_and_standards_service/laboratory.dart';
-import '../../../features/land_shipping/presentations/International_bulk_goods_land_shipping/get/bindings/binding.dart';
-import '../../../features/land_shipping/presentations/International_private_transfer_land_shipping/get/bindings/binding.dart';
-import '../../../features/land_shipping/presentations/commercial_domestic_land_shipping/get/bindings/binding.dart';
-import '../../../features/land_shipping/presentations/personal_domestic_land_shipping/get/bindings/binding.dart';
-import '../../../features/marine_shipping/marine_shipping.dart';
 import '../../../features/new_orders/presentation/get/binding/binding.dart';
 import '../../../features/order_details/presentation/get/binding/binding.dart';
 import '../../../features/orders/presentation/get/binding/binding.dart';
 import '../../../features/reset_password/presentation/get/binding/binding.dart';
 import '../../../features/reset_password/presentation/view.dart';
 import '../../../features/sources/presentation/view.dart';
-import '../../../features/stores/presentation/get/bindings/binding.dart';
-import '../../../features/stores/stores.dart';
 
 part 'app_pages.dart';
 
@@ -104,11 +86,6 @@ class AppPages {
       name: _Paths.root,
       page: () => const RootView(),
       binding: RootBinding(),
-    ),
-    GetPage(
-      name: _Paths.serviceIntro,
-      page: () => const ServiceIntroView(),
-      binding: ServiceIntroBinding(),
     ),
     GetPage(
       name: _Paths.commonQuestions,
@@ -181,51 +158,6 @@ class AppPages {
       binding: StatisticsBinding(),
     ),
     GetPage(
-      name: _Paths.customsClearanceService,
-      page: () => const AddEditCustomsClearanceServiceView(),
-      binding: AddEditCustomsClearanceServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.laboratoryAndStandardsService,
-      page: () => const AddEditLaboratoryAndStandardsServiceView(),
-      binding: AddEditLaboratoryAndStandardsServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.airFreight,
-      page: () => const AddEditAirFreightServiceView(),
-      binding: AddEditAirFreightServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.marineShipping,
-      page: () => const AddEditMarineShippingServiceView(),
-      binding: AddEditMarineShippingServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.personalDomesticLandShipping,
-      page: () => const PersonalDomesticLandShippingServiceView(),
-      binding: PersonalDomesticLandShippingServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.commercialDomesticLandShipping,
-      page: () => const CommercialDomesticLandShippingServiceView(),
-      binding: CommercialDomesticLandShippingServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.internationalBulkGoodsLandShipping,
-      page: () => const InternationalBulkGoodsLandShippingServiceView(),
-      binding: InternationalBulkGoodsLandShippingServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.internationalPrivateTransferLandShipping,
-      page: () => const InternationalPrivateTransferLandShippingServiceView(),
-      binding: InternationalPrivateTransferLandShippingServiceBinding(),
-    ),
-    GetPage(
-      name: _Paths.stores,
-      page: () => const AddEditStoresServiceView(),
-      binding: AddEditStoresServiceBinding(),
-    ),
-    GetPage(
       name: _Paths.forgetPassword,
       page: () => const ForgetPasswordView(),
       binding: ForgetPasswordBinding(),
@@ -241,9 +173,9 @@ class AppPages {
       binding: MapBinding(),
     ),
     GetPage(
-      name: _Paths.chooseShippingService,
-      page: () => const ChooseShippingServiceView(),
-      binding: ChooseShippingServiceBinding(),
+      name: _Paths.myBills,
+      page: () => const MyBillsView(),
+      binding: MyBillsBinding(),
     ),
   ];
 }

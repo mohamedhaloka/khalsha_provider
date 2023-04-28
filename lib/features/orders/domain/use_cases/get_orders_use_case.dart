@@ -5,12 +5,12 @@ import 'package:khalsha/features/orders/domain/repository/orders_repository.dart
 
 import '../entities/order_model.dart';
 
-class GetOrdersUseCase extends UseCase<List<OrderModel>, GetOrdersParams> {
+class GetOrdersUseCase extends UseCase<List<OfferModel>, GetOrdersParams> {
   final OrdersRepository _ordersRepository;
   GetOrdersUseCase(this._ordersRepository);
 
   @override
-  Future<Either<Failure, List<OrderModel>>> execute(params) async {
+  Future<Either<Failure, List<OfferModel>>> execute(params) async {
     final call = _ordersRepository.getOrders(
       params.type,
       params.pageIndex,

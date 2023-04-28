@@ -2,8 +2,8 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/core/domain/error/exceptions.dart';
-import 'package:khalsha/features/service_intro/presentation/get/controllers/controller.dart';
 
+import '../../../../core/data/models/enums/service_types.dart';
 import '../../../orders/domain/entities/order_model.dart';
 
 abstract class OrderDetailsRemoteDataSource {
@@ -36,7 +36,8 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
 
   @override
   Future<OrderModel> getOrderDetails(String type, int id) async {
-    final response = await _httpService.get('importer/$type/$id');
+    final response =
+        await _httpService.get('${HttpService.userType}/$type/$id');
     if (response.statusCode == 200) {
       ServiceTypes? serviceType =
           ServiceTypes.values.firstWhereOrNull((e) => e.value == type);

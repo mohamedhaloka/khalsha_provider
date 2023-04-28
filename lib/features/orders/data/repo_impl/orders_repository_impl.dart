@@ -12,7 +12,7 @@ class OrdersRepositoryImpl extends OrdersRepository {
   OrdersRepositoryImpl(this._ordersRemoteDataSource);
 
   @override
-  Future<Either<Failure, List<OrderModel>>> getOrders(
+  Future<Either<Failure, List<OfferModel>>> getOrders(
       String type, int page) async {
     try {
       final result = await _ordersRemoteDataSource.getOrders(type, page);

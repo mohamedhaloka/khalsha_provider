@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:khalsha/features/orders/domain/entities/order_model.dart';
 import 'package:khalsha/features/widgets/smart_refresh.dart';
 
+import '../../../core/data/models/enums/service_types.dart';
 import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import '../../orders/presentation/widgets/filter.dart';
-import '../../service_intro/presentation/get/controllers/controller.dart';
+import '../../widgets/custom_app_bar.dart';
 import '../../widgets/headline_bottom_sheet.dart';
 import '../../widgets/services_filtration_sheet.dart';
 import 'get/controllers/controller.dart';
@@ -16,53 +17,58 @@ class MyBillsView extends GetView<MyBillsController> {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresh(
-      controller: controller.refreshController,
-      onLoading: controller.onLoading,
-      onRefresh: controller.onRefresh,
-      footer: true,
-      child: ListView(
-        children: [
-          Filter(
-            margin: EdgeInsets.all(20),
-            onTap: () => Get.bottomSheet(
-              HeadLineBottomSheet(
-                bottomSheetTitle: 'فلترة عروضي',
-                body: ServicesFiltrationSheet(
-                  'الخدمة المقدمة',
-                  selectedService: controller.selectedService,
-                  onDoneTapped: () {
-                    Get.back();
-                    controller.onRefresh();
-                  },
+    return Scaffold(
+      appBar: const CustomAppBar(
+        title: 'الفواتير',
+      ),
+      body: SmartRefresh(
+        controller: controller.refreshController,
+        onLoading: controller.onLoading,
+        onRefresh: controller.onRefresh,
+        footer: true,
+        child: ListView(
+          children: [
+            Filter(
+              margin: const EdgeInsets.all(20),
+              onTap: () => Get.bottomSheet(
+                HeadLineBottomSheet(
+                  bottomSheetTitle: 'فلترة عروضي',
+                  body: ServicesFiltrationSheet(
+                    'الخدمة المقدمة',
+                    selectedService: controller.selectedService,
+                    onDoneTapped: () {
+                      Get.back();
+                      controller.onRefresh();
+                    },
+                  ),
+                  height: Get.height / 3,
                 ),
-                height: Get.height / 3,
               ),
             ),
-          ),
-          const _Header(),
-          Obx(
-            () => controller.loading.value
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: ColorManager.secondaryColor,
-                    ),
-                  )
-                : Obx(
-                    () => ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, int index) => _MyBillItem(
-                        controller.orders[index],
-                        serviceType: ServiceTypes
-                            .values[controller.selectedService.value],
+            const _Header(),
+            Obx(
+              () => controller.loading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: ColorManager.secondaryColor,
                       ),
-                      separatorBuilder: (_, __) => const Divider(height: 0),
-                      itemCount: controller.orders.length,
+                    )
+                  : Obx(
+                      () => ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, int index) => _MyBillItem(
+                          controller.orders[index],
+                          serviceType: ServiceTypes
+                              .values[controller.selectedService.value],
+                        ),
+                        separatorBuilder: (_, __) => const Divider(height: 0),
+                        itemCount: controller.orders.length,
+                      ),
                     ),
-                  ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

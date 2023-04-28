@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:khalsha/features/orders/presentation/get/controllers/controller.dart';
-import 'package:khalsha/features/service_intro/presentation/get/controllers/controller.dart';
 
+import '../../../../core/data/models/enums/service_types.dart';
 import '../../../../core/presentation/routes/app_routes.dart';
 import '../../../../core/presentation/themes/colors_manager.dart';
 import '../../domain/entities/order_model.dart';
@@ -17,11 +16,9 @@ class OrderItem extends StatelessWidget {
   const OrderItem(
     this.order, {
     Key? key,
-    required this.route,
     required this.serviceType,
   }) : super(key: key);
-  final OrderModel order;
-  final String route;
+  final OfferModel order;
   final ServiceTypes serviceType;
 
   @override
@@ -57,8 +54,8 @@ class OrderItem extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  _detail('#${order.id} ${order.title}'),
-                  _detail('${'offers'.tr}   ${order.offersNum}'),
+                  _detail('#${order.id} OfferModel'),
+                  _detail('${'offers'.tr}   ${order.user!.name}'),
                 ],
               ),
             ),
@@ -68,22 +65,7 @@ class OrderItem extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  _Status(order.status),
-                  if (order.offersNum == 0 && order.status != _kClose)
-                    Expanded(
-                      child: IconButton(
-                          onPressed: () async {
-                            final result = await Get.toNamed(
-                              route,
-                              arguments: order,
-                            );
-                            if (result == null) return;
-                            final ordersController =
-                                Get.find<OrdersController>();
-                            ordersController.onRefresh();
-                          },
-                          icon: const Icon(Icons.edit)),
-                    )
+                  _Status(order.status!),
                 ],
               ),
             ),

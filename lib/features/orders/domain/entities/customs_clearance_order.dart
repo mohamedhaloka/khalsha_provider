@@ -94,41 +94,6 @@ class CustomsClearanceOrder extends OrderModel {
     return int.tryParse(storageDays) ?? 0;
   }
 
-  List<ParcelDataModel> get parcelDataList {
-    List<ParcelDataModel> parcelData = <ParcelDataModel>[];
-    for (var parcelItem in shippingMethods) {
-      parcelData.add(
-        ParcelDataModel(
-          quantity: TextEditingController(text: parcelItem.quantity),
-          goodsType: parcelItem.goodTypeId.toString().obs,
-          totalSize: TextEditingController(text: parcelItem.totalSize),
-          totalWeight: TextEditingController(text: parcelItem.totalWeight),
-          parcelType: (parcelItem.parcelType ?? '').obs,
-          otherParcelName: TextEditingController(text: parcelItem.otherParcel),
-        ),
-      );
-    }
-    return parcelData;
-  }
-
-  List<ContainerDataModel> get containerDataList {
-    List<ContainerDataModel> containerData = <ContainerDataModel>[];
-    for (var containerItem in shippingMethods) {
-      containerData.add(
-        ContainerDataModel(
-          containerSize: (containerItem.containerSize ?? '').obs,
-          goodsType: containerItem.goodTypeId.toString().obs,
-          containerCount: TextEditingController(
-            text: (int.tryParse(containerItem.containerCount ?? '0') ?? 0)
-                .toString(),
-          ),
-          containerType: (containerItem.containerType ?? '').obs,
-        ),
-      );
-    }
-    return containerData;
-  }
-
   List<TextEditingController> get customsClauseDataList {
     List<TextEditingController> customsClause = <TextEditingController>[];
     for (var customsClauseItem in items) {
