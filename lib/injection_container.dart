@@ -29,6 +29,7 @@ import 'package:khalsha/features/order_details/data/data_source/order_details_re
 import 'package:khalsha/features/order_details/data/repo_impl/order_details_repository_impl.dart';
 import 'package:khalsha/features/order_details/domain/repository/order_details_repository.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/add_offer_use_case.dart';
+import 'package:khalsha/features/order_details/domain/use_cases/create_invoice_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/get_order_details_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/rate_order_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/update_order_status_use_case.dart';
@@ -175,6 +176,8 @@ class InjectionContainer {
     sl.registerLazySingleton<GetOrderDetailsUseCase>(
         () => GetOrderDetailsUseCase(sl()));
     sl.registerLazySingleton<RateOrderUseCase>(() => RateOrderUseCase(sl()));
+    sl.registerLazySingleton<CreateInvoiceUseCase>(
+        () => CreateInvoiceUseCase(sl()));
 
     //Map
     sl.registerLazySingleton<Location>(() => Location());

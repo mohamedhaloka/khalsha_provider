@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khalsha/core/data/source/local/user_local.dart';
 import 'package:khalsha/core/presentation/themes/colors_manager.dart';
 import 'package:khalsha/features/order_details/presentation/bottom_sheets/change_order_status_sheet.dart';
 import 'package:khalsha/features/order_details/presentation/view.dart';
@@ -40,15 +41,18 @@ class _OrderStep extends StatelessWidget {
   }) : super(key: key);
   final OrderStepModel stepModel;
   final OrderDetailsController controller;
+
+  int get userId => UserDataLocal.instance.data.value.user!.id!;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: stepModel.status == kDone
+      onTap: userId != stepModel.userId
           ? null
           : () {
               Get.bottomSheet(
                 HeadLineBottomSheet(
-                  bottomSheetTitle: stepModel.step!,
+                  bottomSheetTitle: (stepModel.step ?? '').tr,
                   height: Get.height / 1.5,
                   body: ChangeOrderStatusSheet(stepModel),
                 ),
@@ -118,25 +122,26 @@ class _OrderStep extends StatelessWidget {
                         child: Icon(CupertinoIcons.photo),
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: InkWell(
-                        onTap: () async {
-                          // loading(true);
-                          await controller.deleteImage(
-                            stepModel.files![index].id!,
-                          );
-                          Get.back();
-                          // loading(false);
-                        },
-                        child: const CircleAvatar(
-                          radius: 8,
-                          backgroundColor: ColorManager.errorColor,
-                          child: Icon(Icons.clear, size: 10),
+                    if (userId == stepModel.userId)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: InkWell(
+                          onTap: () async {
+                            // loading(true);
+                            await controller.deleteImage(
+                              stepModel.files![index].id!,
+                            );
+                            Get.back();
+                            // loading(false);
+                          },
+                          child: const CircleAvatar(
+                            radius: 8,
+                            backgroundColor: ColorManager.errorColor,
+                            child: Icon(Icons.clear, size: 10),
+                          ),
                         ),
-                      ),
-                    )
+                      )
                   ],
                 ),
               )

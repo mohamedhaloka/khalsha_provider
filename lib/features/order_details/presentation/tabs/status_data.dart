@@ -43,6 +43,11 @@ class _StatusDataState extends State<_StatusData> {
           hint: 'هنا تظهر حالة الطلب من قبلك',
         ),
         if (orderData.steps.isNotEmpty) ...[
+          if (orderData.steps
+                  .any((element) => element.step == 'create_invoice') &&
+              controller.orderModel.invoice == null) ...[
+            const CreateBill(),
+          ],
           SizedBox(
             height: 200,
             child: PageView.builder(

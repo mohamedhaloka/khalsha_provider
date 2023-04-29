@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/domain/error/failures.dart';
 import '../../../orders/domain/entities/order_model.dart';
+import '../../data/models/invoice_data.dart';
 import '../../data/models/offer_input_item.dart';
 
 abstract class OrderDetailsRepository {
@@ -26,4 +27,6 @@ abstract class OrderDetailsRepository {
     String orderId,
     List<OrderInputItemModel> inputs,
   );
+
+  Future<Either<Failure, String>> createInvoice(InvoiceData invoiceData);
 }

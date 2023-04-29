@@ -13,6 +13,7 @@ class OrderDetailsBinding extends Bindings {
           InjectionContainer.sl(),
           InjectionContainer.sl(),
           InjectionContainer.sl(),
+          InjectionContainer.sl(),
         ));
   }
 }

@@ -7,12 +7,14 @@ class OrderDetailsController extends GetxController {
   final DeleteFileUseCase _deleteFileUseCase;
   final RateOrderUseCase _rateOrderUseCase;
   final AddOfferUseCase _addOfferUseCase;
+  final CreateInvoiceUseCase _createInvoiceUseCase;
   OrderDetailsController(
     this._getOrderDetailsUseCase,
     this._updateOrderStatusUseCase,
     this._uploadImageUseCase,
     this._deleteFileUseCase,
     this._rateOrderUseCase,
+    this._createInvoiceUseCase,
     this._addOfferUseCase,
   );
 
@@ -24,7 +26,7 @@ class OrderDetailsController extends GetxController {
   PageController pageViewController = PageController();
 
   RxBool loading = true.obs,
-      offerActionLoading = false.obs,
+      createInvoiceLoading = false.obs,
       rateOrderLoading = false.obs;
 
   late OrderModel orderModel;
@@ -50,11 +52,33 @@ class OrderDetailsController extends GetxController {
     ),
   ];
 
+  TextEditingController ship = TextEditingController(),
+      typeGoods = TextEditingController(),
+      landingNumber = TextEditingController(),
+      containerCount = TextEditingController(),
+      weight = TextEditingController(),
+      importListNumber = TextEditingController(),
+      totalWithoutTax = TextEditingController(),
+      totalTax = TextEditingController(),
+      total = TextEditingController(),
+      notes = TextEditingController();
+
+  DateTime? importListDate;
+
+  RxList<InvoiceItemModel> invoiceItems = <InvoiceItemModel>[
+    InvoiceItemModel.newItem(),
+  ].obs;
+
+  final formKey = GlobalKey<FormBuilderState>();
+
   @override
   void onInit() {
     getOrderDetails();
     super.onInit();
   }
+
+  void didFieldChanged(String fieldName, {required String value}) =>
+      formKey.currentState?.fields[fieldName]!.didChange(value);
 
   void goToParticularPage(int index) => pageViewController.jumpToPage(index);
 
@@ -62,7 +86,7 @@ class OrderDetailsController extends GetxController {
     final params = GetOrderDetailsUseCaseParams(
       loading: loading,
       type: serviceType.value,
-      orderId: orderId,
+      orderId: 11,
     );
     final result = await _getOrderDetailsUseCase.execute(params);
     result.fold(
@@ -74,10 +98,6 @@ class OrderDetailsController extends GetxController {
   void _onGetOrderDetailsSuccess(OrderModel orderData) async {
     orderModel = orderData;
     currentTab(0);
-
-    if (orderModel.offer != null || orderModel.invoice != null) {
-      pages.removeWhere((element) => element.id == 1);
-    }
 
     if (serviceType != ServiceTypes.customsClearance) {
       pages.removeWhere((element) => element.id == 1);
@@ -182,6 +202,52 @@ class OrderDetailsController extends GetxController {
         util.showAlertMessage(msg);
         Get.back();
         Get.back(result: true);
+      },
+    );
+  }
+
+  InvoiceData get _invoiceData => InvoiceData(
+        orderId: orderId.toString(),
+        totalPercents:
+            invoiceItems.map((element) => element.totalPercents.text).toList(),
+        totalTaxs:
+            invoiceItems.map((element) => element.totalTaxs.text).toList(),
+        totalWithoutTaxs: invoiceItems
+            .map((element) => element.totalWithoutTaxs.text)
+            .toList(),
+        totals: invoiceItems.map((element) => element.totals.text).toList(),
+        containerNumbers: invoiceItems
+            .map((element) => element.containerNumbers.text)
+            .toList(),
+        service: invoiceItems.map((element) => element.service.text).toList(),
+        total: total.text,
+        totalTax: totalTax.text,
+        totalWithoutTax: totalWithoutTax.text,
+        importListNumber: importListNumber.text,
+        weight: weight.text,
+        containerCount: containerCount.text,
+        typeGoods: typeGoods.text,
+        ship: ship.text,
+        note: notes.text,
+        importListDate: importListDate!.formatDateTime(regularDateFormat),
+        ladingNumber: landingNumber.text,
+      );
+
+  Future<void> createInvoice() async {
+    formKey.currentState?.save();
+
+    if (!formKey.currentState!.validate()) return;
+
+    final params = CreateInvoiceUseCaseParams(
+      loading: createInvoiceLoading,
+      invoiceData: _invoiceData,
+    );
+    final result = await _createInvoiceUseCase.execute(params);
+    result.fold(
+      (failure) => util.showAlertMessage(failure.statusMessage),
+      (msg) {
+        util.showAlertMessage(msg);
+        getOrderDetails();
       },
     );
   }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:khalsha/core/domain/error/failures.dart';
 import 'package:khalsha/features/order_details/data/data_source/order_details_remote_data_source.dart';
+import 'package:khalsha/features/order_details/data/models/invoice_data.dart';
 import 'package:khalsha/features/order_details/domain/repository/order_details_repository.dart';
 
 import '../../../../core/domain/error/exceptions.dart';
@@ -76,6 +77,19 @@ class OrderDetailsRepositoryImpl extends OrderDetailsRepository {
     try {
       final result =
           await _orderDetailsRemoteDataSource.addOffer(type, orderId, inputs);
+      return right(result);
+    } on ServerException catch (e) {
+      return left(ServerFailure(statusMessage: e.errorMessage));
+    } on DioError catch (e) {
+      return left(ServerFailure(statusMessage: e.response!.data.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> createInvoice(InvoiceData invoiceData) async {
+    try {
+      final result =
+          await _orderDetailsRemoteDataSource.createInvoice(invoiceData);
       return right(result);
     } on ServerException catch (e) {
       return left(ServerFailure(statusMessage: e.errorMessage));

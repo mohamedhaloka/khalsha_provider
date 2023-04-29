@@ -107,7 +107,10 @@ class _AddPhotosState extends State<AddPhotos> {
       doneText: 'gallery',
       backTxt: 'camera',
       backColor: ColorManager.secondaryColor,
-      onDoneTapped: () => _chooseImage(index, ImageSource.gallery),
+      onDoneTapped: () {
+        _chooseImage(index, ImageSource.gallery);
+        Get.back();
+      },
       onBackTapped: () => _chooseImage(index, ImageSource.camera),
     );
   }
@@ -116,7 +119,6 @@ class _AddPhotosState extends State<AddPhotos> {
     final XFile? pickedImage = await ImagePicker().pickImage(
         imageQuality: 30, source: imageSource, maxWidth: 350, maxHeight: 350);
 
-    Get.back();
     if (pickedImage == null) return;
     int size = await pickedImage.length();
     if (size > 4000000) {

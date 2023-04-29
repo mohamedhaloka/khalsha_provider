@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/core/domain/error/exceptions.dart';
+import 'package:khalsha/features/order_details/data/models/invoice_data.dart';
 import 'package:khalsha/features/order_details/data/models/offer_input_item.dart';
 
 import '../../../../core/data/models/enums/service_types.dart';
@@ -29,6 +30,8 @@ abstract class OrderDetailsRemoteDataSource {
     String orderId,
     List<OrderInputItemModel> inputs,
   );
+
+  Future<String> createInvoice(InvoiceData invoiceData);
 }
 
 class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
@@ -109,10 +112,74 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
       formData,
     );
     if (response.statusCode == 200) {
-      print(response.data);
       return response.data['message'];
     } else {
       throw ServerException(errorMessage: response.data['message'].toString());
+    }
+  }
+
+  @override
+  Future<String> createInvoice(InvoiceData invoiceData) async {
+    final formData = _prepareFormData(invoiceData);
+
+    final response = await _httpService.post(
+      '${HttpService.userType}/customsclearance/invoice/${invoiceData.orderId}',
+      formData,
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['message'];
+    } else {
+      throw ServerException(errorMessage: response.data['message'].toString());
+    }
+  }
+
+  dio.FormData _prepareFormData(InvoiceData invoiceData) {
+    final formData = dio.FormData.fromMap(invoiceData.toJson());
+
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.service,
+      key: 'service',
+    );
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.containerNumbers,
+      key: 'container_numbers',
+    );
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.totals,
+      key: 'totals',
+    );
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.totalWithoutTaxs,
+      key: 'total_without_taxs',
+    );
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.totalTaxs,
+      key: 'total_taxs',
+    );
+    _fillDataOfList(
+      formData,
+      dataList: invoiceData.totalPercents,
+      key: 'total_percents',
+    );
+
+    return formData;
+  }
+
+  void _fillDataOfList(
+    dio.FormData formData, {
+    required List<String> dataList,
+    required String key,
+  }) {
+    for (int i = 0; i < dataList.length; i++) {
+      String item = dataList[i];
+      if (item.isEmpty) continue;
+      formData.fields.add(MapEntry('$key[$i]', item));
     }
   }
 }

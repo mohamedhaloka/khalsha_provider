@@ -19,7 +19,7 @@ class ChangeOrderStatusSheet extends StatefulWidget {
 }
 
 class _ChangeOrderStatusSheetState extends State<ChangeOrderStatusSheet> {
-  RxString selectedStatus = ''.obs;
+  RxString selectedStatus = kPending.obs;
   TextEditingController notes = TextEditingController();
   RxList<File> images = <File>[].obs;
 
@@ -49,7 +49,7 @@ class _ChangeOrderStatusSheetState extends State<ChangeOrderStatusSheet> {
                   source: [kDone, kPending]
                       .map((e) => DropdownMenuItem(
                             value: e,
-                            child: Text(e),
+                            child: Text(e.tr),
                           ))
                       .toList(),
                 ),
@@ -72,6 +72,8 @@ class _ChangeOrderStatusSheetState extends State<ChangeOrderStatusSheet> {
               }
               bool hasImagesAdded = images.any((element) => element.path != '');
               if (!hasImagesAdded) {
+                Get.back();
+                orderDetailsController.getOrderDetails();
                 loading(false);
                 return;
               }
