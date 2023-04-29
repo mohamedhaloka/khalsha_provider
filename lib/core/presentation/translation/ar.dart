@@ -94,4 +94,21 @@ Map<String, String> ar = {
   'custom': 'مساحة محددة',
   'per_day': 'يومي',
   'per_month': 'شهري',
+
+  //Add Offer Inputs
+  'first_container': 'اتعاب الحاوية الاولى بالشحنة',
+  'extra_container': 'اتعاب أي حاوية اضافية بالشحنة',
+  'single_charge': 'اتعاب التخليص للشحنة الواحدة',
+  'transport': 'اجور النقل',
+  'translate': 'ترجمة وتبنيد',
+  'unloading': 'عمال تحميل وتفريغ',
+  'delivery_permits': 'مراجعة الوكيل الملاحي واستلام اذونات التسليم',
+  'total': 'الاجمالى',
+  'notes': 'ملاحظات اضافية',
+  'note': 'ملاحظات اضافية',
+  'shipping_fee': 'رسوم الشحن البحري',
+  'certificates': 'رسوم الشهادات',
+  'customs_clearance': 'رسوم التخليص الجمركي',
+  'fee_included': 'شامل رسوم اصدار الشهادات',
+  'execution_time': 'وقت التنفيذ',
 };

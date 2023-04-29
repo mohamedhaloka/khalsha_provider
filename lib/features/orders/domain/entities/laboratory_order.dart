@@ -194,6 +194,12 @@ class LaboratoryOrder extends OrderModel {
           textInputType: TextInputType.number,
           title: 'fee_included',
           controller: TextEditingController(),
+          child: (TextEditingController controller) => CheckerWithHolder(
+            title: 'fee_included',
+            onTap: (bool active) {
+              controller.text = active ? 'yes' : 'no';
+            },
+          ),
         ),
         OrderInputItemModel(
           textInputType: TextInputType.number,

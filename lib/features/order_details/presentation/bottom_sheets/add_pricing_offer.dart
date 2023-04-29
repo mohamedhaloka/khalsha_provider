@@ -27,15 +27,18 @@ class _AddPricingOfferSheetState extends State<AddPricingOfferSheet> {
         children: [
           Expanded(
             child: ListView(
-              children: widget.inputs
-                  .map(
-                    (e) => CustomTextField.withBorder(
-                      title: e.title,
-                      controller: e.controller,
-                      keyboardType: e.textInputType,
-                    ),
-                  )
-                  .toList(),
+              children: widget.inputs.map(
+                (e) {
+                  if (e.child != null) {
+                    return e.child!(e.controller);
+                  }
+                  return CustomTextField.withBorder(
+                    title: e.title.tr,
+                    controller: e.controller,
+                    keyboardType: e.textInputType,
+                  );
+                },
+              ).toList(),
             ),
           ),
           CustomButton(

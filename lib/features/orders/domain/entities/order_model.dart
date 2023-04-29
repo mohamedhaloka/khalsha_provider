@@ -5,6 +5,7 @@ import '../../../../core/data/models/item_model.dart';
 import '../../../order_details/data/models/offer_input_item.dart';
 import '../../../order_details/data/models/order_details_item_model.dart';
 import '../../../order_details/data/models/order_section_item_model.dart';
+import '../../../widgets/inputs/checker_with_holder.dart';
 
 part 'customs_clearance_order.dart';
 part 'laboratory_order.dart';

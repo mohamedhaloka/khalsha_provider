@@ -4,7 +4,7 @@ class OrderInputItemModel {
   final String title;
   final TextInputType textInputType;
   final TextEditingController controller;
-  final Widget? child;
+  final Widget Function(TextEditingController)? child;
   OrderInputItemModel({
     required this.textInputType,
     required this.title,
