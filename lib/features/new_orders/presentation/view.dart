@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:khalsha/features/orders/presentation/widgets/filter.dart';
 import 'package:khalsha/features/widgets/headline_bottom_sheet.dart';
 import 'package:khalsha/features/widgets/services_filtration_sheet.dart';
+import 'package:khalsha/features/widgets/smart_refresh.dart';
 
+import '../../../core/data/models/enums/service_types.dart';
 import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -19,63 +21,84 @@ class NewOrdersView extends GetView<NewOrdersController> {
       appBar: const CustomAppBar(
         title: 'الطلبات الجديدة',
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Filter(
-            onTap: () => Get.bottomSheet(
-              HeadLineBottomSheet(
-                bottomSheetTitle: 'فلترة الطلبات',
-                body: ServicesFiltrationSheet(
-                  'طلبات خدمة',
-                  selectedService: controller.selectedService,
-                  onDoneTapped: () {},
-                ),
-                height: Get.height / 2.2,
-              ),
-            ),
-          ),
-          Obx(
-            () => controller.loading.value
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : TableItems(
-                    onItemTapped: (int index) => Get.toNamed(
-                      Routes.orderDetails,
-                      arguments: controller.orders[index].id,
-                    ),
-                    itemsHeader: const [
-                      'اسم الطلب',
-                      'اسم المستخدم',
-                      'الحالة',
-                      ''
-                    ],
-                    itemBuilder: (int index) => Row(
-                      children: [
-                        _detail(controller.orders[index].title.toString()),
-                        // _detail(controller.orders[index].user.name.toString()),
-                        _detail(controller.orders[index].status),
-                        _detail(
-                          'رؤية التفاصيل',
-                          textColor: ColorManager.secondaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                    itemCount: controller.orders.length,
+      body: SmartRefresh(
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.onLoading,
+        footer: true,
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Filter(
+              onTap: () => Get.bottomSheet(
+                HeadLineBottomSheet(
+                  bottomSheetTitle: 'الطلبات الجديدة',
+                  body: ServicesFiltrationSheet(
+                    'طلبات خدمة',
+                    selectedService: controller.selectedService,
+                    onDoneTapped: () {
+                      Get.back();
+                      controller.onRefresh();
+                    },
                   ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: Text(
-              'يتم تسوية الفاتورة في حال تجاوزها مده لا تقل عن ثلاثين يوماً او في حال بلوغها الحد الإقصي وهو مائة ريال.',
-              style: Get.textTheme.bodyMedium!.copyWith(
-                color: ColorManager.darkTobyColor,
+                  height: Get.height / 2.5,
+                ),
               ),
             ),
-          )
-        ],
+            Obx(
+              () => controller.loading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : TableItems(
+                      onItemTapped: (int index) async {
+                        final result = await Get.toNamed(
+                          Routes.orderDetails,
+                          arguments: {
+                            'orderId': controller.orders[index].id,
+                            'serviceType': ServiceTypes
+                                .values[controller.selectedService.value],
+                            'isBill': false,
+                          },
+                        );
+                        if (result == null) return;
+
+                        if (result is bool && result) {
+                          controller.onRefresh();
+                        }
+                      },
+                      itemsHeader: const [
+                        'اسم الطلب',
+                        'اسم المستخدم',
+                        'الحالة',
+                        ''
+                      ],
+                      itemBuilder: (int index) => Row(
+                        children: [
+                          _detail(controller.orders[index].title.toString()),
+                          // _detail(controller.orders[index].user.name.toString()),
+                          _detail(controller.orders[index].status),
+                          _detail(
+                            'رؤية التفاصيل',
+                            textColor: ColorManager.secondaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                      itemCount: controller.orders.length,
+                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              child: Text(
+                'يتم تسوية الفاتورة في حال تجاوزها مده لا تقل عن ثلاثين يوماً او في حال بلوغها الحد الإقصي وهو مائة ريال.',
+                style: Get.textTheme.bodyMedium!.copyWith(
+                  color: ColorManager.darkTobyColor,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

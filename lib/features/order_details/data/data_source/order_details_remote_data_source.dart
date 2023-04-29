@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/core/domain/error/exceptions.dart';
+import 'package:khalsha/features/order_details/data/models/offer_input_item.dart';
 
 import '../../../../core/data/models/enums/service_types.dart';
 import '../../../orders/domain/entities/order_model.dart';
@@ -16,17 +17,17 @@ abstract class OrderDetailsRemoteDataSource {
     String note,
   );
 
-  Future<String> acceptRejectOffer(
-    String type,
-    String status,
-    String orderId,
-  );
-
   Future<void> rateOrder(
     double rate,
     String feedback,
     String orderId,
     String module,
+  );
+
+  Future<String> addOffer(
+    String type,
+    String orderId,
+    List<OrderInputItemModel> inputs,
   );
 }
 
@@ -71,26 +72,6 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
   }
 
   @override
-  Future<String> acceptRejectOffer(
-    String type,
-    String status,
-    String orderId,
-  ) async {
-    final formData = dio.FormData.fromMap({
-      'status': status,
-    });
-    final response = await _httpService.post(
-      '${HttpService.userType}/$type/action/offer/$orderId',
-      formData,
-    );
-    if (response.statusCode == 200) {
-      return response.data['message'];
-    } else {
-      throw ServerException(errorMessage: response.data['message'].toString());
-    }
-  }
-
-  @override
   Future<void> rateOrder(
     double rate,
     String feedback,
@@ -108,6 +89,29 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
       formData,
     );
     if (response.statusCode != 200) {
+      throw ServerException(errorMessage: response.data['message'].toString());
+    }
+  }
+
+  @override
+  Future<String> addOffer(
+    String type,
+    String orderId,
+    List<OrderInputItemModel> inputs,
+  ) async {
+    final data = <String, dynamic>{};
+    for (var element in inputs) {
+      data[element.title] = element.controller.text;
+    }
+    final formData = dio.FormData.fromMap(data);
+    final response = await _httpService.post(
+      '${HttpService.userType}/$type/add/offer/$orderId',
+      formData,
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+      return response.data['message'];
+    } else {
       throw ServerException(errorMessage: response.data['message'].toString());
     }
   }

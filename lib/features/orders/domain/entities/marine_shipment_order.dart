@@ -320,6 +320,35 @@ class MarineShipmentOrder extends OrderModel {
           ],
         ),
       ];
+
+  @override
+  List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'shipping_fee',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'certificates',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'customs_clearance',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'total',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.text,
+          title: 'note',
+          controller: TextEditingController(),
+        ),
+      ];
 }
 
 class MarineShipmentInvoice extends Invoice {

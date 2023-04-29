@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/new_orders/data/models/new_order_model.dart';
 import 'package:khalsha/features/new_orders/domain/use_case/get_new_orders_use_case.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../core/data/models/enums/service_types.dart';
 import '../../../../../core/utils.dart';
 import '../../../../orders/domain/use_cases/get_orders_use_case.dart';
 
@@ -10,22 +12,25 @@ class NewOrdersController extends GetxController {
   NewOrdersController(this._getNewOrdersUseCase);
 
   RxInt selectedService = 0.obs;
-
+  int currentPage = 1;
   List<NewOrderModel> orders = <NewOrderModel>[];
 
   RxBool loading = false.obs;
+
+  RefreshController refreshController = RefreshController();
+
   @override
   void onInit() {
-    getOrders();
+    _getOrders();
     super.onInit();
   }
 
-  Future<void> getOrders() async {
+  Future<void> _getOrders() async {
     orders.clear();
     final params = GetOrdersParams(
       loading: loading,
-      type: _type,
-      pageIndex: 0,
+      type: ServiceTypes.values[selectedService.value].value,
+      pageIndex: currentPage,
       loadingMoreData: false.obs,
     );
     final result = await _getNewOrdersUseCase.execute(params);
@@ -35,27 +40,17 @@ class NewOrdersController extends GetxController {
     );
   }
 
-  String get _type {
-    switch (selectedService.value) {
-      case 0:
-        return 'customsclearance';
-      case 1:
-        return 'warehouses';
-      case 2:
-        return 'laboratories';
-      case 3:
-        return 'landshippings';
-      case 4:
-        return 'seashippings';
-      case 5:
-        return 'airshippings';
-      default:
-        return '';
-    }
-  }
-
   Future<void> onRefresh() async {
     orders.clear();
-    getOrders();
+    currentPage = 1;
+    loading(true);
+    await _getOrders();
+    refreshController.refreshCompleted();
+  }
+
+  Future<void> onLoading() async {
+    currentPage++;
+    await _getOrders();
+    refreshController.loadComplete();
   }
 }

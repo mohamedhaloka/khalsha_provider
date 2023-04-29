@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/domain/error/failures.dart';
 import '../../../orders/domain/entities/order_model.dart';
+import '../../data/models/offer_input_item.dart';
 
 abstract class OrderDetailsRepository {
   Future<Either<Failure, OrderModel>> getOrderDetails(String type, int id);
@@ -13,16 +14,16 @@ abstract class OrderDetailsRepository {
     String note,
   );
 
-  Future<Either<Failure, String>> acceptRejectOffer({
-    required String type,
-    required String status,
-    required String orderId,
-  });
-
   Future<Either<Failure, Unit>> rateOrder(
     double rate,
     String feedback,
     String orderId,
     String module,
+  );
+
+  Future<Either<Failure, String>> addOffer(
+    String type,
+    String orderId,
+    List<OrderInputItemModel> inputs,
   );
 }

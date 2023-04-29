@@ -18,34 +18,28 @@ class _OrderDataTab extends GetView<OrderDetailsController> {
             itemBuilder: (_, int index) => _DetailsGroupItem(
                   text: controller.orderModel.data[index].title,
                   details: controller.orderModel.data[index].data,
-                  onTap: (action) async {
-                    print(action.name);
-                    switch (action) {
-                      case OrderDetailsAction.uploadFile:
-                        final pickedImage = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                        if (pickedImage == null) return;
-                        controller.showFileChooseDialog(pickedImage.path);
-                        break;
-                      default:
-                        break;
-                    }
-                  },
+                  onTap: (_) => _,
                 ),
             itemCount: controller.orderModel.data.length),
-        // if (!UserDataLocal.instance.isImporterExporter &&
-        //     controller.orderModel.offers!.isEmpty) ...[
-        //   Padding(
-        //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-        //     child: CustomButton(
-        //       width: Get.width,
-        //       height: 36,
-        //       radius: 10,
-        //       onTap: () {},
-        //       text: 'إنشاء عرض سعر',
-        //     ),
-        //   )
-        // ],
+        if (controller.orderModel.offer == null) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+            child: CustomButton(
+              width: Get.width,
+              height: 36,
+              radius: 10,
+              onTap: () => Get.bottomSheet(
+                HeadLineBottomSheet(
+                  bottomSheetTitle: 'اضف عرض سعر',
+                  body: AddPricingOfferSheet(controller.orderModel.offerInputs),
+                  height: Get.height / 1.2,
+                ),
+                isScrollControlled: true,
+              ),
+              text: 'إنشاء عرض سعر',
+            ),
+          )
+        ],
       ],
     );
   }

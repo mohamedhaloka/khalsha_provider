@@ -154,6 +154,55 @@ class CustomsClearanceOrder extends OrderModel {
       );
 
   @override
+  List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'first_container',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'extra_container',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'single_charge',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'transport',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'translate',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'unloading',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'delivery_permits',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'total',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.text,
+          title: 'notes',
+          controller: TextEditingController(),
+        ),
+      ];
+
+  @override
   List<OrderSectionItemModel> get data => [
         OrderSectionItemModel(
           title: 'معلومات الطلب',
@@ -443,43 +492,6 @@ class CustomsClearanceOffer extends OfferModel {
         "updated_at": updatedAt?.toIso8601String(),
         "user": user?.toJson(),
       };
-
-  @override
-  List<ItemModel> get data => [
-        ItemModel(
-          text: 'اتعاب الحاوية الاولى بالشحنة',
-          description: firstContainer,
-        ),
-        ItemModel(
-          text: 'اتعاب أي حاوية اضافية بالشحنة',
-          description: extraContainer,
-        ),
-        ItemModel(
-          text: 'اجور النقل',
-          description: transport,
-        ),
-        ItemModel(
-          text: 'ترجمة وتبنيد',
-          description: translate,
-        ),
-        ItemModel(
-          text: 'عمال تحميل وتفريغ',
-          description: unloading,
-        ),
-        ItemModel(
-          text: 'مراجعة الوكيل الملاحي واستلام اذونات التسليم',
-          description: deliveryPermits,
-        ),
-        if (note != null) ItemModel(text: 'الملاحظات', description: note ?? ''),
-        ItemModel(
-          text: 'الإجمالي',
-          description: total,
-          mainItem: true,
-        ),
-        const ItemModel(
-          text: 'تنوية هناك رسوم آخرى خلال العملية اللوجستية',
-        ),
-      ];
 }
 
 class CustomsClearanceInvoice extends Invoice {

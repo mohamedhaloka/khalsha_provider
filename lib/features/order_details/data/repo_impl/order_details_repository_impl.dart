@@ -6,6 +6,7 @@ import 'package:khalsha/features/order_details/domain/repository/order_details_r
 
 import '../../../../core/domain/error/exceptions.dart';
 import '../../../orders/domain/entities/order_model.dart';
+import '../models/offer_input_item.dart';
 
 class OrderDetailsRepositoryImpl extends OrderDetailsRepository {
   final OrderDetailsRemoteDataSource _orderDetailsRemoteDataSource;
@@ -52,26 +53,6 @@ class OrderDetailsRepositoryImpl extends OrderDetailsRepository {
   }
 
   @override
-  Future<Either<Failure, String>> acceptRejectOffer({
-    required String type,
-    required String status,
-    required String orderId,
-  }) async {
-    try {
-      final result = await _orderDetailsRemoteDataSource.acceptRejectOffer(
-        type,
-        status,
-        orderId,
-      );
-      return right(result);
-    } on ServerException catch (e) {
-      return left(ServerFailure(statusMessage: e.errorMessage));
-    } on DioError catch (e) {
-      return left(ServerFailure(statusMessage: e.response!.data.toString()));
-    }
-  }
-
-  @override
   Future<Either<Failure, Unit>> rateOrder(
       double rate, String feedback, String orderId, String module) async {
     try {
@@ -82,6 +63,20 @@ class OrderDetailsRepositoryImpl extends OrderDetailsRepository {
         module,
       );
       return right(unit);
+    } on ServerException catch (e) {
+      return left(ServerFailure(statusMessage: e.errorMessage));
+    } on DioError catch (e) {
+      return left(ServerFailure(statusMessage: e.response!.data.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addOffer(
+      String type, String orderId, List<OrderInputItemModel> inputs) async {
+    try {
+      final result =
+          await _orderDetailsRemoteDataSource.addOffer(type, orderId, inputs);
+      return right(result);
     } on ServerException catch (e) {
       return left(ServerFailure(statusMessage: e.errorMessage));
     } on DioError catch (e) {

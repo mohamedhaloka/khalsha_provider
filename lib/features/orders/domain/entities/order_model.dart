@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:khalsha/core/data/models/data_model.dart';
 
 import '../../../../core/data/models/item_model.dart';
+import '../../../order_details/data/models/offer_input_item.dart';
 import '../../../order_details/data/models/order_details_item_model.dart';
 import '../../../order_details/data/models/order_section_item_model.dart';
 
@@ -42,6 +43,7 @@ abstract class OrderModel {
   FeedbackObj? feedback;
 
   List<OrderSectionItemModel> get data => <OrderSectionItemModel>[];
+  List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[];
 }
 
 class FeedbackObj {
@@ -130,8 +132,6 @@ abstract class OfferModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   User? user;
-
-  List<ItemModel> get data => <ItemModel>[];
 }
 
 class User {

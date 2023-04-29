@@ -248,6 +248,20 @@ class WareHouseOrder extends OrderModel {
           ],
         ),
       ];
+
+  @override
+  List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'total',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.text,
+          title: 'note',
+          controller: TextEditingController(),
+        ),
+      ];
 }
 
 class WareHouseInvoice extends Invoice {

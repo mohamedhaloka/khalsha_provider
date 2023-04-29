@@ -182,6 +182,30 @@ class LaboratoryOrder extends OrderModel {
           ],
         ),
       ];
+
+  @override
+  List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'execution_time',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'fee_included',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.number,
+          title: 'total',
+          controller: TextEditingController(),
+        ),
+        OrderInputItemModel(
+          textInputType: TextInputType.text,
+          title: 'note',
+          controller: TextEditingController(),
+        ),
+      ];
 }
 
 class LaboratoryInvoice extends Invoice {
@@ -280,23 +304,6 @@ class LaboratoryOffer extends OfferModel {
         "updated_at": updatedAt?.toIso8601String(),
         "user": user?.toJson(),
       };
-
-  @override
-  List<ItemModel> get data => [
-        ItemModel(
-          text: 'شامل رسوم اصدار الشهادات',
-          description: feeIncluded,
-        ),
-        if (note != null) ItemModel(text: 'الملاحظات', description: note ?? ''),
-        ItemModel(
-          text: 'الإجمالي',
-          description: total,
-          mainItem: true,
-        ),
-        const ItemModel(
-          text: 'تنوية هناك رسوم آخرى خلال العملية اللوجستية',
-        ),
-      ];
 }
 
 class LaboratoryOrderItem {

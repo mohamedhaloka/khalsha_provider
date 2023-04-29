@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:khalsha/core/data/models/item_model.dart';
 import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/core/domain/use_cases/upload_image_use_case.dart';
 import 'package:khalsha/features/order_details/data/models/order_details_item_model.dart';
-import 'package:khalsha/features/order_details/domain/use_cases/accept_reject_offer_use_case.dart';
+import 'package:khalsha/features/order_details/domain/use_cases/add_offer_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/get_order_details_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/rate_order_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/update_order_status_use_case.dart';
@@ -30,6 +29,8 @@ import '../../orders/domain/entities/order_model.dart';
 import '../../widgets/bill.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/stylish_text.dart';
+import '../data/models/offer_input_item.dart';
+import 'bottom_sheets/add_pricing_offer.dart';
 
 part 'get/controllers/controller.dart';
 part 'tabs/bill_data.dart';
@@ -122,8 +123,9 @@ class _DetailsTabs extends GetView<OrderDetailsController> {
   }
 
   Widget get _separator => Expanded(
-          child: Container(
-        height: 1,
-        color: ColorManager.lightGreyColor,
-      ));
+        child: Container(
+          height: 1,
+          color: ColorManager.lightGreyColor,
+        ),
+      );
 }

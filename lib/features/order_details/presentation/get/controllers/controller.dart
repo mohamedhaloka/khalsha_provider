@@ -5,15 +5,15 @@ class OrderDetailsController extends GetxController {
   final UpdateOrderStatusUseCase _updateOrderStatusUseCase;
   final UploadImageUseCase _uploadImageUseCase;
   final DeleteFileUseCase _deleteFileUseCase;
-  final AcceptRejectOfferUseCase _acceptRejectOfferUseCase;
   final RateOrderUseCase _rateOrderUseCase;
+  final AddOfferUseCase _addOfferUseCase;
   OrderDetailsController(
     this._getOrderDetailsUseCase,
     this._updateOrderStatusUseCase,
     this._uploadImageUseCase,
     this._deleteFileUseCase,
-    this._acceptRejectOfferUseCase,
     this._rateOrderUseCase,
+    this._addOfferUseCase,
   );
 
   int orderId = Get.arguments['orderId'];
@@ -131,33 +131,6 @@ class OrderDetailsController extends GetxController {
     }
   }
 
-  Future<void> showFileChooseDialog(String filePath) => util.showDialog(
-        'تم إختيار الملف',
-        doneText: 'رفع الملف',
-        onDoneTapped: () => _uploadOrderFiles(filePath),
-      );
-
-  Future<void> _uploadOrderFiles(String filePath) async {
-    final params = UploadImageUseCaseParams(
-      loading: false.obs,
-      pageName: 'customsclearance',
-      path: 'customclearancestep',
-      orderId: orderId.toString(),
-      field: 'customclearancestep_file',
-      filePath: filePath,
-    );
-
-    final result = await _uploadImageUseCase.execute(params);
-    result.fold(
-      (failure) => util.showAlertMessage(failure.statusMessage),
-      (successMsg) {
-        util.showAlertMessage(successMsg);
-        getOrderDetails();
-      },
-    );
-    Get.back();
-  }
-
   Future<void> deleteImage(int imageId) async {
     final params = DeleteFileUseCaseParams(
         loading: false.obs,
@@ -168,24 +141,6 @@ class OrderDetailsController extends GetxController {
       (l) => util.showAlertMessage(l.statusMessage),
       (r) {
         util.showAlertMessage(r);
-        getOrderDetails();
-      },
-    );
-  }
-
-  Future<void> acceptReject(String status) async {
-    final params = AcceptRejectOfferUseCaseParams(
-      loading: offerActionLoading,
-      type: serviceType.value,
-      status: status,
-      orderId: orderId.toString(),
-    );
-    final result = await _acceptRejectOfferUseCase.execute(params);
-    result.fold(
-      (_) => _,
-      (msg) {
-        util.showAlertMessage(msg);
-        Get.back();
         getOrderDetails();
       },
     );
@@ -203,10 +158,31 @@ class OrderDetailsController extends GetxController {
       orderId: orderId.toString(),
     );
     final result = await _rateOrderUseCase.execute(params);
-    result.fold((failure) => util.showAlertMessage(failure.statusMessage), (_) {
-      util.showAlertMessage('تم تقييم الطلب بنجاح');
-      Get.back();
-      getOrderDetails();
-    });
+    result.fold(
+      (failure) => util.showAlertMessage(failure.statusMessage),
+      (_) {
+        util.showAlertMessage('تم تقييم الطلب بنجاح');
+        Get.back();
+        getOrderDetails();
+      },
+    );
+  }
+
+  Future<void> addOffer(List<OrderInputItemModel> inputs) async {
+    final params = AddOfferUseCaseParams(
+      loading: loading,
+      type: serviceType.value,
+      inputs: inputs,
+      orderId: orderId.toString(),
+    );
+    final result = await _addOfferUseCase.execute(params);
+    result.fold(
+      (failure) => util.showAlertMessage(failure.statusMessage),
+      (msg) {
+        util.showAlertMessage(msg);
+        Get.back();
+        Get.back(result: true);
+      },
+    );
   }
 }
