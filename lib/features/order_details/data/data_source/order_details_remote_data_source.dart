@@ -31,7 +31,7 @@ abstract class OrderDetailsRemoteDataSource {
     List<OrderInputItemModel> inputs,
   );
 
-  Future<String> createInvoice(InvoiceData invoiceData);
+  Future<String> createInvoice(String type, InvoiceData invoiceData);
 }
 
 class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
@@ -119,11 +119,11 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
   }
 
   @override
-  Future<String> createInvoice(InvoiceData invoiceData) async {
+  Future<String> createInvoice(String type, InvoiceData invoiceData) async {
     final formData = _prepareFormData(invoiceData);
 
     final response = await _httpService.post(
-      '${HttpService.userType}/customsclearance/invoice/${invoiceData.orderId}',
+      '${HttpService.userType}/$type/invoice/${invoiceData.orderId}',
       formData,
     );
 
@@ -190,13 +190,13 @@ extension ServiceTypesToModel on ServiceTypes {
       case ServiceTypes.customsClearance:
         return CustomsClearanceOrder.fromJson(json);
       case ServiceTypes.landShipping:
-        return CustomsClearanceOrder.fromJson(json);
+        return LandShippingOrder.fromJson(json);
       case ServiceTypes.stores:
         return WareHouseOrder.fromJson(json);
       case ServiceTypes.marineShipping:
         return MarineShipmentOrder.fromJson(json);
       case ServiceTypes.airFreight:
-        return CustomsClearanceOrder.fromJson(json);
+        return AirFreightOrder.fromJson(json);
       case ServiceTypes.laboratoryAndStandards:
         return LaboratoryOrder.fromJson(json);
       default:

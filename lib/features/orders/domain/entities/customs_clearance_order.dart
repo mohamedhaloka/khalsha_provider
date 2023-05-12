@@ -114,7 +114,7 @@ class CustomsClearanceOrder extends OrderModel {
         deliveryTo: json["delivery_to"] ?? '',
         customsItem: json["customs_item"] ?? 'no',
         wantStorage: json["want_storage"] ?? 'no',
-        storageDays: json["storage_days"] ?? '0',
+        storageDays: json["storage_days"] ?? 0,
         content: json["content"] ?? '',
         shippingMethod: json["shipping_method"] ?? '',
         total: json["total"] ?? '',

@@ -12,17 +12,21 @@ import 'package:khalsha/features/root/domain/use_cases/log_out_use_case.dart';
 import 'package:khalsha/features/root/domain/use_cases/refresh_token_use_case.dart';
 
 import '../../../../../core/data/models/item_model.dart';
+import '../../../../../core/data/services/notification_service.dart';
 import '../../../../../core/presentation/routes/app_routes.dart';
 import '../../../../../core/utils.dart';
 import '../../../../notifications/presentation/view.dart';
 import '../../../../settlement/presentation/view.dart';
+import '../../../domain/use_cases/update_fcm_token_use_case.dart';
 
 class RootController extends GetxController {
   final RefreshTokenUseCase _refreshTokenUseCase;
   final LogOutUseCase _logiOutUseCase;
+  final UpdateFCMTokenUseCase _updateFCMTokenUseCase;
   RootController(
     this._refreshTokenUseCase,
     this._logiOutUseCase,
+    this._updateFCMTokenUseCase,
   );
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -46,6 +50,8 @@ class RootController extends GetxController {
     }
     return '';
   }
+
+  final _notificationService = Get.find<NotificationsService>();
 
   @override
   void onInit() {
@@ -152,7 +158,10 @@ class RootController extends GetxController {
         final type = json.decode(failure.statusMessage ?? '')['type'];
         errorType(type);
       },
-      (userData) => UserDataLocal.instance.save(userData.toJson()),
+      (userData) {
+        UserDataLocal.instance.save(userData.toJson());
+        _updateFCMToken();
+      },
     );
   }
 
@@ -167,5 +176,14 @@ class RootController extends GetxController {
         Get.offAllNamed(Routes.onBoarding);
       },
     );
+  }
+
+  Future<void> _updateFCMToken() async {
+    final fcmToken = await _notificationService.getFCMToken();
+    final params = UpdateFCMTokenUseCaseParams(
+      loading: false.obs,
+      fcmToken: fcmToken,
+    );
+    await _updateFCMTokenUseCase.execute(params);
   }
 }

@@ -28,5 +28,8 @@ abstract class OrderDetailsRepository {
     List<OrderInputItemModel> inputs,
   );
 
-  Future<Either<Failure, String>> createInvoice(InvoiceData invoiceData);
+  Future<Either<Failure, String>> createInvoice(
+    String type,
+    InvoiceData invoiceData,
+  );
 }

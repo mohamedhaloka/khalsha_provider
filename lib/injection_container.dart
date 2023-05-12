@@ -17,11 +17,6 @@ import 'package:khalsha/features/forget_password/data/source/forget_password_rem
 import 'package:khalsha/features/forget_password/domain/repository/forget_password_repository.dart';
 import 'package:khalsha/features/forget_password/domain/use_cases/forget_password_use_case.dart';
 import 'package:khalsha/features/login/domain/use_cases/login_use_case.dart';
-import 'package:khalsha/features/map/data/data_source/map_remote_data_source.dart';
-import 'package:khalsha/features/my_bills/data/data_source/my_bills_remote_data_source.dart';
-import 'package:khalsha/features/my_bills/data/repo_impl/my_bills_repository_impl.dart';
-import 'package:khalsha/features/my_bills/domain/repository/my_bills_repository.dart';
-import 'package:khalsha/features/my_bills/domain/use_cases/get_my_bills_use_case.dart';
 import 'package:khalsha/features/new_orders/data/data_source/new_orders_remote_data_source.dart';
 import 'package:khalsha/features/new_orders/data/repo_impl/new_orders_repository_impl.dart';
 import 'package:khalsha/features/new_orders/domain/repository/new_orders_repository.dart';
@@ -63,17 +58,22 @@ import 'package:location/location.dart';
 import 'core/data/services/http_service.dart';
 import 'core/domain/repository/core_repository.dart';
 import 'core/utils.dart';
+import 'features/account_settings/data/data_source/account_settings_remote_data_source.dart';
+import 'features/account_settings/data/repo_impl/account_settings_repository_impl.dart';
+import 'features/account_settings/domain/repository/account_settings_repository.dart';
+import 'features/account_settings/domain/use_cases/change_password_use_case.dart';
+import 'features/account_settings/domain/use_cases/update_account_use_case.dart';
+import 'features/account_settings/domain/use_cases/upload_profile_photo_use_case.dart';
 import 'features/login/data/repository_impl/login_repository_impl.dart';
 import 'features/login/data/source/login_remote_data_source.dart';
 import 'features/login/domain/repository/login_repository.dart';
-import 'features/map/data/repo_impl/map_repo_impl.dart';
-import 'features/map/domain/repo/map_repo.dart';
-import 'features/map/domain/use_case/get_device_location_use_case.dart';
-import 'features/map/domain/use_case/get_location_name_use_case.dart';
-import 'features/map/domain/use_case/get_place_details_use_case.dart';
-import 'features/map/domain/use_case/get_places_from_search_use_case.dart';
 import 'features/new_orders/domain/use_case/get_new_orders_use_case.dart';
+import 'features/notifications/data/data_source/notifications_remote_data_source.dart';
+import 'features/notifications/data/repo_impl/notifications_repository_impl.dart';
+import 'features/notifications/domain/repository/notifications_repository.dart';
+import 'features/notifications/domain/use_cases/get_notifications_use_case.dart';
 import 'features/register/domain/repository/register_repository.dart';
+import 'features/root/domain/use_cases/update_fcm_token_use_case.dart';
 
 class InjectionContainer {
   static GetIt sl = GetIt.I;
@@ -141,6 +141,8 @@ class InjectionContainer {
     sl.registerLazySingleton<RefreshTokenUseCase>(
         () => RefreshTokenUseCase(sl()));
     sl.registerLazySingleton<LogOutUseCase>(() => LogOutUseCase(sl()));
+    sl.registerLazySingleton<UpdateFCMTokenUseCase>(
+        () => UpdateFCMTokenUseCase(sl()));
 
     //Settlements
     sl.registerLazySingleton<SettlementRemoteDataSource>(
@@ -183,23 +185,25 @@ class InjectionContainer {
     sl.registerLazySingleton<Location>(() => Location());
     sl.registerLazySingleton<place.GoogleMapsPlaces>(
         () => place.GoogleMapsPlaces(apiKey: apiKey));
-    sl.registerLazySingleton<MapRemoteDataSource>(
-        () => MapRemoteDataSourceImpl(sl(), sl()));
-    sl.registerLazySingleton<MapRepository>(() => MapRepositoryImpl(sl()));
-    sl.registerLazySingleton<GetDeviceLocationUseCase>(
-        () => GetDeviceLocationUseCase(sl()));
-    sl.registerLazySingleton<GetLocationNameUseCase>(
-        () => GetLocationNameUseCase(sl()));
-    sl.registerLazySingleton<GetPlacesFromSearchUseCase>(
-        () => GetPlacesFromSearchUseCase(sl()));
-    sl.registerLazySingleton<GetPlaceDetailsUseCase>(
-        () => GetPlaceDetailsUseCase(sl()));
 
-    //My Bills
-    sl.registerLazySingleton<MyBillsRemoteDataSource>(
-        () => MyBillsRemoteDataSourceImpl(dioService));
-    sl.registerLazySingleton<MyBillsRepository>(
-        () => MyBillsRepositoryImpl(sl()));
-    sl.registerLazySingleton<GetMyBillsUseCase>(() => GetMyBillsUseCase(sl()));
+    //Notifications
+    sl.registerLazySingleton<NotificationsRemoteDataSource>(
+        () => NotificationsRemoteDataSourceImpl(dioService));
+    sl.registerLazySingleton<NotificationsRepository>(
+        () => NotificationsRepositoryImpl(sl()));
+    sl.registerLazySingleton<GetNotificationsUseCase>(
+        () => GetNotificationsUseCase(sl()));
+
+    //Account Settings
+    sl.registerLazySingleton<AccountSettingsRemoteDataSource>(
+        () => AccountSettingsRemoteDataSourceImpl(dioService));
+    sl.registerLazySingleton<AccountSettingsRepository>(
+        () => AccountSettingsRepositoryImpl(sl()));
+    sl.registerLazySingleton<ChangePasswordUseCase>(
+        () => ChangePasswordUseCase(sl()));
+    sl.registerLazySingleton<UpdateAccountUseCase>(
+        () => UpdateAccountUseCase(sl()));
+    sl.registerLazySingleton<UploadProfilePhotoUseCase>(
+        () => UploadProfilePhotoUseCase(sl()));
   }
 }

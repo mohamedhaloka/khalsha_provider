@@ -39,17 +39,15 @@ extension ServiceTypesToModel on ServiceTypes {
       case ServiceTypes.customsClearance:
         return CustomsClearanceOffer.fromJson(json);
       case ServiceTypes.landShipping:
-        return CustomsClearanceOffer.fromJson(json);
+        return LandShippingOffer.fromJson(json);
       case ServiceTypes.stores:
         return WareHouseOffer.fromJson(json);
       case ServiceTypes.marineShipping:
         return MarineShipmentOffer.fromJson(json);
       case ServiceTypes.airFreight:
-        return CustomsClearanceOffer.fromJson(json);
+        return AirFreightOffer.fromJson(json);
       case ServiceTypes.laboratoryAndStandards:
         return LaboratoryOffer.fromJson(json);
-      default:
-        return CustomsClearanceOffer.fromJson(json);
     }
   }
 }

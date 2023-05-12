@@ -35,6 +35,9 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.0.27" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/location_web-3.1.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher-6.1.10" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_local_notifications-11.0.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-3.3.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-14.4.0" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -457,7 +457,6 @@ class MarineShipmentOffer extends OfferModel {
         "user": user?.toJson(),
       };
 
-  @override
   List<ItemModel> get data => [
         ItemModel(
           text: 'رسوم الشحن البحري',

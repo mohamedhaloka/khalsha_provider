@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/account_settings/presentation/view.dart';
-import 'package:khalsha/features/bill_details/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/bill_details/presentation/view.dart';
 import 'package:khalsha/features/blog/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/blog/presentation/view.dart';
 import 'package:khalsha/features/common_questions/presentation/get/binding/binding.dart';
@@ -14,10 +12,6 @@ import 'package:khalsha/features/intro/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/intro/presentation/view.dart';
 import 'package:khalsha/features/login/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/login/presentation/view.dart';
-import 'package:khalsha/features/map/presentation/getx/bindings/binding.dart';
-import 'package:khalsha/features/map/presentation/view.dart';
-import 'package:khalsha/features/my_bills/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/my_bills/presentation/view.dart';
 import 'package:khalsha/features/new_orders/presentation/view.dart';
 import 'package:khalsha/features/on_boarding/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/on_boarding/presentation/view.dart';
@@ -128,11 +122,6 @@ class AppPages {
       binding: SettlementDetailsBinding(),
     ),
     GetPage(
-      name: _Paths.billDetails,
-      page: () => const BillDetailsView(),
-      binding: BillDetailsBinding(),
-    ),
-    GetPage(
       name: _Paths.accountSettings,
       page: () => const AccountSettingsView(),
       binding: AccountSettingsBinding(),
@@ -166,16 +155,6 @@ class AppPages {
       name: _Paths.resetPassword,
       page: () => const ResetPasswordView(),
       binding: ResetPasswordBinding(),
-    ),
-    GetPage(
-      name: _Paths.map,
-      page: () => const MapView(),
-      binding: MapBinding(),
-    ),
-    GetPage(
-      name: _Paths.myBills,
-      page: () => const MyBillsView(),
-      binding: MyBillsBinding(),
     ),
   ];
 }

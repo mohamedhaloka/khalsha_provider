@@ -12,16 +12,21 @@ class CreateInvoiceUseCase extends UseCase<String, CreateInvoiceUseCaseParams> {
   @override
   Future<Either<Failure, String>> execute(CreateInvoiceUseCaseParams params) {
     params.loading(true);
-    final call = _orderDetailsRepository.createInvoice(params.invoiceData);
+    final call = _orderDetailsRepository.createInvoice(
+      params.type,
+      params.invoiceData,
+    );
     call.then((_) => params.loading(false));
     return call;
   }
 }
 
 class CreateInvoiceUseCaseParams extends Params {
+  final String type;
   final InvoiceData invoiceData;
   CreateInvoiceUseCaseParams({
     required super.loading,
     required this.invoiceData,
+    required this.type,
   });
 }

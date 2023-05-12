@@ -103,6 +103,10 @@ class OrderDetailsController extends GetxController {
       pages.removeWhere((element) => element.id == 1);
     }
 
+    if (orderModel.offer == null) {
+      pages.removeWhere((element) => element.id == 2);
+    }
+
     await Future.delayed(const Duration(milliseconds: 300));
     if (isBill) {
       int indexOfLaseTab =
@@ -229,18 +233,21 @@ class OrderDetailsController extends GetxController {
         typeGoods: typeGoods.text,
         ship: ship.text,
         note: notes.text,
-        importListDate: importListDate!.formatDateTime(regularDateFormat),
+        importListDate: importListDate?.formatDateTime(regularDateFormat) ?? '',
         ladingNumber: landingNumber.text,
       );
 
   Future<void> createInvoice() async {
-    formKey.currentState?.save();
+    if (serviceType == ServiceTypes.customsClearance) {
+      formKey.currentState?.save();
 
-    if (!formKey.currentState!.validate()) return;
+      if (!formKey.currentState!.validate()) return;
+    }
 
     final params = CreateInvoiceUseCaseParams(
       loading: createInvoiceLoading,
       invoiceData: _invoiceData,
+      type: serviceType.value,
     );
     final result = await _createInvoiceUseCase.execute(params);
     result.fold(

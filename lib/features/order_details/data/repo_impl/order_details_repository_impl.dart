@@ -86,10 +86,13 @@ class OrderDetailsRepositoryImpl extends OrderDetailsRepository {
   }
 
   @override
-  Future<Either<Failure, String>> createInvoice(InvoiceData invoiceData) async {
+  Future<Either<Failure, String>> createInvoice(
+    String type,
+    InvoiceData invoiceData,
+  ) async {
     try {
       final result =
-          await _orderDetailsRemoteDataSource.createInvoice(invoiceData);
+          await _orderDetailsRemoteDataSource.createInvoice(type, invoiceData);
       return right(result);
     } on ServerException catch (e) {
       return left(ServerFailure(statusMessage: e.errorMessage));

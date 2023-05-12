@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:khalsha/core/data/models/data_model.dart';
 
 import '../../../../core/data/models/item_model.dart';
@@ -7,8 +8,10 @@ import '../../../order_details/data/models/order_details_item_model.dart';
 import '../../../order_details/data/models/order_section_item_model.dart';
 import '../../../widgets/inputs/checker_with_holder.dart';
 
+part 'air_freight_order.dart';
 part 'customs_clearance_order.dart';
 part 'laboratory_order.dart';
+part 'land_shipping_order.dart';
 part 'marine_shipment_order.dart';
 part 'ware_house_order.dart';
 
@@ -21,12 +24,12 @@ abstract class OrderModel {
     required this.offersNum,
     required this.status,
     required this.offers,
-    required this.offer,
-    required this.invoice,
+    this.offer,
+    this.invoice,
     required this.certificates,
-    required this.invoiceUrl,
-    required this.certificate,
-    required this.feedback,
+    this.invoiceUrl,
+    this.certificate,
+    this.feedback,
   });
 
   int id;

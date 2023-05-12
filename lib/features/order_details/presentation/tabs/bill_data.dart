@@ -15,6 +15,16 @@ class _BillDataTab extends GetView<OrderDetailsController> {
           title: 'الفاتورة',
           hint: 'هنا بتم تحديد فاتورتك و إرسالها للعميل',
         ),
+        if (controller.orderModel.offer == null &&
+            controller.serviceType != ServiceTypes.customsClearance)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: CustomButton(
+              onTap: controller.createInvoice,
+              loading: controller.createInvoiceLoading,
+              text: 'إنشاء الفاتورة',
+            ),
+          ),
         if (invoice != null) ...[
           if (feedback == null) ...[
             CustomRichText(

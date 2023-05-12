@@ -356,7 +356,6 @@ class WareHouseOffer extends OfferModel {
         "user": user?.toJson(),
       };
 
-  @override
   List<ItemModel> get data => [
         if (note != null) ItemModel(text: 'الملاحظات', description: note ?? ''),
         ItemModel(
