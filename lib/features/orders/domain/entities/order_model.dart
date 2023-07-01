@@ -142,6 +142,8 @@ class User {
   User({
     this.id,
     this.name,
+    this.mobile,
+    this.email,
     this.photoProfile,
     this.bio,
     this.feedbacks,
@@ -153,6 +155,8 @@ class User {
   String? photoProfile;
   String? bio;
   String? ratingsOverall;
+  String? mobile;
+  String? email;
   List<FeedbackObj>? feedbacks;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -161,6 +165,8 @@ class User {
         photoProfile: json["photo_profile"] ?? '',
         bio: json["bio"] ?? '',
         ratingsOverall: json["ratings_overall"] ?? '',
+        email: json["email"] ?? '',
+        mobile: json["mobile"] ?? '',
         feedbacks: List<FeedbackObj>.from(
             (json["feedbacks"] ?? []).map((x) => FeedbackObj.fromJson(x))),
       );
@@ -168,6 +174,8 @@ class User {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "email": email,
+        "mobile": mobile,
         "photo_profile": photoProfile,
         "ratings_overall": ratingsOverall,
         "bio": bio,

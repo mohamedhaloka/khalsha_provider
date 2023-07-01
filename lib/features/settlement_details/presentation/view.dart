@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/features/widgets/custom_button.dart';
 import 'package:khalsha/features/widgets/custom_text_field.dart';
 
+import '../../../core/card_input_formatter.dart';
 import '../../../core/inputs_style.dart';
 import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
@@ -36,7 +38,8 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
               CustomButton.fillBlue(
                 text: 'دفع التسوية',
                 width: Get.width,
-                onTap: () {},
+                loading: controller.loading,
+                onTap: controller.preparePayment,
               ),
             ],
           ),
@@ -58,6 +61,12 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
           CustomTextField(
             title: 'رقم البطاقة',
             borderSide: inputBorderSide,
+            hint: 'XXXX XXXX XXXX XXXX',
+            controller: controller.cardNumber,
+            textInputFormatter: [
+              FilteringTextInputFormatter.digitsOnly,
+              CardNumberFormatter(),
+            ],
           ),
           Row(
             children: [
@@ -65,12 +74,25 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
                 child: CustomTextField(
                   title: 'تاريخ الإنتهاء',
                   borderSide: inputBorderSide,
+                  controller: controller.expDate,
+                  maxLength: 5,
+                  onChanged: (String value) {
+                    if (value.length == 2) {
+                      if (controller.expDate.text.contains("/")) {
+                        controller.expDate.text += value;
+                        return;
+                      }
+                      controller.expDate.text += "/";
+                    }
+                  },
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: CustomTextField(
                   title: 'CVV',
+                  maxLength: 3,
+                  controller: controller.cvv,
                   borderSide: inputBorderSide,
                 ),
               ),
@@ -78,6 +100,7 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
           ),
           CustomTextField(
             title: 'اسم صاحب البطاقة',
+            controller: controller.cardHolderName,
             borderSide: inputBorderSide,
           ),
           // CustomDropDown(

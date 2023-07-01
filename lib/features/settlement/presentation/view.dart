@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khalsha/features/widgets/smart_refresh.dart';
 import 'package:khalsha/features/widgets/table_items.dart';
 
 import '../../../core/presentation/routes/app_routes.dart';
@@ -17,46 +18,58 @@ class SettlementView extends GetView<SettlementController> {
               color: ColorManager.secondaryColor,
             ),
           )
-        : ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              TableItems(
-                onItemTapped: (_) => Get.toNamed(
-                  Routes.settlementDetails,
-                  arguments: controller.settlements,
-                ),
-                itemsHeader: const [
-                  'رقم الفاتورة',
-                  'إجمالي الفاتورة',
-                  'الحالة',
-                  ''
-                ],
-                itemBuilder: (int index) => Row(
-                  children: [
-                    _detail(controller.settlements[index].id.toString()),
-                    _detail(controller.settlements[index].getTotal.total
-                        .toString()),
-                    _detail(controller.settlements[index].status),
-                    _detail(
-                      'تسوية',
-                      textColor: ColorManager.secondaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+        : SmartRefresh(
+            controller: controller.refreshController,
+            onRefresh: controller.onRefresh,
+            footer: false,
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                TableItems(
+                  onItemTapped: (int index) async {
+                    final result = await Get.toNamed(
+                      Routes.settlementDetails,
+                      arguments: controller.settlements[index],
+                    );
+
+                    if (result == null) return;
+                    if (!result) return;
+
+                    controller.onRefresh();
+                  },
+                  itemsHeader: const [
+                    'رقم الفاتورة',
+                    'إجمالي الفاتورة',
+                    'الحالة',
+                    ''
                   ],
-                ),
-                itemCount: controller.settlements.length,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                child: Text(
-                  'يتم تسوية الفاتورة في حال تجاوزها مده لا تقل عن ثلاثين يوماً او في حال بلوغها الحد الإقصي وهو مائة ريال.',
-                  style: Get.textTheme.bodyMedium!.copyWith(
-                    color: ColorManager.darkTobyColor,
+                  itemBuilder: (int index) => Row(
+                    children: [
+                      _detail(controller.settlements[index].id.toString()),
+                      _detail(controller.settlements[index].getTotal.total
+                          .toString()),
+                      _detail(controller.settlements[index].status),
+                      _detail(
+                        'تسوية',
+                        textColor: ColorManager.secondaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
                   ),
+                  itemCount: controller.settlements.length,
                 ),
-              )
-            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  child: Text(
+                    'يتم تسوية الفاتورة في حال تجاوزها مده لا تقل عن ثلاثين يوماً او في حال بلوغها الحد الإقصي وهو مائة ريال.',
+                    style: Get.textTheme.bodyMedium!.copyWith(
+                      color: ColorManager.darkTobyColor,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ));
   }
 

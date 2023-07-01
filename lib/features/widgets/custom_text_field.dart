@@ -31,6 +31,7 @@ class CustomTextField extends StatelessWidget {
       this.passSecure,
       this.onSubmitted,
       this.keyboardType,
+      this.textInputFormatter,
       this.suffixIcon,
       this.onTap,
       this.activeBorderColor,
@@ -77,6 +78,7 @@ class CustomTextField extends StatelessWidget {
       this.titleStyle,
       this.hintColor,
       this.passSecure,
+      this.textInputFormatter,
       this.radius = 22,
       this.maxLines = 1,
       this.fillColor = Colors.white,
@@ -102,6 +104,7 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets? padding, contentPadding;
   final TextAlign? textAlign;
   final TextStyle? titleStyle;
+  final List<TextInputFormatter>? textInputFormatter;
   final void Function(String)? onSubmitted, onChanged;
   final void Function(String?)? onSaved;
 
@@ -148,7 +151,7 @@ class CustomTextField extends StatelessWidget {
                                   inputsMaxLength[inputType] ?? maxLength,
                                 )
                               ]
-                            : [],
+                            : textInputFormatter,
                     textAlign: textAlign ?? TextAlign.start,
                     onFieldSubmitted: onSubmitted,
                     onChanged: onChanged,

@@ -9,6 +9,7 @@ abstract class Routes {
   static const otp = _Paths.otp;
   static const root = _Paths.root;
   static const commonQuestions = _Paths.commonQuestions;
+  static const payment = _Paths.payment;
   static const myBills = _Paths.myBills;
   static const shareApp = _Paths.shareApp;
   static const sources = _Paths.sources;
@@ -37,6 +38,7 @@ abstract class _Paths {
   static const otp = '/otp';
   static const root = '/root';
   static const commonQuestions = '/common_questions';
+  static const payment = '/payment';
   static const myBills = '/my_bills';
   static const shareApp = '/share_app';
   static const sources = '/sources';

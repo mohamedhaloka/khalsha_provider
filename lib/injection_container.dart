@@ -53,6 +53,10 @@ import 'package:khalsha/features/settlement/data/data_source/settlement_remote_d
 import 'package:khalsha/features/settlement/data/repo_impl/settlement_repository_impl.dart';
 import 'package:khalsha/features/settlement/domain/repo/settlement_repository.dart';
 import 'package:khalsha/features/settlement/domain/use_cases/get_settlements_use_case.dart';
+import 'package:khalsha/features/settlement_details/data/data_source/settlement_details_remote_data_source.dart';
+import 'package:khalsha/features/settlement_details/domain/repository/settlement_details_repository.dart';
+import 'package:khalsha/features/settlement_details/domain/use_cases/callback_payment_use_case.dart';
+import 'package:khalsha/features/settlement_details/domain/use_cases/prepare_payment_use_case.dart';
 import 'package:location/location.dart';
 
 import 'core/data/services/http_service.dart';
@@ -74,6 +78,7 @@ import 'features/notifications/domain/repository/notifications_repository.dart';
 import 'features/notifications/domain/use_cases/get_notifications_use_case.dart';
 import 'features/register/domain/repository/register_repository.dart';
 import 'features/root/domain/use_cases/update_fcm_token_use_case.dart';
+import 'features/settlement_details/data/repo_impl/settlement_details_repository_impl.dart';
 
 class InjectionContainer {
   static GetIt sl = GetIt.I;
@@ -205,5 +210,15 @@ class InjectionContainer {
         () => UpdateAccountUseCase(sl()));
     sl.registerLazySingleton<UploadProfilePhotoUseCase>(
         () => UploadProfilePhotoUseCase(sl()));
+
+    //Settlement Details
+    sl.registerLazySingleton<SettlementDetailsRemoteDataSource>(
+        () => SettlementDetailsRemoteDataSourceImpl(dioService));
+    sl.registerLazySingleton<SettlementDetailsRepository>(
+        () => SettlementDetailsRepositoryImpl(sl()));
+    sl.registerLazySingleton<PreparePaymentUseCase>(
+        () => PreparePaymentUseCase(sl()));
+    sl.registerLazySingleton<CallbackPaymentUseCase>(
+        () => CallbackPaymentUseCase(sl()));
   }
 }

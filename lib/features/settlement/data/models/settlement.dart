@@ -62,7 +62,7 @@ class GetTotal {
   String landShippingOffer;
   String seaShippingOffer;
   String warehouseOffer;
-  double total;
+  String total;
 
   factory GetTotal.fromJson(Map<String, dynamic> json) => GetTotal(
         airShippingOffer: json["AirShippingOffer"],
@@ -71,7 +71,7 @@ class GetTotal {
         landShippingOffer: json["LandShippingOffer"],
         seaShippingOffer: json["SeaShippingOffer"],
         warehouseOffer: json["WarehouseOffer"],
-        total: json["total"]?.toDouble(),
+        total: json["total"],
       );
 
   Map<String, dynamic> toJson() => {

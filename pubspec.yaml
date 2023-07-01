@@ -79,6 +79,8 @@ dependencies:
   #for notifications
   firebase_messaging: ^14.2.1
   flutter_local_notifications: ^11.0.1
+  #this package for use web view page
+  webview_flutter: ^3.0.4
 
 
 dev_dependencies:

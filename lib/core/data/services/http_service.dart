@@ -18,8 +18,8 @@ class HttpService extends GetxService {
     _dio.options.baseUrl = baseURL;
   }
 
-  static const baseURL = 'https://khalshaa.asdevsop.com/api/';
-  static const fileBaseURL = 'https://khalshaa.asdevsop.com/storage/';
+  static const baseURL = 'https://khlasha.com/api/';
+  static const fileBaseURL = 'https://khlasha.com/storage/';
   static const userType = 'provider';
 
   late Dio _dio;
@@ -35,6 +35,7 @@ class HttpService extends GetxService {
       data: data,
       options: Options(headers: _header),
     );
+
     if (response.data['type'] == 'need_verify_email') {
       final userData = UserDataLocal.instance.data.value.toJson();
       Get.offAllNamed(

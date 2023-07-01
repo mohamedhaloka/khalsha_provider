@@ -177,8 +177,9 @@ class LaboratoryOrder extends OrderModel {
           title: 'التواصل',
           data: [
             OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
-            OrderDetailsItemModel(title: 'الجوال', description: ''),
-            OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
+            OrderDetailsItemModel(title: 'الجوال', description: user.mobile),
+            OrderDetailsItemModel(
+                title: 'البريد الإلكتروني', description: user.email),
           ],
         ),
       ];

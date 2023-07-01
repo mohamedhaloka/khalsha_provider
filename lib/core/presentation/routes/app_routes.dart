@@ -19,6 +19,8 @@ import 'package:khalsha/features/order_details/presentation/view.dart';
 import 'package:khalsha/features/orders/presentation/view.dart';
 import 'package:khalsha/features/otp/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/otp/presentation/view.dart';
+import 'package:khalsha/features/payment/presentation/bindings/payment_binding.dart';
+import 'package:khalsha/features/payment/presentation/views/payment_view.dart';
 import 'package:khalsha/features/post_details/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/post_details/presentation/view.dart';
 import 'package:khalsha/features/register/presentation/get/bindings/binding.dart';
@@ -155,6 +157,11 @@ class AppPages {
       name: _Paths.resetPassword,
       page: () => const ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.payment,
+      page: () => const PaymentView(),
+      binding: PaymentBinding(),
     ),
   ];
 }
