@@ -47,7 +47,7 @@ class _OrderStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: userId != stepModel.userId
+      onTap: userId != stepModel.userId && stepModel.status != kDone
           ? null
           : () {
               Get.bottomSheet(
@@ -92,6 +92,7 @@ class _OrderStep extends StatelessWidget {
               ],
             ),
             Text(stepModel.user!.name!),
+            if (stepModel.note != null) Text(stepModel.note!),
             if (stepModel.files!.isNotEmpty) ...[
               const Divider(),
               GridView.builder(
@@ -114,7 +115,7 @@ class _OrderStep extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(22)),
                         image: DecorationImage(
                           image: NetworkImage(
-                              '${HttpService.fileBaseURL}${stepModel.files![index].fullPath}'),
+                              '${HttpService.fileBaseURL}${stepModel.files![index].url}'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -122,7 +123,7 @@ class _OrderStep extends StatelessWidget {
                         child: Icon(CupertinoIcons.photo),
                       ),
                     ),
-                    if (userId == stepModel.userId)
+                    if (userId == stepModel.userId && stepModel.status != kDone)
                       Positioned(
                         top: 0,
                         left: 0,

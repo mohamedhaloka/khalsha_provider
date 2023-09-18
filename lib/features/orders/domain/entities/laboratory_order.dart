@@ -278,6 +278,7 @@ class LaboratoryOffer extends OfferModel {
     super.updatedAt,
     super.user,
     super.total,
+    super.orderDetails,
     required this.feeIncluded,
   });
 
@@ -291,6 +292,7 @@ class LaboratoryOffer extends OfferModel {
         note: json["note"] ?? '',
         total: json["total"] ?? '',
         feeIncluded: json["fee_included"] ?? 'no',
+        orderDetails: OrderDetailsModel.fromJson(json["laboratories"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],

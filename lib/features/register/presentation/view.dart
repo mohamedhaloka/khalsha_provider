@@ -59,7 +59,7 @@ class RegisterView extends GetView<RegisterController> {
             inputType: Input.phone,
             controller: controller.phone,
           ),
-          if (controller.currentTab.value == 1)
+          if (controller.currentTab.value == 0)
             ChooseFile(
               title: 'السجل التجاري',
               hint: 'في حال كنت شركة أو مؤسسة',

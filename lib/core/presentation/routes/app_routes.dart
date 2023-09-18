@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/account_settings/presentation/view.dart';
+import 'package:khalsha/features/add_phone_number/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/blog/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/blog/presentation/view.dart';
 import 'package:khalsha/features/common_questions/presentation/get/binding/binding.dart';
@@ -7,7 +8,6 @@ import 'package:khalsha/features/common_questions/presentation/view.dart';
 import 'package:khalsha/features/contact_us/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/contact_us/presentation/view.dart';
 import 'package:khalsha/features/forget_password/presentation/view.dart';
-import 'package:khalsha/features/how_to_use/presentation/view.dart';
 import 'package:khalsha/features/intro/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/intro/presentation/view.dart';
 import 'package:khalsha/features/login/presentation/get/bindings/binding.dart';
@@ -36,8 +36,8 @@ import 'package:khalsha/features/statistics/presentation/get/binding/binding.dar
 import 'package:khalsha/features/statistics/presentation/view.dart';
 
 import '../../../features/account_settings/presentation/get/binding/binding.dart';
+import '../../../features/add_phone_number/presentation/view.dart';
 import '../../../features/forget_password/presentation/get/binding/binding.dart';
-import '../../../features/how_to_use/presentation/get/binding/binding.dart';
 import '../../../features/new_orders/presentation/get/binding/binding.dart';
 import '../../../features/order_details/presentation/get/binding/binding.dart';
 import '../../../features/orders/presentation/get/binding/binding.dart';
@@ -129,11 +129,6 @@ class AppPages {
       binding: AccountSettingsBinding(),
     ),
     GetPage(
-      name: _Paths.howToUse,
-      page: () => const HowToUseView(),
-      binding: HowToUseBinding(),
-    ),
-    GetPage(
       name: _Paths.orders,
       page: () => const OrdersView(),
       binding: OrdersBinding(),
@@ -162,6 +157,11 @@ class AppPages {
       name: _Paths.payment,
       page: () => const PaymentView(),
       binding: PaymentBinding(),
+    ),
+    GetPage(
+      name: _Paths.addPhoneNumber,
+      page: () => const AddPhoneNumberView(),
+      binding: AddPhoneNumberBinding(),
     ),
   ];
 }

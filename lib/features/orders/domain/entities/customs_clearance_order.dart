@@ -421,6 +421,7 @@ class CustomsClearanceOffer extends OfferModel {
     super.createdAt,
     super.updatedAt,
     super.user,
+    super.orderDetails,
   });
 
   int? customClearanceId;
@@ -431,41 +432,45 @@ class CustomsClearanceOffer extends OfferModel {
   String? translate;
   String? unloading;
   String? deliveryPermits;
+  int? order;
   String? shippingMethod;
   String? systemPercent;
   String? systemTax;
   int? settlementId;
   dynamic deletedAt;
 
-  factory CustomsClearanceOffer.fromJson(Map<String, dynamic> json) =>
-      CustomsClearanceOffer(
-        id: json["id"] ?? 0,
-        customClearanceId: json["custom_clearance_id"] ?? 0,
-        userId: json["user_id"] ?? 0,
-        firstContainer: json["first_container"] ?? '',
-        extraContainer: json["extra_container"] ?? '',
-        singleCharge: json["single_charge"] ?? '',
-        transport: json["transport"] ?? '',
-        translate: json["translate"] ?? '',
-        unloading: json["unloading"] ?? '',
-        deliveryPermits: json["delivery_permits"] ?? '',
-        total: json["total"] ?? '',
-        shippingMethod: json["shipping_method"] ?? '',
-        status: json["status"] ?? '',
-        note: json["note"] ?? '',
-        acceptedAt:
-            DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
-        rejectedAt: json["rejected_at"],
-        systemPercent: json["system_percent"] ?? '',
-        systemTax: json["system_tax"] ?? '',
-        settlementId: json["settlement_id"] ?? 0,
-        deletedAt: json["deleted_at"],
-        createdAt:
-            DateTime.parse(json["created_at"] ?? DateTime.now().toString()),
-        updatedAt:
-            DateTime.parse(json["updated_at"] ?? DateTime.now().toString()),
-        user: User.fromJson(json["user"] ?? {}),
-      );
+  factory CustomsClearanceOffer.fromJson(Map<String, dynamic> json,
+      ) {
+    return CustomsClearanceOffer(
+      id: json["id"] ?? 0,
+      customClearanceId: json["custom_clearance_id"] ?? 0,
+      userId: json["user_id"] ?? 0,
+      firstContainer: json["first_container"] ?? '',
+      extraContainer: json["extra_container"] ?? '',
+      singleCharge: json["single_charge"] ?? '',
+      transport: json["transport"] ?? '',
+      translate: json["translate"] ?? '',
+      unloading: json["unloading"] ?? '',
+      deliveryPermits: json["delivery_permits"] ?? '',
+      total: json["total"] ?? '',
+      shippingMethod: json["shipping_method"] ?? '',
+      status: json["status"] ?? '',
+      note: json["note"] ?? '',
+      orderDetails: OrderDetailsModel.fromJson(json['customclearance']),
+      acceptedAt:
+          DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
+      rejectedAt: json["rejected_at"],
+      systemPercent: json["system_percent"] ?? '',
+      systemTax: json["system_tax"] ?? '',
+      settlementId: json["settlement_id"] ?? 0,
+      deletedAt: json["deleted_at"],
+      createdAt:
+          DateTime.parse(json["created_at"] ?? DateTime.now().toString()),
+      updatedAt:
+          DateTime.parse(json["updated_at"] ?? DateTime.now().toString()),
+      user: User.fromJson(json["user"] ?? {}),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

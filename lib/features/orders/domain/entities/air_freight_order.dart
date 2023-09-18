@@ -418,6 +418,7 @@ class AirFreightOffer extends OfferModel {
     super.updatedAt,
     super.user,
     super.total,
+    super.orderDetails,
     required this.customsClearance,
     required this.certificates,
     required this.shippingFee,
@@ -437,6 +438,7 @@ class AirFreightOffer extends OfferModel {
         shippingFee: json["shipping_fee"] ?? '',
         certificates: json["certificates"] ?? '',
         customsClearance: json["customs_clearance"] ?? '',
+        orderDetails: OrderDetailsModel.fromJson(json["airshippings"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],

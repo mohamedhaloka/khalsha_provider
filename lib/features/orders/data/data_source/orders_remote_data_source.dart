@@ -23,6 +23,7 @@ class OrdersRemoteDataSourceImpl extends OrdersRemoteDataSource {
       List<OfferModel> orders = <OfferModel>[];
       ServiceTypes? serviceTypes = ServiceTypes.values
           .firstWhereOrNull((element) => element.value == type);
+
       for (var item in data) {
         orders.add(serviceTypes!.toOffer(item));
       }
@@ -37,7 +38,9 @@ extension ServiceTypesToModel on ServiceTypes {
   OfferModel toOffer(Map<String, dynamic> json) {
     switch (this) {
       case ServiceTypes.customsClearance:
-        return CustomsClearanceOffer.fromJson(json);
+        return CustomsClearanceOffer.fromJson(
+          json,
+        );
       case ServiceTypes.landShipping:
         return LandShippingOffer.fromJson(json);
       case ServiceTypes.stores:

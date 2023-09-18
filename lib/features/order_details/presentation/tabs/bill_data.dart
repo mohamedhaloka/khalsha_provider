@@ -15,8 +15,7 @@ class _BillDataTab extends GetView<OrderDetailsController> {
           title: 'الفاتورة',
           hint: 'هنا بتم تحديد فاتورتك و إرسالها للعميل',
         ),
-        if (controller.orderModel.offer == null &&
-            controller.serviceType != ServiceTypes.customsClearance)
+        if (controller.orderModel.invoice == null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: CustomButton(
@@ -26,21 +25,8 @@ class _BillDataTab extends GetView<OrderDetailsController> {
             ),
           ),
         if (invoice != null) ...[
-          if (feedback == null) ...[
-            CustomRichText(
-              text: 'يمكنك إضافة تقييمك   ',
-              subText: 'من هنا',
-              onTap: () => Get.bottomSheet(
-                HeadLineBottomSheet(
-                  bottomSheetTitle: 'أضف تقييم',
-                  body: RateOrderSheet(invoice.user),
-                  height: Get.height / 1.1,
-                ),
-                isScrollControlled: true,
-              ),
-            )
-          ] else ...[
-            _YourRate(feedback),
+          if (feedback != null) ...[
+            _UserRate(feedback),
           ],
           Bill(
             items: invoice.items,
@@ -50,18 +36,18 @@ class _BillDataTab extends GetView<OrderDetailsController> {
             billCreatedDate: invoice.createdAt.toString(),
             userBio: invoice.user!.bio!,
           ),
-
-          // if (orderData.invoiceUrl != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: CustomButton(
+              loading: controller.showInvoiceLoading,
               onTap: () {
-                dev.log(
-                  orderData.invoiceUrl.toString(),
-                  name: 'Invoice Url',
-                );
+                String url =
+                    '${HttpService.baseURL}importer/${controller.serviceType.value}/download/invoice/${orderData.id}';
+                dev.log(url, name: 'INVOICE URL');
+
+                controller.showInvoice(url);
               },
-              text: 'مشاركة',
+              text: 'مشاهدة الفاتورة',
             ),
           ),
         ],
@@ -70,8 +56,8 @@ class _BillDataTab extends GetView<OrderDetailsController> {
   }
 }
 
-class _YourRate extends StatelessWidget {
-  const _YourRate(this.feedback, {Key? key}) : super(key: key);
+class _UserRate extends StatelessWidget {
+  const _UserRate(this.feedback, {Key? key}) : super(key: key);
   final FeedbackObj? feedback;
 
   @override
@@ -79,7 +65,7 @@ class _YourRate extends StatelessWidget {
     return Column(
       children: [
         const Divider(),
-        const TextUnderline('تقييمك'),
+        const TextUnderline('تقييم العميل'),
         Row(
           children: [
             Expanded(child: Text(feedback?.feedback ?? '')),

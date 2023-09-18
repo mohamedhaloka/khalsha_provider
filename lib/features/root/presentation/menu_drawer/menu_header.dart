@@ -34,14 +34,14 @@ class MenuHeader extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          Text(
-            UserDataLocal.instance.isImporterExporter
-                ? 'مستورد/مصدر'
-                : 'مقدم خدمة لوجيستية',
-            style: Get.textTheme.titleSmall!.copyWith(
-              color: Colors.white,
-            ),
-          ),
+          // Text(
+          //   UserDataLocal.instance.isImporterExporter
+          //       ? 'مستورد/مصدر'
+          //       : 'مقدم خدمة لوجيستية',
+          //   style: Get.textTheme.titleSmall!.copyWith(
+          //     color: Colors.white,
+          //   ),
+          // ),
         ],
       ),
     );

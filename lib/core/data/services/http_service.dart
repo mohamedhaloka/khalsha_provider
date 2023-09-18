@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:khalsha/core/presentation/routes/app_routes.dart';
 import 'package:khalsha/features/otp/domain/entites/enums/verify_type.dart';
 import 'package:khalsha/features/otp/presentation/get/controllers/controller.dart';
+import 'package:khalsha/features/settlement/data/models/settlement.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../source/local/lang_locale.dart';
@@ -18,8 +19,8 @@ class HttpService extends GetxService {
     _dio.options.baseUrl = baseURL;
   }
 
-  static const baseURL = 'https://khlasha.com/api/';
-  static const fileBaseURL = 'https://khlasha.com/storage/';
+  static const baseURL = 'https://dev.khlasha.com/api/';
+  static const fileBaseURL = '';
   static const userType = 'provider';
 
   late Dio _dio;
@@ -33,19 +34,11 @@ class HttpService extends GetxService {
     var response = await _dio.post(
       baseURL + endPoint,
       data: data,
-      options: Options(headers: _header),
+      options: Options(headers: header),
     );
 
-    if (response.data['type'] == 'need_verify_email') {
-      final userData = UserDataLocal.instance.data.value.toJson();
-      Get.offAllNamed(
-        Routes.otp,
-        arguments: {
-          kUserData: userData,
-          kVerifyType: VerifyType.email,
-        },
-      );
-    }
+    _checkVerifyingEmail(response);
+    _checkHasASettlement(response);
     return response;
   }
 
@@ -59,9 +52,15 @@ class HttpService extends GetxService {
       data: data,
       options: Options(
         contentType: 'application/x-www-form-urlencoded',
-        headers: _header,
+        headers: header,
       ),
     );
+    _checkVerifyingEmail(response);
+    _checkHasASettlement(response);
+    return response;
+  }
+
+  void _checkVerifyingEmail(dio.Response response) {
     if (response.data['type'] == 'need_verify_email') {
       final userData = UserDataLocal.instance.data.value.toJson();
       Get.offAllNamed(
@@ -72,7 +71,16 @@ class HttpService extends GetxService {
         },
       );
     }
-    return response;
+  }
+
+  void _checkHasASettlement(dio.Response response) {
+    if ((response.data as Map<String, dynamic>).containsKey('settlement')) {
+      int settlementId = response.data['settlement'];
+      Get.offAllNamed(
+        Routes.settlementDetails,
+        arguments: SettlementModel(id: settlementId),
+      );
+    }
   }
 
   Future<File> download(String url) async {
@@ -102,13 +110,15 @@ class HttpService extends GetxService {
     log('URL ${baseURL + endPoint}');
     var response = await _dio.get(
       baseURL + endPoint,
-      options: Options(headers: _header),
+      options: Options(headers: header),
     );
     return response;
   }
 
-  Map<String, String> get _header => {
+  static Map<String, String> get header => {
         'Authorization': 'Bearer ${UserDataLocal.instance.token}',
+        'Cookie':
+            'XSRF-TOKEN=${UserDataLocal.instance.token}; khalasha_session=',
         'lang': Lang.instance.langCode,
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',

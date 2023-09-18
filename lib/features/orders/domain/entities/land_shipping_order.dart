@@ -325,8 +325,9 @@ class LandShippingOrder extends OrderModel {
           title: 'التواصل',
           data: [
             OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
-            OrderDetailsItemModel(title: 'الجوال', description: ''),
-            OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
+            OrderDetailsItemModel(title: 'الجوال', description: user.mobile),
+            OrderDetailsItemModel(
+                title: 'البريد الإلكتروني', description: user.email),
           ],
         ),
       ];
@@ -530,6 +531,7 @@ class LandShippingOffer extends OfferModel {
     super.updatedAt,
     super.user,
     super.total,
+    super.orderDetails,
     required this.loading,
     required this.packUnpack,
     required this.storage,
@@ -549,6 +551,7 @@ class LandShippingOffer extends OfferModel {
         storage: json["storage"] ?? '',
         packUnpack: json["pack_unpack"] ?? '',
         loading: json["loading"] ?? '',
+        orderDetails: OrderDetailsModel.fromJson(json["landshippings"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],

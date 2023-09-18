@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:khalsha/core/domain/error/failures.dart';
+import 'package:khalsha/core/presentation/extentions/response_extension.dart';
 import 'package:khalsha/features/settlement/data/data_source/settlement_remote_data_source.dart';
 import 'package:khalsha/features/settlement/data/models/settlement.dart';
 import 'package:khalsha/features/settlement/domain/repo/settlement_repository.dart';
@@ -19,7 +20,7 @@ class SettlementRepositoryImpl extends SettlementRepository {
     } on ServerException catch (e) {
       return left(ServerFailure(statusMessage: e.errorMessage));
     } on DioError catch (e) {
-      return left(ServerFailure(statusMessage: e.response!.data.toString()));
+      return left(ServerFailure(statusMessage: e.response!.getErrorMessage()));
     }
   }
 }

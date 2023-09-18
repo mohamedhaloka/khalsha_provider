@@ -1,23 +1,23 @@
 class SettlementModel {
   SettlementModel({
     required this.id,
-    required this.userId,
+    this.userId,
     this.note,
-    required this.status,
+    this.status,
     this.deletedAt,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.getTotal,
+    this.createdAt,
+    this.updatedAt,
+    this.getTotal,
   });
 
   int id;
-  int userId;
+  int? userId;
   dynamic note;
-  String status;
+  String? status;
   dynamic deletedAt;
-  DateTime createdAt;
-  DateTime updatedAt;
-  GetTotal getTotal;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  GetTotal? getTotal;
 
   factory SettlementModel.fromJson(Map<String, dynamic> json) =>
       SettlementModel(
@@ -38,10 +38,10 @@ class SettlementModel {
         "status": status,
         "deleted_at": deletedAt,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt!.year.toString().padLeft(4, '0')}-${createdAt!.month.toString().padLeft(2, '0')}-${createdAt!.day.toString().padLeft(2, '0')}",
         "updated_at":
-            "${updatedAt.year.toString().padLeft(4, '0')}-${updatedAt.month.toString().padLeft(2, '0')}-${updatedAt.day.toString().padLeft(2, '0')}",
-        "getTotal": getTotal.toJson(),
+            "${updatedAt!.year.toString().padLeft(4, '0')}-${updatedAt!.month.toString().padLeft(2, '0')}-${updatedAt!.day.toString().padLeft(2, '0')}",
+        "getTotal": getTotal!.toJson(),
       };
 }
 

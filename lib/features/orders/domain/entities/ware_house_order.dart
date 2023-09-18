@@ -327,6 +327,7 @@ class WareHouseOffer extends OfferModel {
     super.updatedAt,
     super.user,
     super.total,
+    super.orderDetails,
   });
 
   factory WareHouseOffer.fromJson(Map<String, dynamic> json) => WareHouseOffer(
@@ -335,6 +336,7 @@ class WareHouseOffer extends OfferModel {
         status: json["status"] ?? '',
         note: json["note"] ?? '',
         total: json["total"] ?? '',
+        orderDetails: OrderDetailsModel.fromJson(json["warehouses"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],

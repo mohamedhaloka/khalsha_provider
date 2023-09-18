@@ -20,7 +20,6 @@ abstract class Routes {
   static const settlementDetails = _Paths.settlementDetails;
   static const billDetails = _Paths.billDetails;
   static const accountSettings = _Paths.accountSettings;
-  static const howToUse = _Paths.howToUse;
   static const orders = _Paths.orders;
   static const newOrders = _Paths.newOrders;
   static const statistics = _Paths.statistics;
@@ -28,6 +27,7 @@ abstract class Routes {
   static const resetPassword = _Paths.resetPassword;
   static const map = _Paths.map;
   static const chooseShippingService = _Paths.chooseShippingService;
+  static const addPhoneNumber = _Paths.addPhoneNumber;
 }
 
 abstract class _Paths {
@@ -49,7 +49,6 @@ abstract class _Paths {
   static const settlementDetails = '/settlement_details';
   static const billDetails = '/bill_details';
   static const accountSettings = '/account_settings';
-  static const howToUse = '/how_to_use';
   static const orders = '/orders';
   static const newOrders = '/new_orders';
   static const statistics = '/statistics';
@@ -57,4 +56,5 @@ abstract class _Paths {
   static const resetPassword = '/reset_password';
   static const map = '/map';
   static const chooseShippingService = '/choose_shipping_service';
+  static const addPhoneNumber = '/add_phone_number';
 }

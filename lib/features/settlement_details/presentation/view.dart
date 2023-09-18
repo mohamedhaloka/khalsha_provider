@@ -6,7 +6,6 @@ import 'package:khalsha/features/widgets/custom_text_field.dart';
 
 import '../../../core/card_input_formatter.dart';
 import '../../../core/inputs_style.dart';
-import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import '../../widgets/custom_app_bar.dart';
 import 'get/controllers/controller.dart';
@@ -21,20 +20,20 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
         title: 'تسوية الطلب رقم #${controller.settlementModel.id}',
       ),
       bottomNavigationBar: SizedBox(
-        height: 150,
+        height: 90,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-              CustomButton(
-                text: 'عرض الفاتورة',
-                width: Get.width,
-                onTap: () => Get.toNamed(
-                  Routes.billDetails,
-                  arguments: controller.settlementModel,
-                ),
-              ),
-              const SizedBox(height: 10),
+              // CustomButton(
+              //   text: 'عرض الفاتورة',
+              //   width: Get.width,
+              //   onTap: () => Get.toNamed(
+              //     Routes.billDetails,
+              //     arguments: controller.settlementModel,
+              //   ),
+              // ),
+              // const SizedBox(height: 10),
               CustomButton.fillBlue(
                 text: 'دفع التسوية',
                 width: Get.width,
@@ -63,6 +62,7 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
             borderSide: inputBorderSide,
             hint: 'XXXX XXXX XXXX XXXX',
             controller: controller.cardNumber,
+            // keyboardType: TextInputType.number,
             textInputFormatter: [
               FilteringTextInputFormatter.digitsOnly,
               CardNumberFormatter(),
@@ -73,26 +73,25 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
               Expanded(
                 child: CustomTextField(
                   title: 'تاريخ الإنتهاء',
+                  hint: 'XX/XX',
                   borderSide: inputBorderSide,
                   controller: controller.expDate,
-                  maxLength: 5,
-                  onChanged: (String value) {
-                    if (value.length == 2) {
-                      if (controller.expDate.text.contains("/")) {
-                        controller.expDate.text += value;
-                        return;
-                      }
-                      controller.expDate.text += "/";
-                    }
-                  },
+                  // keyboardType: TextInputType.number,
+                  textInputFormatter: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    CardExpirationFormatter()
+                  ],
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: CustomTextField(
                   title: 'CVV',
+                  hint: 'XXX',
                   maxLength: 3,
+                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
                   controller: controller.cvv,
+                  keyboardType: TextInputType.number,
                   borderSide: inputBorderSide,
                 ),
               ),

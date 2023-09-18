@@ -17,6 +17,7 @@ import 'package:khalsha/features/forget_password/data/source/forget_password_rem
 import 'package:khalsha/features/forget_password/domain/repository/forget_password_repository.dart';
 import 'package:khalsha/features/forget_password/domain/use_cases/forget_password_use_case.dart';
 import 'package:khalsha/features/login/domain/use_cases/login_use_case.dart';
+import 'package:khalsha/features/login/domain/use_cases/social_login_use_case.dart';
 import 'package:khalsha/features/new_orders/data/data_source/new_orders_remote_data_source.dart';
 import 'package:khalsha/features/new_orders/data/repo_impl/new_orders_repository_impl.dart';
 import 'package:khalsha/features/new_orders/domain/repository/new_orders_repository.dart';
@@ -108,6 +109,8 @@ class InjectionContainer {
         () => LoginRemoteDataSourceImpl(dioService));
     sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(sl()));
     sl.registerLazySingleton<LoginUseCase>(() => LoginUseCase(sl()));
+    sl.registerLazySingleton<SocialLoginUseCase>(
+        () => SocialLoginUseCase(sl()));
 
     //Register
     sl.registerLazySingleton<RegisterRemoteDataSource>(

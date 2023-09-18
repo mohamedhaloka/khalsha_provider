@@ -59,7 +59,8 @@ dependencies:
   # for firebase services
   firebase_core: ^2.9.0
   google_sign_in: ^6.0.2
-#  flutter_login_facebook: ^1.7.0
+  flutter_facebook_auth: ^5.0.11
+  #  flutter_login_facebook: ^1.7.0
   # for map and get location
   google_maps_flutter: ^2.2.1
   location: ^4.2.3
@@ -81,12 +82,22 @@ dependencies:
   flutter_local_notifications: ^11.0.1
   #this package for use web view page
   webview_flutter: ^3.0.4
-
+  #get the permission of open external files and open it
+  permission_handler: ^10.2.0
+  # for sign in with apple
+  sign_in_with_apple: ^4.3.0
+  # for convert response to pdf view
+  flutter_pdfview: ^1.3.1
+  # open share model
+  share_plus: ^7.0.2
+  # for play videos
+  video_player: ^2.7.0
+  # for let splash shown
+  flutter_native_splash: 2.2.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash: 2.2.9
   flutter_launcher_icons: ^0.9.0
 
   flutter_lints: ^2.0.0
@@ -107,6 +118,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/videos/
     - assets/images/
     - assets/images/on_boarding/
     - assets/images/icons/

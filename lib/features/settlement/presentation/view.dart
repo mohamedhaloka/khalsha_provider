@@ -46,9 +46,9 @@ class SettlementView extends GetView<SettlementController> {
                   itemBuilder: (int index) => Row(
                     children: [
                       _detail(controller.settlements[index].id.toString()),
-                      _detail(controller.settlements[index].getTotal.total
+                      _detail(controller.settlements[index].getTotal!.total
                           .toString()),
-                      _detail(controller.settlements[index].status),
+                      _detail(controller.settlements[index].status!),
                       _detail(
                         'تسوية',
                         textColor: ColorManager.secondaryColor,

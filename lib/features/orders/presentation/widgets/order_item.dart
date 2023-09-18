@@ -27,7 +27,7 @@ class OrderItem extends StatelessWidget {
       onTap: () => Get.toNamed(
         Routes.orderDetails,
         arguments: {
-          'orderId': order.id,
+          'orderId': order.orderDetails?.id,
           'serviceType': serviceType,
           'isBill': false,
         },
@@ -52,12 +52,8 @@ class OrderItem extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Row(
-                children: [
-                  _detail('#${order.id} OfferModel'),
-                  _detail('${'offers'.tr}   ${order.user!.name}'),
-                ],
-              ),
+              child: _detail(
+                  '#${order.orderDetails?.id} ${order.orderDetails?.title}'),
             ),
             const Divider(
               color: ColorManager.greyColor,

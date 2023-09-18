@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:khalsha/firebase_options.dart';
@@ -15,6 +16,9 @@ import 'core/presentation/themes/theme_manager.dart';
 import 'core/presentation/translation/app_translation.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   ErrorWidget.builder = (FlutterErrorDetails details) => ErrorView(details);
   await _initData();
   runApp(const MyApp());

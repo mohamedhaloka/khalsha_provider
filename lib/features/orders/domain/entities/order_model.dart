@@ -30,6 +30,7 @@ abstract class OrderModel {
     this.invoiceUrl,
     this.certificate,
     this.feedback,
+    this.orderDetails,
   });
 
   int id;
@@ -45,6 +46,7 @@ abstract class OrderModel {
   String? invoiceUrl;
   String? certificate;
   FeedbackObj? feedback;
+  OrderDetailsModel? orderDetails;
 
   List<OrderSectionItemModel> get data => <OrderSectionItemModel>[];
   List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[];
@@ -124,6 +126,7 @@ abstract class OfferModel {
     this.updatedAt,
     this.user,
     this.total,
+    this.orderDetails,
   });
 
   int? id;
@@ -136,6 +139,7 @@ abstract class OfferModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   User? user;
+  OrderDetailsModel? orderDetails;
 }
 
 class User {
@@ -217,6 +221,7 @@ class OrderFile {
     this.fileType,
     this.fileId,
     this.path,
+    this.url,
     this.ext,
     this.name,
     this.size,
@@ -233,6 +238,7 @@ class OrderFile {
   String? fullPath;
   String? fileType;
   int? fileId;
+  String? url;
   String? path;
   String? ext;
   String? name;
@@ -249,6 +255,7 @@ class OrderFile {
         file: json["file"],
         fullPath: json["full_path"],
         fileType: json["file_type"],
+        url: json["url"],
         fileId: json["file_id"],
         path: json["path"],
         ext: json["ext"],
@@ -268,6 +275,7 @@ class OrderFile {
         "full_path": fullPath,
         "file_type": fileType,
         "file_id": fileId,
+        "url": url,
         "path": path,
         "ext": ext,
         "name": name,
@@ -277,5 +285,38 @@ class OrderFile {
         "deleted_at": deletedAt,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+      };
+}
+
+class OrderDetailsModel {
+  final int? id;
+  final String? title;
+  final String? status;
+  final int? userId;
+  final User? user;
+
+  OrderDetailsModel({
+    this.id,
+    this.title,
+    this.status,
+    this.userId,
+    this.user,
+  });
+
+  factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
+      OrderDetailsModel(
+        id: json["id"],
+        title: json["title"],
+        status: json["status"],
+        userId: json["user_id"],
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "status": status,
+        "user_id": userId,
+        "user": user?.toJson(),
       };
 }

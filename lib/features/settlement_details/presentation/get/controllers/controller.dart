@@ -25,14 +25,22 @@ class SettlementDetailsController extends GetxController {
       cardHolderName = TextEditingController();
 
   Future<void> preparePayment() async {
+    if (cardNumber.text.isEmpty ||
+        cardHolderName.text.isEmpty ||
+        cvv.text.isEmpty ||
+        expDate.text.isEmpty) {
+      showAlertMessage('جميع الحقول مطلوبة');
+      return;
+    }
+
     final params = PreparePaymentParams(
       loading: loading,
       settlementId: 3,
-      cardNumber: '4111111111111111',
-      cardHolderName: 'Mahmoud Ibrahim',
-      cvv: '123',
-      month: '12',
-      year: '24',
+      cardNumber: cardNumber.text,
+      cardHolderName: cardHolderName.text,
+      cvv: cvv.text,
+      month: expDate.text.substring(0, 2),
+      year: expDate.text.substring(3, 5),
     );
 
     final result = await _preparePaymentUseCase.execute(params);

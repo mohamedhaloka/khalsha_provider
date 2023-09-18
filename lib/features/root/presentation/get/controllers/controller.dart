@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/core/data/source/local/user_local.dart';
 import 'package:khalsha/core/domain/use_cases/use_case.dart';
@@ -14,7 +15,7 @@ import 'package:khalsha/features/root/domain/use_cases/refresh_token_use_case.da
 import '../../../../../core/data/models/item_model.dart';
 import '../../../../../core/data/services/notification_service.dart';
 import '../../../../../core/presentation/routes/app_routes.dart';
-import '../../../../../core/utils.dart';
+import '../../../../home/presentation/get/controllers/controller.dart';
 import '../../../../notifications/presentation/view.dart';
 import '../../../../settlement/presentation/view.dart';
 import '../../../domain/use_cases/update_fcm_token_use_case.dart';
@@ -52,6 +53,7 @@ class RootController extends GetxController {
   }
 
   final _notificationService = Get.find<NotificationsService>();
+  final _homeController = Get.find<HomeController>();
 
   @override
   void onInit() {
@@ -121,14 +123,10 @@ class RootController extends GetxController {
         route: Routes.contactUS,
       ),
       const ItemModel(
+        id: 5,
         image: 'share',
         text: 'شارك خلصها',
         route: Routes.shareApp,
-      ),
-      const ItemModel(
-        image: 'how-to-use',
-        text: 'طريقة الإستخدام',
-        route: Routes.howToUse,
       ),
       const ItemModel(
         image: 'setting',
@@ -153,6 +151,9 @@ class RootController extends GetxController {
   Future<void> _refreshToken() async {
     final params = Params(loading: false.obs);
     final result = await _refreshTokenUseCase.execute(params);
+    FlutterNativeSplash.remove();
+    _homeController.videoController.play();
+
     result.fold(
       (failure) {
         final type = json.decode(failure.statusMessage ?? '')['type'];
@@ -167,15 +168,9 @@ class RootController extends GetxController {
 
   Future<void> logOut() async {
     final params = Params(loading: false.obs);
-    final result = await _logiOutUseCase.execute(params);
-    result.fold(
-      (failure) => showAlertMessage(failure.statusMessage),
-      (successMsg) {
-        showAlertMessage(successMsg);
-        UserDataLocal.instance.remove();
-        Get.offAllNamed(Routes.onBoarding);
-      },
-    );
+    await _logiOutUseCase.execute(params);
+    UserDataLocal.instance.remove();
+    Get.offAllNamed(Routes.onBoarding);
   }
 
   Future<void> _updateFCMToken() async {

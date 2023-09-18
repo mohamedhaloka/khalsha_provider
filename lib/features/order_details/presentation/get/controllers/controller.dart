@@ -27,7 +27,8 @@ class OrderDetailsController extends GetxController {
 
   RxBool loading = true.obs,
       createInvoiceLoading = false.obs,
-      rateOrderLoading = false.obs;
+      rateOrderLoading = false.obs,
+      showInvoiceLoading = false.obs;
 
   late OrderModel orderModel;
 
@@ -86,7 +87,7 @@ class OrderDetailsController extends GetxController {
     final params = GetOrderDetailsUseCaseParams(
       loading: loading,
       type: serviceType.value,
-      orderId: 11,
+      orderId: orderId,
     );
     final result = await _getOrderDetailsUseCase.execute(params);
     result.fold(
@@ -103,7 +104,7 @@ class OrderDetailsController extends GetxController {
       pages.removeWhere((element) => element.id == 1);
     }
 
-    if (orderModel.offer == null) {
+    if (orderModel.invoice == null) {
       pages.removeWhere((element) => element.id == 2);
     }
 
@@ -257,5 +258,21 @@ class OrderDetailsController extends GetxController {
         getOrderDetails();
       },
     );
+  }
+
+  Future<void> showInvoice(String url) async {
+    showInvoiceLoading(true);
+    var tempDir = await getTemporaryDirectory();
+    String fullPath = '${tempDir.path}/invoice_${url.split('/').last}.pdf';
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: HttpService.header,
+    );
+    print(response.body);
+    if (response.statusCode != 200) return;
+    File pdfFile = await File(fullPath).writeAsBytes(response.bodyBytes);
+    Get.to(() => InvoiceDetailsView(path: pdfFile.path));
+    showInvoiceLoading(false);
   }
 }

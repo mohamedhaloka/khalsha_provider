@@ -10,18 +10,18 @@ class _OrderDataTab extends GetView<OrderDetailsController> {
       children: [
         const OrderTabHeader(
           title: 'تفاصيل الطلب',
-          hint: 'هنا تظهر جميع التفاصيل الخاصة بالعميل',
         ),
         ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (_, int index) => _DetailsGroupItem(
-                  text: controller.orderModel.data[index].title,
-                  details: controller.orderModel.data[index].data,
-                  onTap: (_) => _,
-                ),
-            itemCount: controller.orderModel.data.length),
-        if (controller.orderModel.offer == null) ...[
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, int index) => _DetailsGroupItem(
+            text: controller.orderModel.data[index].title,
+            details: controller.orderModel.data[index].data,
+            onTap: (_) => _,
+          ),
+          itemCount: controller.orderModel.data.length,
+        ),
+        if (controller.orderModel.status == kPending) ...[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
             child: CustomButton(

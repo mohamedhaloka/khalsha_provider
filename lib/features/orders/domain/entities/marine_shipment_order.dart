@@ -285,19 +285,51 @@ class MarineShipmentOrder extends OrderModel {
           OrderSectionItemModel(
             title: 'البضائع المجمعة',
             data: [
-              for (var container in goods) ...[
-                OrderDetailsItemModel(
-                  title: 'الحجم الكلي',
-                  description: container.overallSize,
-                ),
-                OrderDetailsItemModel(
-                  title: 'الوزن الكلي',
-                  description: container.totalWeight,
-                ),
-                OrderDetailsItemModel(
-                  title: 'الكمية',
-                  description: container.quantity,
-                ),
+              for (var item in goods) ...[
+                if (item.unitType == 'pallet') ...[
+                  OrderDetailsItemModel(
+                    title: 'الطول',
+                    description: item.length,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'العرض',
+                    description: item.width,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'الارتفاع',
+                    description: item.height,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'سم',
+                    description: item.cm,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'الوزن لكل وحده',
+                    description: item.weightPerUnit,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'الكمية',
+                    description: item.quantity,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'صورة الشحنة',
+                    description: item.image,
+                    type: OrderDetailsTypes.file,
+                  ),
+                ] else ...[
+                  OrderDetailsItemModel(
+                    title: 'الحجم الكلي',
+                    description: item.overallSize,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'الوزن الكلي',
+                    description: item.totalWeight,
+                  ),
+                  OrderDetailsItemModel(
+                    title: 'الكمية',
+                    description: item.quantity,
+                  ),
+                ]
               ]
             ],
           ),
@@ -314,9 +346,18 @@ class MarineShipmentOrder extends OrderModel {
         OrderSectionItemModel(
           title: 'التواصل',
           data: [
-            OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
-            OrderDetailsItemModel(title: 'الجوال', description: ''),
-            OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
+            OrderDetailsItemModel(
+              title: 'صاحب الطلب',
+              description: user.name,
+            ),
+            OrderDetailsItemModel(
+              title: 'الجوال',
+              description: user.mobile,
+            ),
+            OrderDetailsItemModel(
+              title: 'البريد الإلكتروني',
+              description: user.email,
+            ),
           ],
         ),
       ];
@@ -414,6 +455,7 @@ class MarineShipmentOffer extends OfferModel {
     super.updatedAt,
     super.user,
     super.total,
+    super.orderDetails,
     required this.customsClearance,
     required this.certificates,
     required this.shippingFee,
@@ -433,6 +475,7 @@ class MarineShipmentOffer extends OfferModel {
         shippingFee: json["shipping_fee"] ?? '',
         certificates: json["certificates"] ?? '',
         customsClearance: json["customs_clearance"] ?? '',
+        orderDetails: OrderDetailsModel.fromJson(json["seashippings"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],
