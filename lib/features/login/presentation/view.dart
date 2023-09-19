@@ -20,7 +20,7 @@ class LoginView extends GetView<LoginController> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 100, 0, 40),
             child: Text(
-              'اهلا بك في خلصها !',
+              'اهلا بك في خلصها لمقدمي الخدمات !',
               style: Get.textTheme.titleLarge!.copyWith(
                 color: ColorManager.primaryColor,
                 fontWeight: FontWeight.bold,
@@ -83,7 +83,6 @@ class LoginView extends GetView<LoginController> {
                                   break;
                               }
                             },
-                            text: e.text,
                             imgName: e.image,
                           ),
                         ),

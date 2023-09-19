@@ -19,6 +19,7 @@ class OrdersRemoteDataSourceImpl extends OrdersRemoteDataSource {
         .get('${HttpService.userType}/offers?type=$type&page=$page');
 
     if (response.statusCode == 200) {
+      print(response.data);
       final data = response.data['data']['offers']['data'];
       List<OfferModel> orders = <OfferModel>[];
       ServiceTypes? serviceTypes = ServiceTypes.values
@@ -38,9 +39,7 @@ extension ServiceTypesToModel on ServiceTypes {
   OfferModel toOffer(Map<String, dynamic> json) {
     switch (this) {
       case ServiceTypes.customsClearance:
-        return CustomsClearanceOffer.fromJson(
-          json,
-        );
+        return CustomsClearanceOffer.fromJson(json);
       case ServiceTypes.landShipping:
         return LandShippingOffer.fromJson(json);
       case ServiceTypes.stores:

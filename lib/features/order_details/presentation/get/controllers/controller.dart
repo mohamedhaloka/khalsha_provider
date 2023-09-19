@@ -104,9 +104,9 @@ class OrderDetailsController extends GetxController {
       pages.removeWhere((element) => element.id == 1);
     }
 
-    if (orderModel.invoice == null) {
-      pages.removeWhere((element) => element.id == 2);
-    }
+    // if (orderModel.invoice == null) {
+    //   pages.removeWhere((element) => element.id == 2);
+    // }
 
     await Future.delayed(const Duration(milliseconds: 300));
     if (isBill) {
@@ -269,7 +269,6 @@ class OrderDetailsController extends GetxController {
       Uri.parse(url),
       headers: HttpService.header,
     );
-    print(response.body);
     if (response.statusCode != 200) return;
     File pdfFile = await File(fullPath).writeAsBytes(response.bodyBytes);
     Get.to(() => InvoiceDetailsView(path: pdfFile.path));

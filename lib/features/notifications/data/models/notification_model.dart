@@ -45,7 +45,7 @@ class FromModel {
   factory FromModel.fromJson(Map<String, dynamic> json) => FromModel(
         id: json["id"],
         name: json["name"],
-        photoProfile: json["photo_profile"],
+        photoProfile: json["photo_profile"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {

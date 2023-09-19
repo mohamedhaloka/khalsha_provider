@@ -76,7 +76,8 @@ class NewOrdersView extends GetView<NewOrdersController> {
                       itemBuilder: (int index) => Row(
                         children: [
                           _detail(controller.orders[index].title.toString()),
-                          // _detail(controller.orders[index].user.name.toString()),
+                          _detail(
+                              controller.orders[index].user.name.toString()),
                           _detail(controller.orders[index].status),
                           _detail(
                             'رؤية التفاصيل',

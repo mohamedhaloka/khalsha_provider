@@ -113,11 +113,6 @@ class RootController extends GetxController {
         route: Routes.commonQuestions,
       ),
       const ItemModel(
-        image: 'my-bills',
-        text: 'الفواتير',
-        route: Routes.myBills,
-      ),
-      const ItemModel(
         image: 'technical-support',
         text: 'الدعم للعملاء',
         route: Routes.contactUS,
@@ -126,7 +121,6 @@ class RootController extends GetxController {
         id: 5,
         image: 'share',
         text: 'شارك خلصها',
-        route: Routes.shareApp,
       ),
       const ItemModel(
         image: 'setting',

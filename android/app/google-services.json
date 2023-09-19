@@ -14,7 +14,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "440607721662-gm0mbsiggdsai07qvolh616vga7fe65i.apps.googleusercontent.com",
+          "client_id": "440607721662-jv0cgo22dhi1v6eluu5d7ot1jb6a2bn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.khalsha",
+            "certificate_hash": "229f55ddf2edca1935760d4967503d7708e6c683"
+          }
+        },
+        {
+          "client_id": "440607721662-pch0vacd2ec4r1l36kvpjutivo399a4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.khalsha",
+            "certificate_hash": "5ecc491d0a59796dfeeaef0aa3bc24348e6ef6a2"
+          }
+        },
+        {
+          "client_id": "440607721662-vdjqjvkrjqespug93esibofupngp6gip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.khalsha",
+            "certificate_hash": "0b09ee4130e4009771f91e9d2256be94dba7c45d"
+          }
+        },
+        {
+          "client_id": "440607721662-gee4m34jcuuufl3ltq8u0tipsnoov8ug.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +51,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "440607721662-gm0mbsiggdsai07qvolh616vga7fe65i.apps.googleusercontent.com",
+              "client_id": "440607721662-gee4m34jcuuufl3ltq8u0tipsnoov8ug.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -50,7 +74,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "440607721662-gm0mbsiggdsai07qvolh616vga7fe65i.apps.googleusercontent.com",
+          "client_id": "440607721662-gee4m34jcuuufl3ltq8u0tipsnoov8ug.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -63,7 +87,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "440607721662-gm0mbsiggdsai07qvolh616vga7fe65i.apps.googleusercontent.com",
+              "client_id": "440607721662-gee4m34jcuuufl3ltq8u0tipsnoov8ug.apps.googleusercontent.com",
               "client_type": 3
             },
             {

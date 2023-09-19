@@ -35,7 +35,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   Future<UserData> socialSignIn(SocialType type, String accessToken) async {
     final formData = FormData.fromMap({
       'access_token': accessToken,
-      'user_type': 'importer_exporter',
+      'user_type': 'provider',
     });
 
     final response =

@@ -62,7 +62,7 @@ Future<void> _initData() async {
   await UserDataLocal.instance.init();
 
   Get.lazyPut<HttpService>(() => HttpService(Dio()));
-  Get.lazyPut<NotificationsService>(() => NotificationsService());
+  Get.putAsync<NotificationsService>(() => NotificationsService().init());
 
   await InjectionContainer.init();
 }

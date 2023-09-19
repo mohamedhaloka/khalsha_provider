@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/account_settings/presentation/view.dart';
 import 'package:khalsha/features/add_phone_number/presentation/get/bindings/binding.dart';
-import 'package:khalsha/features/blog/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/blog/presentation/view.dart';
 import 'package:khalsha/features/common_questions/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/common_questions/presentation/view.dart';
 import 'package:khalsha/features/contact_us/presentation/get/binding/binding.dart';
@@ -21,17 +19,12 @@ import 'package:khalsha/features/otp/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/otp/presentation/view.dart';
 import 'package:khalsha/features/payment/presentation/bindings/payment_binding.dart';
 import 'package:khalsha/features/payment/presentation/views/payment_view.dart';
-import 'package:khalsha/features/post_details/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/post_details/presentation/view.dart';
 import 'package:khalsha/features/register/presentation/get/bindings/binding.dart';
 import 'package:khalsha/features/register/presentation/view.dart';
 import 'package:khalsha/features/root/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/root/presentation/view.dart';
 import 'package:khalsha/features/settlement_details/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/settlement_details/presentation/view.dart';
-import 'package:khalsha/features/share_app/presentation/get/binding/binding.dart';
-import 'package:khalsha/features/share_app/presentation/view.dart';
-import 'package:khalsha/features/sources/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/statistics/presentation/get/binding/binding.dart';
 import 'package:khalsha/features/statistics/presentation/view.dart';
 
@@ -43,7 +36,7 @@ import '../../../features/order_details/presentation/get/binding/binding.dart';
 import '../../../features/orders/presentation/get/binding/binding.dart';
 import '../../../features/reset_password/presentation/get/binding/binding.dart';
 import '../../../features/reset_password/presentation/view.dart';
-import '../../../features/sources/presentation/view.dart';
+import '../../../features/root/presentation/get/controllers/controller.dart';
 
 part 'app_pages.dart';
 
@@ -87,61 +80,49 @@ class AppPages {
       name: _Paths.commonQuestions,
       page: () => const CommonQuestionsView(),
       binding: CommonQuestionsBinding(),
-    ),
-    GetPage(
-      name: _Paths.shareApp,
-      page: () => const ShareAppView(),
-      binding: ShareAppBinding(),
-    ),
-    GetPage(
-      name: _Paths.sources,
-      page: () => const SourcesView(),
-      binding: SourcesBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.contactUS,
       page: () => const ContactUsView(),
       binding: ContactUsBinding(),
-    ),
-    GetPage(
-      name: _Paths.blog,
-      page: () => const BlogView(),
-      binding: BlogBinding(),
-    ),
-    GetPage(
-      name: _Paths.postDetails,
-      page: () => const PostDetailsView(),
-      binding: PostDetailsBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.orderDetails,
       page: () => const OrderDetailsView(),
       binding: OrderDetailsBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.settlementDetails,
       page: () => const SettlementDetailsView(),
       binding: SettlementDetailsBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.accountSettings,
       page: () => const AccountSettingsView(),
       binding: AccountSettingsBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.orders,
       page: () => const OrdersView(),
       binding: OrdersBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.newOrders,
       page: () => const NewOrdersView(),
       binding: NewOrdersBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.statistics,
       page: () => const StatisticsView(),
       binding: StatisticsBinding(),
+      middlewares: [VerifyAccountMiddleware()],
     ),
     GetPage(
       name: _Paths.forgetPassword,
@@ -164,4 +145,15 @@ class AppPages {
       binding: AddPhoneNumberBinding(),
     ),
   ];
+}
+
+class VerifyAccountMiddleware extends GetMiddleware {
+  @override
+  GetPage? onPageCalled(GetPage? page) {
+    final rootController = Get.find<RootController>();
+    if (rootController.errorType.isNotEmpty) {
+      return null;
+    }
+    return page;
+  }
 }

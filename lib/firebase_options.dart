@@ -66,12 +66,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBGoECGoLFjC7HAPnZRlfhh6dNXKuI_OK0',
-    appId: '1:440607721662:ios:5c19e8640cfe264192f6ef',
+    appId: '1:440607721662:ios:ee3be1c10e43311492f6ef',
     messagingSenderId: '440607721662',
     projectId: 'khalasha-53a85',
     storageBucket: 'khalasha-53a85.appspot.com',
-    iosClientId:
-        '440607721662-imkbrst638is9msabl88sbpsega9irik.apps.googleusercontent.com',
-    iosBundleId: 'com.app.khalsha',
+    androidClientId: '440607721662-jv0cgo22dhi1v6eluu5d7ot1jb6a2bn3.apps.googleusercontent.com',
+    iosClientId: '440607721662-98kmokobm0f9dqnht1opn1d94ejq4ke6.apps.googleusercontent.com',
+    iosBundleId: 'com.app.khalsha.provider',
   );
 }

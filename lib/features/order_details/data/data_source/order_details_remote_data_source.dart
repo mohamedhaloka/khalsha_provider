@@ -120,7 +120,10 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
 
   @override
   Future<String> createInvoice(String type, InvoiceData invoiceData) async {
-    final formData = _prepareFormData(invoiceData);
+    bool isFromCustomsClearanceService = type == 'customsclearance';
+    final formData = isFromCustomsClearanceService
+        ? _prepareFormData(invoiceData)
+        : dio.FormData.fromMap({});
 
     final response = await _httpService.post(
       '${HttpService.userType}/$type/invoice/${invoiceData.orderId}',
@@ -128,7 +131,9 @@ class OrderDetailsRemoteDataSourceImpl extends OrderDetailsRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      return response.data['message'];
+      return isFromCustomsClearanceService
+          ? response.data['message']
+          : 'تم إنشاء الفاتورة بنجاح';
     } else {
       throw ServerException(errorMessage: response.data['message'].toString());
     }

@@ -5,8 +5,6 @@ import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/core/presentation/routes/app_routes.dart';
-import 'package:khalsha/features/otp/domain/entites/enums/verify_type.dart';
-import 'package:khalsha/features/otp/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/settlement/data/models/settlement.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -37,7 +35,6 @@ class HttpService extends GetxService {
       options: Options(headers: header),
     );
 
-    _checkVerifyingEmail(response);
     _checkHasASettlement(response);
     return response;
   }
@@ -55,22 +52,8 @@ class HttpService extends GetxService {
         headers: header,
       ),
     );
-    _checkVerifyingEmail(response);
     _checkHasASettlement(response);
     return response;
-  }
-
-  void _checkVerifyingEmail(dio.Response response) {
-    if (response.data['type'] == 'need_verify_email') {
-      final userData = UserDataLocal.instance.data.value.toJson();
-      Get.offAllNamed(
-        Routes.otp,
-        arguments: {
-          kUserData: userData,
-          kVerifyType: VerifyType.email,
-        },
-      );
-    }
   }
 
   void _checkHasASettlement(dio.Response response) {

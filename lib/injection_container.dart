@@ -12,6 +12,9 @@ import 'package:khalsha/core/domain/use_cases/get_profile_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/update_profile_photo_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/update_profile_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/upload_image_use_case.dart';
+import 'package:khalsha/features/contact_us/data/data_source/contact_us_remote_data_source.dart';
+import 'package:khalsha/features/contact_us/data/repo_impl/contact_us_repository_impl.dart';
+import 'package:khalsha/features/contact_us/domain/use_cases/send_message_use_case.dart';
 import 'package:khalsha/features/forget_password/data/repo_impl/forget_password_repository_impl.dart';
 import 'package:khalsha/features/forget_password/data/source/forget_password_remote_data_source.dart';
 import 'package:khalsha/features/forget_password/domain/repository/forget_password_repository.dart';
@@ -69,6 +72,7 @@ import 'features/account_settings/domain/repository/account_settings_repository.
 import 'features/account_settings/domain/use_cases/change_password_use_case.dart';
 import 'features/account_settings/domain/use_cases/update_account_use_case.dart';
 import 'features/account_settings/domain/use_cases/upload_profile_photo_use_case.dart';
+import 'features/contact_us/domain/repository/contact_us_repository.dart';
 import 'features/login/data/repository_impl/login_repository_impl.dart';
 import 'features/login/data/source/login_remote_data_source.dart';
 import 'features/login/domain/repository/login_repository.dart';
@@ -223,5 +227,13 @@ class InjectionContainer {
         () => PreparePaymentUseCase(sl()));
     sl.registerLazySingleton<CallbackPaymentUseCase>(
         () => CallbackPaymentUseCase(sl()));
+
+    //Contact Us
+    sl.registerLazySingleton<ContactUsRemoteDataSource>(
+        () => ContactUsRemoteDataSourceImpl(dioService));
+    sl.registerLazySingleton<ContactUsRepository>(
+        () => ContactUsRepositoryImpl(sl()));
+    sl.registerLazySingleton<SendMessageContactUsUseCase>(
+        () => SendMessageContactUsUseCase(sl()));
   }
 }

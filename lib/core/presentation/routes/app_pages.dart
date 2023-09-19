@@ -10,15 +10,9 @@ abstract class Routes {
   static const root = _Paths.root;
   static const commonQuestions = _Paths.commonQuestions;
   static const payment = _Paths.payment;
-  static const myBills = _Paths.myBills;
-  static const shareApp = _Paths.shareApp;
-  static const sources = _Paths.sources;
   static const contactUS = _Paths.contactUS;
-  static const blog = _Paths.blog;
-  static const postDetails = _Paths.postDetails;
   static const orderDetails = _Paths.orderDetails;
   static const settlementDetails = _Paths.settlementDetails;
-  static const billDetails = _Paths.billDetails;
   static const accountSettings = _Paths.accountSettings;
   static const orders = _Paths.orders;
   static const newOrders = _Paths.newOrders;
@@ -26,7 +20,6 @@ abstract class Routes {
   static const forgetPassword = _Paths.forgetPassword;
   static const resetPassword = _Paths.resetPassword;
   static const map = _Paths.map;
-  static const chooseShippingService = _Paths.chooseShippingService;
   static const addPhoneNumber = _Paths.addPhoneNumber;
 }
 
@@ -39,15 +32,9 @@ abstract class _Paths {
   static const root = '/root';
   static const commonQuestions = '/common_questions';
   static const payment = '/payment';
-  static const myBills = '/my_bills';
-  static const shareApp = '/share_app';
-  static const sources = '/sources';
   static const contactUS = '/contact_us';
-  static const blog = '/blog';
-  static const postDetails = '/post_details';
   static const orderDetails = '/order_details';
   static const settlementDetails = '/settlement_details';
-  static const billDetails = '/bill_details';
   static const accountSettings = '/account_settings';
   static const orders = '/orders';
   static const newOrders = '/new_orders';
@@ -55,6 +42,5 @@ abstract class _Paths {
   static const forgetPassword = '/forget_password';
   static const resetPassword = '/reset_password';
   static const map = '/map';
-  static const chooseShippingService = '/choose_shipping_service';
   static const addPhoneNumber = '/add_phone_number';
 }

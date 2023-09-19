@@ -475,7 +475,7 @@ class MarineShipmentOffer extends OfferModel {
         shippingFee: json["shipping_fee"] ?? '',
         certificates: json["certificates"] ?? '',
         customsClearance: json["customs_clearance"] ?? '',
-        orderDetails: OrderDetailsModel.fromJson(json["seashippings"]),
+        orderDetails: OrderDetailsModel.fromJson(json["seashipping"]),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],

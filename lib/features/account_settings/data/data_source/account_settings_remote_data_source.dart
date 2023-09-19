@@ -60,10 +60,12 @@ class AccountSettingsRemoteDataSourceImpl
       'bio': bio,
     });
 
-    formData.files.add(MapEntry(
-      'commercial_cert',
-      await MultipartFile.fromFile(commercialCert),
-    ));
+    if (commercialCert.isNotEmpty) {
+      formData.files.add(MapEntry(
+        'commercial_cert',
+        await MultipartFile.fromFile(commercialCert),
+      ));
+    }
 
     final response = await _httpService.post('auth/update/profile', formData);
     if (response.statusCode == 200) {

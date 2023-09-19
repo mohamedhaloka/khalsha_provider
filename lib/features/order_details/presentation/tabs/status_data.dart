@@ -2,6 +2,7 @@ part of '../view.dart';
 
 const kDone = 'done';
 const kPending = 'pending';
+const kOpen = 'open';
 const kClosed = 'closed';
 
 class _StatusData extends StatefulWidget {

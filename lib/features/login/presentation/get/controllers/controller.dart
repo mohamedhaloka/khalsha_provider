@@ -24,8 +24,8 @@ class LoginController extends GetxController {
   LoginController(this._loginUseCase, this._socialLoginUseCase);
 
   List<ItemModel> socials = <ItemModel>[
-    const ItemModel(text: 'Google', image: 'google'),
-    const ItemModel(text: 'Facebook', image: 'facebook'),
+    const ItemModel(id: 0, text: 'Google', image: 'google'),
+    const ItemModel(id: 1, text: 'Facebook', image: 'facebook'),
     if (GetPlatform.isIOS) ...[
       const ItemModel(id: 2, text: 'IOS', image: 'apple'),
     ]

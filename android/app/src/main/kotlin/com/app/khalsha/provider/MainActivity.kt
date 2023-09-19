@@ -1,4 +1,4 @@
-package com.app.khalsha
+package com.app.khalsha.provider
 
 import io.flutter.embedding.android.FlutterActivity
 

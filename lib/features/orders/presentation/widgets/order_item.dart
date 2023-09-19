@@ -51,20 +51,11 @@ class OrderItem extends StatelessWidget {
             ]),
         child: Column(
           children: [
-            Expanded(
-              child: _detail(
-                  '#${order.orderDetails?.id} ${order.orderDetails?.title}'),
-            ),
+            _detail('#${order.orderDetails?.id} ${order.orderDetails?.title}'),
             const Divider(
               color: ColorManager.greyColor,
             ),
-            Expanded(
-              child: Row(
-                children: [
-                  _Status(order.status!),
-                ],
-              ),
-            ),
+            _Status(order.status!),
           ],
         ),
       ),
