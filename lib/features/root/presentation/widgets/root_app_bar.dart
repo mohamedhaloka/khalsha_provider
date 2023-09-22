@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:khalsha/core/presentation/routes/app_routes.dart';
 
 class RootAppBar extends StatelessWidget {
   const RootAppBar({
@@ -27,7 +29,7 @@ class RootAppBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.accountSettings),
             child: SvgPicture.asset('assets/images/icons/profile.svg'),
           ),
         )

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/features/settlement/data/models/settlement.dart';
 import 'package:khalsha/features/settlement_details/domain/use_cases/callback_payment_use_case.dart';
@@ -15,32 +16,34 @@ class SettlementDetailsController extends GetxController {
     this._callbackPaymentUseCase,
   );
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  late CreditCardModel cardData;
   SettlementModel settlementModel = Get.arguments;
 
   RxBool loading = false.obs;
 
-  TextEditingController cardNumber = TextEditingController(),
-      expDate = TextEditingController(),
-      cvv = TextEditingController(),
-      cardHolderName = TextEditingController();
-
   Future<void> preparePayment() async {
-    if (cardNumber.text.isEmpty ||
-        cardHolderName.text.isEmpty ||
-        cvv.text.isEmpty ||
-        expDate.text.isEmpty) {
+    formKey.currentState?.save();
+
+    if (!(formKey.currentState?.validate() ?? false)) {
       showAlertMessage('جميع الحقول مطلوبة');
+
       return;
     }
 
+    print(cardData.cardNumber.removeAllWhitespace);
+    print(cardData.expiryDate.substring(0, 2));
+    print(cardData.expiryDate.substring(3, 5));
+
     final params = PreparePaymentParams(
       loading: loading,
-      settlementId: 3,
-      cardNumber: cardNumber.text,
-      cardHolderName: cardHolderName.text,
-      cvv: cvv.text,
-      month: expDate.text.substring(0, 2),
-      year: expDate.text.substring(3, 5),
+      settlementId: settlementModel.id,
+      cardNumber: cardData.cardNumber.removeAllWhitespace,
+      cardHolderName: cardData.cardHolderName,
+      cvv: cardData.cvvCode,
+      month: cardData.expiryDate.substring(0, 2),
+      year: cardData.expiryDate.substring(3, 5),
     );
 
     final result = await _preparePaymentUseCase.execute(params);

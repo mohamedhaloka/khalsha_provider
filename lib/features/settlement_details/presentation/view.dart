@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/features/widgets/custom_button.dart';
-import 'package:khalsha/features/widgets/custom_text_field.dart';
 
-import '../../../core/card_input_formatter.dart';
-import '../../../core/inputs_style.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import '../../widgets/custom_app_bar.dart';
 import 'get/controllers/controller.dart';
 
-class SettlementDetailsView extends GetView<SettlementDetailsController> {
+class SettlementDetailsView extends StatefulWidget {
   const SettlementDetailsView({Key? key}) : super(key: key);
+
+  @override
+  State<SettlementDetailsView> createState() => _SettlementDetailsViewState();
+}
+
+class _SettlementDetailsViewState extends State<SettlementDetailsView> {
+  final controller = Get.find<SettlementDetailsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,51 +62,89 @@ class SettlementDetailsView extends GetView<SettlementDetailsController> {
               ),
             ),
           ),
-          CustomTextField(
-            title: 'رقم البطاقة',
-            borderSide: inputBorderSide,
-            hint: 'XXXX XXXX XXXX XXXX',
-            controller: controller.cardNumber,
-            // keyboardType: TextInputType.number,
-            textInputFormatter: [
-              FilteringTextInputFormatter.digitsOnly,
-              CardNumberFormatter(),
-            ],
+          CreditCardForm(
+            formKey: controller.formKey, // Required
+            onCreditCardModelChange: (CreditCardModel data) {
+              print('ksksksk');
+              controller.cardData = data;
+            }, // Required
+            themeColor: Colors.red,
+            isHolderNameVisible: true,
+            isCardNumberVisible: true,
+            isExpiryDateVisible: true,
+            enableCvv: true,
+            cardNumberDecoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'رقم البطاقة',
+              hintText: 'XXXX XXXX XXXX XXXX',
+            ),
+            expiryDateDecoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'تاريخ الإنتهاء',
+              hintText: 'XX/XX',
+            ),
+            cvvCodeDecoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'CVV',
+              hintText: 'XXX',
+            ),
+            cardHolderDecoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'اسم صاحب البطاقة',
+            ),
+            cardNumber: '',
+            expiryDate: '',
+            cardHolderName: '',
+            cvvCode: '',
           ),
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextField(
-                  title: 'تاريخ الإنتهاء',
-                  hint: 'XX/XX',
-                  borderSide: inputBorderSide,
-                  controller: controller.expDate,
-                  // keyboardType: TextInputType.number,
-                  textInputFormatter: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    CardExpirationFormatter()
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CustomTextField(
-                  title: 'CVV',
-                  hint: 'XXX',
-                  maxLength: 3,
-                  textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                  controller: controller.cvv,
-                  keyboardType: TextInputType.number,
-                  borderSide: inputBorderSide,
-                ),
-              ),
-            ],
-          ),
-          CustomTextField(
-            title: 'اسم صاحب البطاقة',
-            controller: controller.cardHolderName,
-            borderSide: inputBorderSide,
-          ),
+
+          // CustomTextField(
+          //   title: 'رقم البطاقة',
+          //   borderSide: inputBorderSide,
+          //   hint: 'XXXX XXXX XXXX XXXX',
+          //   controller: controller.cardNumber,
+          //   // keyboardType: TextInputType.number,
+          //   maxLength: 16,
+          //   textInputFormatter: [
+          //     // FilteringTextInputFormatter.digitsOnly,
+          //     CardFormatter(separator: ' ')
+          //   ],
+          // ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: CustomTextField(
+          //         title: 'تاريخ الإنتهاء',
+          //         hint: 'XX/XX',
+          //         borderSide: inputBorderSide,
+          //         controller: controller.expDate,
+          //         keyboardType: TextInputType.number,
+          //         maxLength: 5,
+          //         textInputFormatter: [
+          //           // FilteringTextInputFormatter.digitsOnly,
+          //           CardFormatter(separator: ' ')
+          //         ],
+          //       ),
+          //     ),
+          //     const SizedBox(width: 12),
+          //     Expanded(
+          //       child: CustomTextField(
+          //         title: 'CVV',
+          //         hint: 'XXX',
+          //         maxLength: 3,
+          //         textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+          //         controller: controller.cvv,
+          //         keyboardType: TextInputType.number,
+          //         borderSide: inputBorderSide,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // CustomTextField(
+          //   title: 'اسم صاحب البطاقة',
+          //   controller: controller.cardHolderName,
+          //   borderSide: inputBorderSide,
+          // ),
           // CustomDropDown(
           //   title: 'عنوان وصول الفواتير',
           //   dropVal: ''.obs,

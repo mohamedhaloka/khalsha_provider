@@ -94,6 +94,8 @@ dependencies:
   video_player: ^2.7.0
   # for let splash shown
   flutter_native_splash: 2.2.9
+  # for credit cards in settlements
+  flutter_credit_card: ^3.0.7
 
 dev_dependencies:
   flutter_test:

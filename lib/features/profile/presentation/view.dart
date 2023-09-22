@@ -53,10 +53,11 @@ class ProfileView extends GetView<ProfileController> {
                         title: 'السجل التجاري',
                         contentPadding: _contentPadding,
                         borderSide: _borderColor,
+                        controller: controller.commercialCertificate,
                         enabled: false,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 60),
+                        padding: const EdgeInsets.only(top: 20),
                         child: CustomButton(
                           width: Get.width,
                           height: 36,

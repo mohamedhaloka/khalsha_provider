@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 class CardNumberFormatter extends TextInputFormatter {
   @override
@@ -31,28 +32,63 @@ class CardNumberFormatter extends TextInputFormatter {
   }
 }
 
-class CardExpirationFormatter extends TextInputFormatter {
+class CardFormatter extends TextInputFormatter {
+  final String separator;
+
+  CardFormatter({required this.separator});
+
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    final newValueString = newValue.text;
-    String valueToReturn = '';
+    var oldS = oldValue.text;
+    var newS = newValue.text;
+    var endsWithSeparator = false;
 
-    for (int i = 0; i < newValueString.length; i++) {
-      if (newValueString[i] != '/') valueToReturn += newValueString[i];
-      var nonZeroIndex = i + 1;
-      final contains = valueToReturn.contains(RegExp(r'\/'));
-      if (nonZeroIndex % 2 == 0 &&
-          nonZeroIndex != newValueString.length &&
-          !(contains)) {
-        valueToReturn += '/';
+    // if you add text
+    if (newS.length > oldS.length) {
+      for (var char in separator.characters) {
+        if (newS.substring(0, newS.length - 1).endsWith(char)) {
+          endsWithSeparator = true;
+        }
+      }
+      print(
+          'Ends with separator: $endsWithSeparator, so we will add it with next digit.');
+
+      var clean = newS.replaceAll(separator, '');
+      print('CLEAN add: $clean');
+      if (!endsWithSeparator && clean.length > 1 && clean.length % 4 == 1) {
+        return newValue.copyWith(
+          text: newS.substring(0, newS.length - 1) +
+              separator +
+              newS.characters.last,
+          selection: TextSelection.collapsed(
+            offset: newValue.selection.end + separator.length,
+          ),
+        );
       }
     }
-    return newValue.copyWith(
-      text: valueToReturn,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: valueToReturn.length),
-      ),
-    );
+
+    // if you delete text
+    if (newS.length < oldS.length) {
+      for (var char in separator.characters) {
+        if (oldS.substring(0, oldS.length - 1).endsWith(char)) {
+          endsWithSeparator = true;
+        }
+      }
+      print('Ends with separator: $endsWithSeparator, so we removed it');
+
+      var clean = oldS.substring(0, oldS.length - 1).replaceAll(separator, '');
+      print('CLEAN remove: $clean');
+      if (endsWithSeparator && clean.isNotEmpty && clean.length % 4 == 0) {
+        return newValue.copyWith(
+          text: newS.substring(0, newS.length - separator.length),
+          selection: TextSelection.collapsed(
+            offset: newValue.selection.end - separator.length,
+          ),
+        );
+      }
+    }
+
+    return newValue;
   }
 }

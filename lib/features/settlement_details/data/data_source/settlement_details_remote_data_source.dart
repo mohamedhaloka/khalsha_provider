@@ -41,6 +41,7 @@ class SettlementDetailsRemoteDataSourceImpl
     final response = await _httpService.post(
         '${HttpService.userType}/prepare/settlements/$settlementId', formData);
 
+    print(response.data);
     if (response.statusCode == 201) {
       return response.data['transaction_url'];
     } else {
