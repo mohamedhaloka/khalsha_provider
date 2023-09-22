@@ -7,6 +7,7 @@ import 'package:khalsha/features/widgets/cached_image.dart';
 
 import '../../../../core/data/models/enums/service_types.dart';
 import '../../../../core/presentation/themes/colors_manager.dart';
+import '../../../order_details/presentation/view.dart';
 
 class NotificationItem extends StatelessWidget {
   const NotificationItem(this.index, this.notification, {Key? key})
@@ -30,9 +31,8 @@ class NotificationItem extends StatelessWidget {
         Get.toNamed(
           Routes.orderDetails,
           arguments: {
-            'orderId': notification.moduleId,
-            'serviceType': serviceType,
-            'isBill': false,
+            orderIdKey: notification.moduleId,
+            serviceTypeKey: serviceType,
           },
         );
       },

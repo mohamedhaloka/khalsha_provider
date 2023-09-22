@@ -16,7 +16,6 @@ import 'package:khalsha/features/order_details/data/models/order_details_item_mo
 import 'package:khalsha/features/order_details/domain/use_cases/add_offer_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/create_invoice_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/get_order_details_use_case.dart';
-import 'package:khalsha/features/order_details/domain/use_cases/rate_order_use_case.dart';
 import 'package:khalsha/features/order_details/domain/use_cases/update_order_status_use_case.dart';
 import 'package:khalsha/features/order_details/presentation/widgets/create_bill.dart';
 import 'package:khalsha/features/order_details/presentation/widgets/invoice_details_view.dart';

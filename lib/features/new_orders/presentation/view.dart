@@ -8,6 +8,7 @@ import 'package:khalsha/features/widgets/smart_refresh.dart';
 import '../../../core/data/models/enums/service_types.dart';
 import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
+import '../../order_details/presentation/view.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/table_items.dart';
 import 'get/controllers/controller.dart';
@@ -55,10 +56,10 @@ class NewOrdersView extends GetView<NewOrdersController> {
                         final result = await Get.toNamed(
                           Routes.orderDetails,
                           arguments: {
-                            'orderId': controller.orders[index].id,
-                            'serviceType': ServiceTypes
+                            orderIdKey: controller.orders[index].id,
+                            serviceTypeKey: ServiceTypes
                                 .values[controller.selectedService.value],
-                            'isBill': false,
+                            offerStatusKey: controller.orders[index].status,
                           },
                         );
                         if (result == null) return;

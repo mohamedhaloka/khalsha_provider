@@ -5,7 +5,6 @@ class _BillDataTab extends GetView<OrderDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final orderData = controller.orderModel;
     final invoice = controller.orderModel.invoice;
     final feedback = controller.orderModel.feedback;
     return ListView(
@@ -15,7 +14,8 @@ class _BillDataTab extends GetView<OrderDetailsController> {
           title: 'الفاتورة',
           hint: 'هنا بتم تحديد فاتورتك و إرسالها للعميل',
         ),
-        if (controller.orderModel.invoice == null)
+        if (controller.orderModel.invoice == null &&
+            controller.serviceType != ServiceTypes.customsClearance)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: CustomButton(
@@ -36,20 +36,20 @@ class _BillDataTab extends GetView<OrderDetailsController> {
             billCreatedDate: invoice.createdAt.toString(),
             userBio: invoice.user!.bio!,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: CustomButton(
-              loading: controller.showInvoiceLoading,
-              onTap: () {
-                String url =
-                    '${HttpService.baseURL}importer/${controller.serviceType.value}/download/invoice/${orderData.id}';
-                dev.log(url, name: 'INVOICE URL');
-
-                controller.showInvoice(url);
-              },
-              text: 'مشاهدة الفاتورة',
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 12),
+          //   child: CustomButton(
+          //     loading: controller.showInvoiceLoading,
+          //     onTap: () {
+          //       String url =
+          //           '${HttpService.baseURL}importer/${controller.serviceType.value}/download/invoice/${orderData.id}';
+          //       dev.log(url, name: 'INVOICE URL');
+          //
+          //       controller.showInvoice(url);
+          //     },
+          //     text: 'مشاهدة الفاتورة',
+          //   ),
+          // ),
         ],
       ],
     );

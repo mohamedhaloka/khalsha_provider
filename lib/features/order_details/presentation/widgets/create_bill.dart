@@ -29,7 +29,7 @@ class _CreateBillState extends State<CreateBill> {
       child: Column(
         children: [
           const Divider(),
-          const TextUnderline('إنشاء الفاتورة'),
+          const TextUnderline('إنشاء/تحديث الفاتورة'),
           FormBuilderField(
             builder: (FormFieldState<dynamic> field) =>
                 TextFieldInputWithHolder(

@@ -72,15 +72,12 @@ class _ChangeOrderStatusSheetState extends State<ChangeOrderStatusSheet> {
               }
               bool hasImagesAdded = images.any((element) => element.path != '');
               if (!hasImagesAdded) {
-                Get.back();
-                orderDetailsController.getOrderDetails();
-                loading(false);
-                return;
+                await orderDetailsController.uploadStepImages(
+                  statusId: widget.stepModel.id!,
+                  images: images,
+                );
               }
-              await orderDetailsController.uploadStepImages(
-                statusId: widget.stepModel.id!,
-                images: images,
-              );
+
               loading(false);
               Get.back();
               orderDetailsController.getOrderDetails();

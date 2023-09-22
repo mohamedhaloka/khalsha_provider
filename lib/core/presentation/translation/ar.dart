@@ -112,4 +112,6 @@ Map<String, String> ar = {
   'customs_clearance': 'رسوم التخليص الجمركي',
   'fee_included': 'شامل رسوم اصدار الشهادات',
   'execution_time': 'وقت التنفيذ',
+  'pack_unpack': 'تغليف/تفريغ',
+  'storage': 'تخزين',
 };

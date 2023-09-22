@@ -1,11 +1,15 @@
 part of '../../view.dart';
 
+const String orderIdKey = 'orderId';
+const String offerIdKey = 'offerId';
+const String offerStatusKey = 'offerStatus';
+const String serviceTypeKey = 'serviceType';
+
 class OrderDetailsController extends GetxController {
   final GetOrderDetailsUseCase _getOrderDetailsUseCase;
   final UpdateOrderStatusUseCase _updateOrderStatusUseCase;
   final UploadImageUseCase _uploadImageUseCase;
   final DeleteFileUseCase _deleteFileUseCase;
-  final RateOrderUseCase _rateOrderUseCase;
   final AddOfferUseCase _addOfferUseCase;
   final CreateInvoiceUseCase _createInvoiceUseCase;
   OrderDetailsController(
@@ -13,21 +17,20 @@ class OrderDetailsController extends GetxController {
     this._updateOrderStatusUseCase,
     this._uploadImageUseCase,
     this._deleteFileUseCase,
-    this._rateOrderUseCase,
     this._createInvoiceUseCase,
     this._addOfferUseCase,
   );
 
-  int orderId = Get.arguments['orderId'];
-  ServiceTypes serviceType = Get.arguments['serviceType'];
-  bool isBill = Get.arguments['isBill'];
+  int orderId = Get.arguments[orderIdKey];
+  int? offerId = Get.arguments[offerIdKey];
+  String? offerStatus = Get.arguments[offerStatusKey];
+  ServiceTypes serviceType = Get.arguments[serviceTypeKey];
 
   RxInt currentTab = 0.obs;
   PageController pageViewController = PageController();
 
   RxBool loading = true.obs,
       createInvoiceLoading = false.obs,
-      rateOrderLoading = false.obs,
       showInvoiceLoading = false.obs;
 
   late OrderModel orderModel;
@@ -104,15 +107,8 @@ class OrderDetailsController extends GetxController {
       pages.removeWhere((element) => element.id == 1);
     }
 
-    // if (orderModel.invoice == null) {
-    //   pages.removeWhere((element) => element.id == 2);
-    // }
-
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (isBill) {
-      int indexOfLaseTab =
-          pages.indexWhere((element) => element.id == pages.last.id);
-      goToParticularPage(indexOfLaseTab);
+    if (offerStatus != kAccepted) {
+      pages.removeWhere((element) => element.id == 2);
     }
   }
 
@@ -171,28 +167,6 @@ class OrderDetailsController extends GetxController {
     );
   }
 
-  Future<void> rateOrder({
-    required double rate,
-    required String feedback,
-  }) async {
-    final params = RateOrderUseCaseParams(
-      loading: rateOrderLoading,
-      rate: rate,
-      feedback: feedback,
-      module: serviceType.value,
-      orderId: orderId.toString(),
-    );
-    final result = await _rateOrderUseCase.execute(params);
-    result.fold(
-      (failure) => util.showAlertMessage(failure.statusMessage),
-      (_) {
-        util.showAlertMessage('تم تقييم الطلب بنجاح');
-        Get.back();
-        getOrderDetails();
-      },
-    );
-  }
-
   Future<void> addOffer(List<OrderInputItemModel> inputs) async {
     final params = AddOfferUseCaseParams(
       loading: loading,
@@ -212,7 +186,7 @@ class OrderDetailsController extends GetxController {
   }
 
   InvoiceData get _invoiceData => InvoiceData(
-        orderId: orderId.toString(),
+        orderId: offerId.toString(),
         totalPercents:
             invoiceItems.map((element) => element.totalPercents.text).toList(),
         totalTaxs:

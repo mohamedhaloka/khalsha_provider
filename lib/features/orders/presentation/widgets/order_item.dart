@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:khalsha/features/order_details/presentation/view.dart';
 
 import '../../../../core/data/models/enums/service_types.dart';
 import '../../../../core/presentation/routes/app_routes.dart';
@@ -27,9 +28,10 @@ class OrderItem extends StatelessWidget {
       onTap: () => Get.toNamed(
         Routes.orderDetails,
         arguments: {
-          'orderId': order.orderDetails?.id,
-          'serviceType': serviceType,
-          'isBill': false,
+          orderIdKey: order.orderDetails?.id,
+          serviceTypeKey: serviceType,
+          offerIdKey: order.id,
+          offerStatusKey: order.status,
         },
       ),
       child: Container(

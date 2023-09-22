@@ -309,6 +309,10 @@ class WareHouseInvoice extends Invoice {
   @override
   List<ItemModel> get items => <ItemModel>[
         ItemModel(
+          text: 'الإجمالي',
+          description: total,
+        ),
+        ItemModel(
           text: 'ملاحظات',
           description: note,
         )

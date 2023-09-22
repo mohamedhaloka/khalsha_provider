@@ -21,7 +21,7 @@ class _OrderDataTab extends GetView<OrderDetailsController> {
           ),
           itemCount: controller.orderModel.data.length,
         ),
-        if (controller.orderModel.status == kOpen) ...[
+        if (controller.offerStatus != kAccepted) ...[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
             child: CustomButton(

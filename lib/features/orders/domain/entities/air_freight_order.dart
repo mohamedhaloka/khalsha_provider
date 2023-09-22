@@ -182,148 +182,169 @@ class AirFreightOrder extends OrderModel {
 
   @override
   List<OrderSectionItemModel> get data => [
-        OrderSectionItemModel(
-          title: 'معلومات الطلب',
-          data: [
-            OrderDetailsItemModel(
-              title: 'عنوان الطلب',
-              description: title,
-            ),
-            OrderDetailsItemModel(
-              title: 'نوع الشحنة',
-              description: shipmentType,
-            ),
-            OrderDetailsItemModel(
-              title: 'مكان الشحن',
-              description: fromShipmentLocation,
-            ),
-            if (fromShipmentLocation == 'other') ...[
-              OrderDetailsItemModel(
-                title: 'مكان مخصص للشحن',
-                description: fromShipmentOtherLocation,
-              ),
-            ],
-            OrderDetailsItemModel(
-              title: 'من الدولة',
-              description: fromCountry.name,
-            ),
-            OrderDetailsItemModel(
-              title: 'من العنوان',
-              description: fromCity,
-            ),
-            OrderDetailsItemModel(
-              title: 'مكان الشحنة',
-              description: '$fromCityLat,$fromCityLng',
-            ),
-            OrderDetailsItemModel(
-              title: 'الي مكان الشحنه',
-              description: toShipmentLocation,
-            ),
-            if (toShipmentLocation == 'other') ...[
-              OrderDetailsItemModel(
-                title: 'مكان مخصص لتوصيل الشحن',
-                description: toShipmentOtherLocation,
-              ),
-            ],
-            OrderDetailsItemModel(
-              title: 'الى الدولة',
-              description: toCountry.name,
-            ),
-            OrderDetailsItemModel(
-              title: 'الى العنوان',
-              description: toCity,
-            ),
-            OrderDetailsItemModel(
-              title: 'الى مكان الشحنة',
-              description: '$toCityLat,$toCityLng',
-            ),
-            OrderDetailsItemModel(
-              title: 'استخراج الشهادات المطلوبة لهذه الشحنة ؟',
-              description: certificate,
-            ),
-            OrderDetailsItemModel(
-              title: 'هل تريد خدمة التأمين ؟',
-              description: insurance,
-            ),
-            OrderDetailsItemModel(
-              title: 'هل تريد خدمة التخليص الجمركي ؟',
-              description: customsClearance,
-            ),
-            OrderDetailsItemModel(
-              title: 'الاجمالى',
-              description: total,
-            ),
-            OrderDetailsItemModel(
-              title: 'ملاحظات',
-              description: content,
-            ),
-          ],
+    OrderSectionItemModel(
+      title: 'معلومات الطلب',
+      data: [
+        OrderDetailsItemModel(
+          title: 'عنوان الطلب',
+          description: title,
         ),
-        if (containers.isNotEmpty) ...[
-          OrderSectionItemModel(
-            title: 'الحاوية',
-            data: [
-              for (var container in containers) ...[
-                OrderDetailsItemModel(
-                  title: 'نوع الحاوية',
-                  description: container.containerType,
-                ),
-                OrderDetailsItemModel(
-                  title: 'عدد الحاويات',
-                  description: container.containerCount.toString(),
-                ),
-                OrderDetailsItemModel(
-                  title: 'صورة الشحنة',
-                  description: container.image,
-                  type: OrderDetailsTypes.file,
-                ),
-                OrderDetailsItemModel(
-                  title: 'تفاصيل الشحنة',
-                  description: container.content,
-                ),
-              ]
-            ],
+        OrderDetailsItemModel(
+          title: 'نوع الشحنة',
+          description: shipmentType,
+        ),
+        OrderDetailsItemModel(
+          title: 'مكان الشحن',
+          description: fromShipmentLocation,
+        ),
+        if (fromShipmentLocation == 'other') ...[
+          OrderDetailsItemModel(
+            title: 'مكان مخصص للشحن',
+            description: fromShipmentOtherLocation,
           ),
         ],
-        if (goods.isNotEmpty) ...[
-          OrderSectionItemModel(
-            title: 'البضائع المجمعة',
-            data: [
-              for (var container in goods) ...[
-                OrderDetailsItemModel(
-                  title: 'الحجم الكلي',
-                  description: container.overallSize,
-                ),
-                OrderDetailsItemModel(
-                  title: 'الوزن الكلي',
-                  description: container.totalWeight,
-                ),
-                OrderDetailsItemModel(
-                  title: 'الكمية',
-                  description: container.quantity,
-                ),
-              ]
-            ],
+        OrderDetailsItemModel(
+          title: 'من الدولة',
+          description: fromCountry.name,
+        ),
+        OrderDetailsItemModel(
+          title: 'من العنوان',
+          description: fromCity,
+        ),
+        OrderDetailsItemModel(
+          title: 'مكان الشحنة',
+          description: '$fromCityLat,$fromCityLng',
+        ),
+        OrderDetailsItemModel(
+          title: 'الي مكان الشحنه',
+          description: toShipmentLocation,
+        ),
+        if (toShipmentLocation == 'other') ...[
+          OrderDetailsItemModel(
+            title: 'مكان مخصص لتوصيل الشحن',
+            description: toShipmentOtherLocation,
           ),
         ],
-        if (certificates.isNotEmpty)
-          OrderSectionItemModel(
-            title: 'الشهادات',
-            data: [
-              for (var item in certificates) ...[
-                OrderDetailsItemModel(title: item.name),
-              ]
-            ],
-          ),
-        OrderSectionItemModel(
-          title: 'التواصل',
-          data: [
-            OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
-            OrderDetailsItemModel(title: 'الجوال', description: ''),
-            OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
-          ],
+        OrderDetailsItemModel(
+          title: 'الى الدولة',
+          description: toCountry.name,
         ),
-      ];
+        OrderDetailsItemModel(
+          title: 'الى العنوان',
+          description: toCity,
+        ),
+        OrderDetailsItemModel(
+          title: 'الى مكان الشحنة',
+          description: '$toCityLat,$toCityLng',
+        ),
+        OrderDetailsItemModel(
+          title: 'استخراج الشهادات المطلوبة لهذه الشحنة ؟',
+          description: certificate,
+        ),
+        OrderDetailsItemModel(
+          title: 'هل تريد خدمة التأمين ؟',
+          description: insurance,
+        ),
+        OrderDetailsItemModel(
+          title: 'هل تريد خدمة التخليص الجمركي ؟',
+          description: customsClearance,
+        ),
+        OrderDetailsItemModel(
+          title: 'الاجمالى',
+          description: total,
+        ),
+        OrderDetailsItemModel(
+          title: 'ملاحظات',
+          description: content,
+        ),
+      ],
+    ),
+    if (containers.isNotEmpty) ...[
+      OrderSectionItemModel(
+        title: 'الحاوية',
+        data: [
+          for (var container in containers) ...[
+            OrderDetailsItemModel(
+              title: 'نوع الحاوية',
+              description: container.containerType,
+            ),
+            OrderDetailsItemModel(
+              title: 'عدد الحاويات',
+              description: container.containerCount.toString(),
+            ),
+            OrderDetailsItemModel(
+              title: 'صورة الشحنة',
+              description: container.image,
+              type: OrderDetailsTypes.file,
+            ),
+            OrderDetailsItemModel(
+              title: 'تفاصيل الشحنة',
+              description: container.content,
+            ),
+          ]
+        ],
+      ),
+    ],
+    if (goods.isNotEmpty) ...[
+      OrderSectionItemModel(
+        title: 'البضائع المجمعة',
+        data: [
+          for (var container in goods) ...[
+            OrderDetailsItemModel(
+              title: 'اسم الصنف',
+              description: container.name,
+            ),
+            OrderDetailsItemModel(
+              title: 'الطول',
+              description: container.length,
+            ),
+            OrderDetailsItemModel(
+              title: 'العرض',
+              description: container.width,
+            ),
+            OrderDetailsItemModel(
+              title: 'الارتفاع',
+              description: container.height,
+            ),
+            OrderDetailsItemModel(
+              title: 'الحجم الكلي',
+              description: container.cm,
+            ),
+            OrderDetailsItemModel(
+              title: 'الوزن الكلي',
+              description: container.weightPerUnit,
+            ),
+            OrderDetailsItemModel(
+              title: 'الكمية',
+              description: container.quantity,
+            ),
+            OrderDetailsItemModel(
+              title: 'صورة الشحنة',
+              description: container.image,
+              type: OrderDetailsTypes.file,
+            ),
+          ]
+        ],
+      ),
+    ],
+    if (certificates.isNotEmpty)
+      OrderSectionItemModel(
+        title: 'الشهادات',
+        data: [
+          for (var item in certificates) ...[
+            OrderDetailsItemModel(title: item.name),
+          ]
+        ],
+      ),
+    OrderSectionItemModel(
+      title: 'التواصل',
+      data: [
+        OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
+        OrderDetailsItemModel(title: 'الجوال', description: ''),
+        OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
+      ],
+    ),
+  ];
 
   @override
   List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
@@ -399,6 +420,10 @@ class AirFreightInvoice extends Invoice {
 
   @override
   List<ItemModel> get items => <ItemModel>[
+    ItemModel(
+      text: 'الإجمالي',
+      description: total,
+    ),
         ItemModel(
           text: 'ملاحظات',
           description: note,

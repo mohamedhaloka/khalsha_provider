@@ -4,6 +4,7 @@ const kDone = 'done';
 const kPending = 'pending';
 const kOpen = 'open';
 const kClosed = 'closed';
+const kAccepted = 'accepted';
 
 class _StatusData extends StatefulWidget {
   const _StatusData({Key? key}) : super(key: key);
@@ -46,8 +47,7 @@ class _StatusDataState extends State<_StatusData> {
         ),
         if (orderData.steps.isNotEmpty) ...[
           if (orderData.steps
-                  .any((element) => element.step == 'create_invoice') &&
-              controller.orderModel.invoice == null) ...[
+              .any((element) => element.step == 'create_invoice')) ...[
             const CreateBill(),
           ],
           SizedBox(

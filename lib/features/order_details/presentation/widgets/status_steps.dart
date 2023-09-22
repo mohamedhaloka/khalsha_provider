@@ -91,7 +91,11 @@ class _OrderStep extends StatelessWidget {
                 ),
               ],
             ),
-            Text(stepModel.user!.name!),
+            Text(
+              stepModel.userId == userId
+                  ? UserDataLocal.instance.clientName
+                  : controller.orderModel.user.name!,
+            ),
             if (stepModel.note != null) Text(stepModel.note!),
             if (stepModel.files!.isNotEmpty) ...[
               const Divider(),

@@ -221,15 +221,15 @@ class CustomsClearanceOrder extends OrderModel {
             ),
             OrderDetailsItemModel(
               title: 'نوع الشحنة',
-              description: shipmentType,
+              description: shipmentType.tr,
             ),
             OrderDetailsItemModel(
               title: 'الإجمالي',
-              description: total,
+              description: '$total ${currency.name}',
             ),
             OrderDetailsItemModel(
               title: 'نوع الشحن',
-              description: shippingMethod,
+              description: shippingMethod.tr,
             ),
             OrderDetailsItemModel(
               title: 'توصيل إلي',
@@ -276,12 +276,18 @@ class CustomsClearanceOrder extends OrderModel {
               for (var item in shippingMethods) ...[
                 OrderDetailsItemModel(
                   title: 'نوع البضاعة',
-                  description: item.goodTypeId.toString(),
+                  description: item.goodType!.name.toString(),
                 ),
                 OrderDetailsItemModel(
                   title: 'نوع الطرد',
                   description: item.parcelType,
                 ),
+                if ((item.otherParcel ?? '').isNotEmpty) ...[
+                  OrderDetailsItemModel(
+                    title: 'اسم الطرد',
+                    description: item.otherParcel.toString(),
+                  ),
+                ],
                 OrderDetailsItemModel(
                   title: 'إجمالي الحجم (متر مكعب)',
                   description: item.totalSize,
@@ -304,7 +310,7 @@ class CustomsClearanceOrder extends OrderModel {
               for (var item in shippingMethods) ...[
                 OrderDetailsItemModel(
                   title: 'نوع البضاعة',
-                  description: item.goodTypeId.toString(),
+                  description: item.goodType!.name.toString(),
                 ),
                 OrderDetailsItemModel(
                   title: 'نوع الحاوية',
@@ -439,8 +445,9 @@ class CustomsClearanceOffer extends OfferModel {
   int? settlementId;
   dynamic deletedAt;
 
-  factory CustomsClearanceOffer.fromJson(Map<String, dynamic> json,
-      ) {
+  factory CustomsClearanceOffer.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return CustomsClearanceOffer(
       id: json["id"] ?? 0,
       customClearanceId: json["custom_clearance_id"] ?? 0,
@@ -709,6 +716,7 @@ class ShippingMethod {
     this.otherParcel,
     this.totalSize,
     this.totalWeight,
+    this.goodType,
     this.quantity,
     this.containerType,
     this.containerSize,
@@ -722,6 +730,7 @@ class ShippingMethod {
   int? customClearanceId;
   int? goodTypeId;
   String? shippingMethod;
+  DataModel? goodType;
   String? parcelType;
   String? otherParcel;
   String? totalSize;
@@ -734,23 +743,27 @@ class ShippingMethod {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  factory ShippingMethod.fromJson(Map<String, dynamic> json) => ShippingMethod(
-        id: json["id"] ?? 0,
-        customClearanceId: json["custom_clearance_id"] ?? 0,
-        goodTypeId: json["good_type_id"] ?? 0,
-        shippingMethod: json["shipping_method"] ?? '',
-        parcelType: json["parcel_type"] ?? '',
-        otherParcel: json["other_parcel"] ?? '',
-        totalSize: json["total_size"] ?? '',
-        totalWeight: json["total_weight"] ?? '',
-        quantity: json["quantity"] ?? '',
-        containerType: json["container_type"] ?? '',
-        containerSize: json["container_size"] ?? '',
-        containerCount: json["container_count"] ?? '',
-        deletedAt: json["deleted_at"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+  factory ShippingMethod.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return ShippingMethod(
+      id: json["id"] ?? 0,
+      customClearanceId: json["custom_clearance_id"] ?? 0,
+      goodTypeId: json["good_type_id"] ?? 0,
+      shippingMethod: json["shipping_method"] ?? '',
+      parcelType: json["parcel_type"] ?? '',
+      otherParcel: json["other_parcel"] ?? '',
+      totalSize: json["total_size"] ?? '',
+      totalWeight: json["total_weight"] ?? '',
+      quantity: json["quantity"] ?? '',
+      containerType: json["container_type"] ?? '',
+      goodType: DataModel.fromJson(json["goodtype"] ?? {}),
+      containerSize: json["container_size"] ?? '',
+      containerCount: json["container_count"] ?? '',
+      deletedAt: json["deleted_at"],
+      createdAt: DateTime.parse(json["created_at"]),
+      updatedAt: DateTime.parse(json["updated_at"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -759,6 +772,7 @@ class ShippingMethod {
         "shipping_method": shippingMethod,
         "parcel_type": parcelType,
         "other_parcel": otherParcel,
+        "goodtype": goodType?.toJson(),
         "total_size": totalSize,
         "total_weight": totalWeight,
         "quantity": quantity,

@@ -201,7 +201,7 @@ class LandShippingOrder extends OrderModel {
               title: 'نوع الشحن',
               description: shippingType,
             ),
-            if (workers != null)
+            if (workers != null && goodsType == 'private_transfer')
               OrderDetailsItemModel(
                 title: 'تريد عمال تحميل وتنزيل',
                 description: workers,
@@ -210,22 +210,24 @@ class LandShippingOrder extends OrderModel {
               title: 'قابل للاشتعال',
               description: flammable,
             ),
-            if (truck != null)
+            if (truck != null && goodsType == 'private_transfer')
               OrderDetailsItemModel(
                 title: 'نوع الشاحنة',
                 description: truck?.name,
               ),
-            if (shipmentType != null)
+            if (shipmentType != null && goodsType == 'private_transfer')
               OrderDetailsItemModel(
                 title: 'نوع الشحنة',
                 description: shipmentType?.name,
               ),
-            if (wantStorage != null)
+            if (wantStorage != null && goodsType == 'private_transfer')
               OrderDetailsItemModel(
                 title: 'هل تريد التخزين',
                 description: wantStorage,
               ),
-            if (wantStorage != null && storageDays! > 0)
+            if (wantStorage != null &&
+                storageDays! > 0 &&
+                goodsType == 'private_transfer')
               OrderDetailsItemModel(
                 title: 'عدد ايام التخزين',
                 description: storageDays.toString(),
@@ -264,7 +266,7 @@ class LandShippingOrder extends OrderModel {
             ]
           ],
         ),
-        if (bundledGoods.isNotEmpty)
+        if (bundledGoods.isNotEmpty && goodsType != 'private_transfer')
           OrderSectionItemModel(
             title: 'الاصناف',
             data: [
@@ -307,15 +309,15 @@ class LandShippingOrder extends OrderModel {
                   description: service.name,
                 ),
                 OrderDetailsItemModel(
-                  title: 'pack',
+                  title: 'pack'.tr,
                   description: service.pack,
                 ),
                 OrderDetailsItemModel(
-                  title: 'unpack',
+                  title: 'unpack'.tr,
                   description: service.unpack,
                 ),
                 OrderDetailsItemModel(
-                  title: 'packaging',
+                  title: 'packaging'.tr,
                   description: service.packaging,
                 ),
               ]
@@ -325,9 +327,8 @@ class LandShippingOrder extends OrderModel {
           title: 'التواصل',
           data: [
             OrderDetailsItemModel(title: 'صاحب الطلب', description: user.name),
-            OrderDetailsItemModel(title: 'الجوال', description: user.mobile),
-            OrderDetailsItemModel(
-                title: 'البريد الإلكتروني', description: user.email),
+            OrderDetailsItemModel(title: 'الجوال', description: ''),
+            OrderDetailsItemModel(title: 'البريد الإلكتروني', description: ''),
           ],
         ),
       ];
@@ -336,17 +337,17 @@ class LandShippingOrder extends OrderModel {
   List<OrderInputItemModel> get offerInputs => <OrderInputItemModel>[
         OrderInputItemModel(
           textInputType: TextInputType.number,
-          title: 'التنزيل / التحميل',
+          title: 'unloading',
           controller: TextEditingController(),
         ),
         OrderInputItemModel(
           textInputType: TextInputType.number,
-          title: 'الفك والتركيب',
+          title: 'pack_unpack',
           controller: TextEditingController(),
         ),
         OrderInputItemModel(
           textInputType: TextInputType.number,
-          title: 'التخزين',
+          title: 'storage',
           controller: TextEditingController(),
         ),
         OrderInputItemModel(
@@ -481,22 +482,24 @@ class LandShippingInvoice extends Invoice {
     super.userId,
   });
 
-  factory LandShippingInvoice.fromJson(Map<String, dynamic> json) =>
-      LandShippingInvoice(
-        id: json["id"] ?? 0,
-        userId: json["user_id"] ?? 0,
-        total: json["total"] ?? '',
-        note: json["note"] ?? '',
-        status: json["status"] ?? '',
-        deletedAt: json["deleted_at"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        user: User.fromJson(json["user"] ?? {}),
-      );
+  factory LandShippingInvoice.fromJson(Map<String, dynamic> json) {
+    print('invoide $json');
+    return LandShippingInvoice(
+      id: json["id"] ?? 0,
+      userId: json["user_id"] ?? 0,
+      total: json["total"] ?? '',
+      note: json["note"] ?? '',
+      status: json["status"] ?? '',
+      deletedAt: json["deleted_at"],
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.parse(json["created_at"]),
+      updatedAt: json["updated_at"] == null
+          ? null
+          : DateTime.parse(json["updated_at"]),
+      user: User.fromJson(json["user"] ?? {}),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -513,9 +516,13 @@ class LandShippingInvoice extends Invoice {
   @override
   List<ItemModel> get items => <ItemModel>[
         ItemModel(
+          text: 'الإجمالي',
+          description: total,
+        ),
+        ItemModel(
           text: 'ملاحظات',
           description: note,
-        )
+        ),
       ];
 }
 
@@ -551,7 +558,7 @@ class LandShippingOffer extends OfferModel {
         storage: json["storage"] ?? '',
         packUnpack: json["pack_unpack"] ?? '',
         loading: json["loading"] ?? '',
-        orderDetails: OrderDetailsModel.fromJson(json["landshippings"]),
+        orderDetails: OrderDetailsModel.fromJson(json["land_shipping"] ?? {}),
         acceptedAt:
             DateTime.parse(json["accepted_at"] ?? DateTime.now().toString()),
         rejectedAt: json["rejected_at"],
