@@ -1,64 +1,34 @@
 import 'package:get/get.dart';
+import 'package:khalsha/core/data/models/enums/service_types.dart';
 
-import '../../../../../core/data/models/item_model.dart';
+import '../../../../../core/utils.dart';
+import '../../../data/models/statistics_model.dart';
+import '../../../domain/use_cases/get_statistics_use_case.dart';
 
 class StatisticsController extends GetxController {
+  final GetStatisticsUseCase _getStatisticsUseCase;
+  StatisticsController(this._getStatisticsUseCase);
+
   RxInt selectedService = 0.obs;
 
-  List<ItemModel> periodsStatistic = const <ItemModel>[
-    ItemModel(
-      text: '3,000',
-      description: 'أرباح اليوم',
-      statusId: 0,
-    ),
-    ItemModel(
-      text: '27,000',
-      description: 'أرباح الأسبوع',
-      statusId: 1,
-    ),
-    ItemModel(
-      text: '60,000',
-      description: 'أرباح الشهر',
-      statusId: 1,
-    ),
-    ItemModel(
-      text: '250,000',
-      description: 'أرباح السنة',
-      statusId: 0,
-    ),
-  ];
-  List<ItemModel> postsFilters = const <ItemModel>[
-    ItemModel(
-      id: 0,
-      text: 'منشورات مقبولة',
-      description: '3',
-    ),
-    ItemModel(
-      id: 1,
-      text: 'منشورات بالإنتظار',
-      description: '20',
-    ),
-    ItemModel(
-      id: 2,
-      text: 'منشورات مرفوضة',
-      description: '5',
-    ),
-  ];
-  List<ItemModel> offersFilters = const <ItemModel>[
-    ItemModel(
-      id: 0,
-      text: 'عروض مقبولة',
-      description: '6',
-    ),
-    ItemModel(
-      id: 1,
-      text: 'عروض بالإنتظار',
-      description: '30',
-    ),
-    ItemModel(
-      id: 2,
-      text: 'عروض مرفوضة',
-      description: '12',
-    ),
-  ];
+  Rx<StatisticsModel> statisticsModel = StatisticsModel().obs;
+
+  RxBool loading = true.obs;
+  @override
+  void onInit() {
+    getStatistics();
+    super.onInit();
+  }
+
+  Future<void> getStatistics() async {
+    final params = GetStatisticsUseCaseParams(
+      loading: loading,
+      type: ServiceTypes.values[selectedService.value].value,
+    );
+    final result = await _getStatisticsUseCase.execute(params);
+    result.fold(
+      (failure) => showAlertMessage(failure.statusMessage),
+      (data) => statisticsModel(data),
+    );
+  }
 }

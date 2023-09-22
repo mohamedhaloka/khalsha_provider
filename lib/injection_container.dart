@@ -60,6 +60,9 @@ import 'package:khalsha/features/settlement_details/data/data_source/settlement_
 import 'package:khalsha/features/settlement_details/domain/repository/settlement_details_repository.dart';
 import 'package:khalsha/features/settlement_details/domain/use_cases/callback_payment_use_case.dart';
 import 'package:khalsha/features/settlement_details/domain/use_cases/prepare_payment_use_case.dart';
+import 'package:khalsha/features/statistics/data/data_source/statistics_remote_data_source.dart';
+import 'package:khalsha/features/statistics/data/repo_impl/statistics_repository_impl.dart';
+import 'package:khalsha/features/statistics/domain/repository/statistics_repository.dart';
 import 'package:location/location.dart';
 
 import 'core/data/services/http_service.dart';
@@ -83,6 +86,7 @@ import 'features/notifications/domain/use_cases/get_notifications_use_case.dart'
 import 'features/register/domain/repository/register_repository.dart';
 import 'features/root/domain/use_cases/update_fcm_token_use_case.dart';
 import 'features/settlement_details/data/repo_impl/settlement_details_repository_impl.dart';
+import 'features/statistics/domain/use_cases/get_statistics_use_case.dart';
 
 class InjectionContainer {
   static GetIt sl = GetIt.I;
@@ -233,5 +237,14 @@ class InjectionContainer {
         () => ContactUsRepositoryImpl(sl()));
     sl.registerLazySingleton<SendMessageContactUsUseCase>(
         () => SendMessageContactUsUseCase(sl()));
+
+    //Statistics
+    sl.registerLazySingleton<StatisticsRemoteDataSource>(
+        () => StatisticsRemoteDataSourceImpl(dioService));
+    sl.registerLazySingleton<StatisticsRepository>(
+        () => StatisticsRepositoryImpl(sl()));
+
+    sl.registerLazySingleton<GetStatisticsUseCase>(
+        () => GetStatisticsUseCase(sl()));
   }
 }

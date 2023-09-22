@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/features/statistics/presentation/get/controllers/controller.dart';
 
 import '../../../../core/inputs_style.dart';
 import '../../../../core/presentation/themes/colors_manager.dart';
+import '../../data/models/statistics_model.dart';
 
 class PeriodsStatistic extends GetView<StatisticsController> {
-  const PeriodsStatistic({Key? key}) : super(key: key);
+  const PeriodsStatistic(this.statistics, {Key? key}) : super(key: key);
+  final StatisticsModel statistics;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildStatisticItems(),
-        _buildStatisticItems(),
+        _buildStatisticItems(
+          titleOne: 'أرباح اليوم',
+          titleTwo: 'أرباح الشهر',
+          valueOne: statistics.totalProfitToday ?? '0',
+          valueTwo: statistics.totalProfitMonth ?? '0',
+        ),
+        _buildStatisticItems(
+          titleOne: 'أرباح الاسبوع',
+          titleTwo: 'أرباح السنه',
+          valueOne: statistics.totalProfitWeek ?? '0',
+          valueTwo: statistics.totalProfitYear ?? '0',
+        ),
       ],
     );
   }
 
-  Container _buildStatisticItems() => Container(
+  Container _buildStatisticItems({
+    required String titleOne,
+    required String valueOne,
+    required String titleTwo,
+    required String valueTwo,
+  }) =>
+      Container(
         height: 82,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(radius)),
@@ -29,13 +46,25 @@ class PeriodsStatistic extends GetView<StatisticsController> {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            Expanded(child: _buildStatisticItem()),
-            Expanded(child: _buildStatisticItem()),
+            Expanded(
+                child: _buildStatisticItem(
+              title: titleOne,
+              value: valueOne,
+            )),
+            Expanded(
+                child: _buildStatisticItem(
+              title: titleTwo,
+              value: valueTwo,
+            )),
           ],
         ),
       );
 
-  Widget _buildStatisticItem() => Row(
+  Widget _buildStatisticItem({
+    required String title,
+    required String value,
+  }) =>
+      Row(
         children: [
           Container(
             height: 60,
@@ -49,43 +78,18 @@ class PeriodsStatistic extends GetView<StatisticsController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '3,000 ريال',
+                '$value ريال',
                 style: Get.textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'أرباح اليوم',
+                title,
                 style: Get.textTheme.bodySmall!.copyWith(
                   fontSize: 10,
                   color: Colors.black,
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '0.49%+',
-                      style: Get.textTheme.bodySmall!.copyWith(
-                        fontSize: 10,
-                        color: ColorManager.greyColor,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        '6.1',
-                        style: Get.textTheme.bodySmall!.copyWith(
-                          fontSize: 10,
-                          color: ColorManager.greyColor,
-                        ),
-                      ),
-                      SvgPicture.asset('assets/images/icons/arrow-up.svg')
-                    ],
-                  )
-                ],
-              )
             ],
           )),
         ],

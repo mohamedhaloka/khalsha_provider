@@ -354,14 +354,9 @@ class CustomsClearanceOrder extends OrderModel {
               title: 'صاحب الطلب',
               description: user.name,
             ),
+            OrderDetailsItemModel(title: 'الجوال', description: user.mobile),
             OrderDetailsItemModel(
-              title: 'الجوال',
-              description: '',
-            ),
-            OrderDetailsItemModel(
-              title: 'البريد الإلكتروني',
-              description: '',
-            ),
+                title: 'البريد الإلكتروني', description: user.email),
           ],
         ),
       ];
