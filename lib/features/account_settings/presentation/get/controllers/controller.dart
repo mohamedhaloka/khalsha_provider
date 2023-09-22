@@ -12,7 +12,7 @@ import 'package:khalsha/features/account_settings/domain/use_cases/upload_profil
 
 import '../../../../../core/data/source/local/user_local.dart';
 import '../../../../../core/presentation/routes/app_routes.dart';
-import '../../../../../core/utils.dart';
+import '../../../../../core/utils.dart' as utils;
 import '../../../domain/use_cases/change_password_use_case.dart';
 
 class AccountSettingsController extends GetxController {
@@ -61,10 +61,8 @@ class AccountSettingsController extends GetxController {
     );
     final result = await _downloadFileUseCase.execute(params);
     result.fold(
-      (Failure failure) {
-        showAlertMessage(failure.statusMessage);
-      },
-      (String imagePath) => onSuccess(imagePath),
+      (_) => _,
+      (imagePath) => onSuccess(imagePath),
     );
   }
 
@@ -72,7 +70,7 @@ class AccountSettingsController extends GetxController {
     final params = Params(loading: false.obs);
     final result = await _getProfileUseCase.execute(params);
     result.fold(
-      (Failure failure) => showAlertMessage(failure.statusMessage),
+      (Failure failure) => utils.showAlertMessage(failure.statusMessage),
       (ProfileDataModel profileData) async {
         name.text = profileData.name ?? '';
         email.text = profileData.email ?? '';
@@ -101,9 +99,9 @@ class AccountSettingsController extends GetxController {
 
     final result = await _changePasswordUseCase.execute(params);
     result.fold(
-      (failure) => showAlertMessage(failure.statusMessage),
+      (failure) => utils.showAlertMessage(failure.statusMessage),
       (successMsg) {
-        showAlertMessage(successMsg);
+        utils.showAlertMessage(successMsg);
         UserDataLocal.instance.remove();
         Get.offAllNamed(Routes.onBoarding);
       },
@@ -122,8 +120,8 @@ class AccountSettingsController extends GetxController {
 
     final result = await _updateAccountUseCase.execute(params);
     result.fold(
-      (failure) => showAlertMessage(failure.statusMessage),
-      (successMsg) => showAlertMessage(successMsg),
+      (failure) => utils.showAlertMessage(failure.statusMessage),
+      (successMsg) => utils.showAlertMessage(successMsg),
     );
   }
 
@@ -135,8 +133,18 @@ class AccountSettingsController extends GetxController {
 
     final result = await _uploadProfilePhotoUseCase.execute(params);
     result.fold(
-      (failure) => showAlertMessage(failure.statusMessage),
-      (successMsg) => showAlertMessage(successMsg),
+      (failure) => utils.showAlertMessage(failure.statusMessage),
+      (successMsg) => utils.showAlertMessage(successMsg),
+    );
+  }
+
+  void showDeleteAccountDialog() {
+    utils.showDialog(
+      'هل تود حقاً حذف الحساب؟',
+      onDoneTapped: () {
+        UserDataLocal.instance.remove();
+        Get.offAllNamed(Routes.onBoarding);
+      },
     );
   }
 }

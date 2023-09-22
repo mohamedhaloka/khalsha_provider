@@ -7,6 +7,8 @@ import '../../../core/presentation/routes/app_routes.dart';
 import '../../../core/presentation/themes/colors_manager.dart';
 import 'get/controllers/controller.dart';
 
+const kSettled = 'settled';
+
 class SettlementView extends GetView<SettlementController> {
   const SettlementView({Key? key}) : super(key: key);
 
@@ -49,11 +51,12 @@ class SettlementView extends GetView<SettlementController> {
                       _detail(controller.settlements[index].getTotal!.total
                           .toString()),
                       _detail(controller.settlements[index].status!),
-                      _detail(
-                        'تسوية',
-                        textColor: ColorManager.secondaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      if (controller.settlements[index].status != kSettled)
+                        _detail(
+                          'تسوية',
+                          textColor: ColorManager.secondaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                     ],
                   ),
                   itemCount: controller.settlements.length,
