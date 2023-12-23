@@ -10,10 +10,10 @@ import 'package:khalsha/core/utils.dart' as utils;
 import 'package:khalsha/features/auth/presentation/get/controllers/auth_controller.dart';
 import 'package:khalsha/features/home/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/home/presentation/view.dart';
+import 'package:khalsha/features/new_orders/presentation/view.dart';
 import 'package:khalsha/features/notifications/domain/use_cases/get_notifications_use_case.dart';
 import 'package:khalsha/features/notifications/presentation/view.dart';
 import 'package:khalsha/features/on_boarding/presentation/get/controllers/controller.dart';
-import 'package:khalsha/features/orders/presentation/view.dart';
 import 'package:khalsha/features/profile/presentation/view.dart';
 import 'package:khalsha/features/root/domain/use_cases/log_out_use_case.dart';
 import 'package:khalsha/features/root/domain/use_cases/refresh_token_use_case.dart';
@@ -78,8 +78,8 @@ class RootController extends GetxController {
       const ItemModel(
         id: 1,
         image: 'orders',
-        text: 'عروضي',
-        child: OrdersView(),
+        text: 'الطلبات الجديدة',
+        child: NewOrdersView(),
       ),
       const ItemModel(
         id: 2,
@@ -113,11 +113,11 @@ class RootController extends GetxController {
         text: 'الإحصائيات',
         route: Routes.statistics,
       ),
-      const ItemModel(
-        image: 'resources',
-        text: 'الطلبات الجديدة',
-        route: Routes.newOrders,
-      ),
+      // const ItemModel(
+      //   image: 'resources',
+      //   text: 'الطلبات الجديدة',
+      //   route: Routes.newOrders,
+      // ),
       const ItemModel(
         image: 'common_questions',
         text: 'الأسئلة الشائعة',
@@ -189,6 +189,7 @@ class RootController extends GetxController {
         await UserDataLocal.instance.save(userData.toJson());
         _updateFCMToken();
         _getUnSeenNotifications();
+        _notificationService.onGetInitialMessage();
       },
     );
   }
@@ -211,7 +212,6 @@ class RootController extends GetxController {
   Future<void> _updateFCMToken() async {
     _notificationService.subscribeToTopic(NotificationsService.topicName);
     final fcmToken = await _notificationService.getFCMToken();
-    print('fcm token $fcmToken');
     if (fcmToken == null) return;
     final params = UpdateFCMTokenUseCaseParams(
       loading: false.obs,

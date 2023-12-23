@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_intro/flutter_intro.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:khalsha/core/data/models/item_model.dart';
@@ -9,8 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MenuItems extends GetView<RootController> {
-  const MenuItems({Key? key, required this.intro}) : super(key: key);
-  final Intro intro;
+  const MenuItems({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class MenuItems extends GetView<RootController> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, int index) => _MenuItem(
         controller.menu[index],
-        key: index == 2 ? intro.keys[0] : null,
+        // key: index == 2 ? intro.keys[0] : null,
       ),
       separatorBuilder: (_, __) => const SizedBox(height: 16),
       itemCount: controller.menu.length,

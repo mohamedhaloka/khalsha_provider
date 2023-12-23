@@ -96,67 +96,75 @@ class _BottomTabs extends GetView<RootController> {
               .map((e) => Expanded(
                       child: InkWell(
                     onTap: () => controller.navigateToParticularPage(e.id!),
-                    child: Obx(() {
-                      bool isSelected = controller.currentTab.value == e.id;
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned.fill(
-                            child: Container(
-                              color: isSelected
-                                  ? ColorManager.primaryColor
-                                  : Colors.white,
-                              padding: const EdgeInsets.all(8),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: SvgPicture.asset(
-                                      'assets/images/navigation_menu/${e.image}.svg',
-                                      color: isSelected
-                                          ? Colors.white
-                                          : ColorManager.greyColor,
+                    child: Tooltip(
+                      message: e.text,
+                      child: Obx(() {
+                        bool isSelected = controller.currentTab.value == e.id;
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Positioned.fill(
+                              child: Container(
+                                color: isSelected
+                                    ? ColorManager.primaryColor
+                                    : Colors.white,
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: SvgPicture.asset(
+                                        'assets/images/navigation_menu/${e.image}.svg',
+                                        color: isSelected
+                                            ? Colors.white
+                                            : ColorManager.greyColor,
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      e.text,
-                                      style: Get.textTheme.bodySmall!.copyWith(
+                                    Expanded(
+                                      child: Text(
+                                        e.text,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Get.textTheme.bodySmall!.copyWith(
                                           color: isSelected
                                               ? Colors.white
                                               : ColorManager.greyColor,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (e.id == 3 &&
-                              controller.unSeenNotificationCount.value >= 1)
-                            Positioned(
-                              top: 6,
-                              right: 24,
-                              child: CircleAvatar(
-                                radius: 8,
-                                backgroundColor: ColorManager.errorColor,
-                                child: Text(
-                                  controller.unSeenNotificationCount.value > 9
-                                      ? '+9'
-                                      : controller
-                                          .unSeenNotificationCount.string,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                        ],
-                      );
-                    }),
+                            if (e.id == 3 &&
+                                controller.unSeenNotificationCount.value >= 1)
+                              Positioned(
+                                top: 6,
+                                right: 24,
+                                child: CircleAvatar(
+                                  radius: 8,
+                                  backgroundColor: ColorManager.errorColor,
+                                  child: Text(
+                                    controller.unSeenNotificationCount.value > 9
+                                        ? '+9'
+                                        : controller
+                                            .unSeenNotificationCount.string,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.white,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      }),
+                    ),
                   )))
               .toList(),
         ),

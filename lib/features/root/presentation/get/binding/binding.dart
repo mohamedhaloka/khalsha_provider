@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:khalsha/features/home/presentation/get/controllers/controller.dart';
+import 'package:khalsha/features/new_orders/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/notifications/presentation/get/controllers/controller.dart';
-import 'package:khalsha/features/orders/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/profile/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/root/presentation/get/controllers/controller.dart';
 import 'package:khalsha/features/settlement/presentation/get/controllers/controller.dart';
@@ -24,7 +24,11 @@ class RootBinding extends Bindings {
     Get.create<NotificationsController>(() => NotificationsController(
           InjectionContainer.sl(),
         ));
-    Get.create<OrdersController>(() => OrdersController(
+    // Get.create<OrdersController>(() => OrdersController(
+    //   InjectionContainer.sl(),
+    // ));
+
+    Get.lazyPut<NewOrdersController>(() => NewOrdersController(
           InjectionContainer.sl(),
         ));
   }

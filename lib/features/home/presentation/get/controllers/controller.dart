@@ -14,6 +14,7 @@ class HomeController extends GetxController {
   void onInit() {
     videoController = CachedVideoPlayerController.network(
         'https://drive.google.com/uc?export=download&id=1SvcpuZW_-clbKU7ZFg_RRNy3QTZ31-tb')
+      ..setVolume(0.0)
       ..initialize().then((_) {
         showVideo(true);
       });

@@ -14,6 +14,8 @@ class NotificationsService extends GetxService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  bool _initialNotificationFetched = false;
+
   Future<NotificationsService> init() async {
     log('Notification service initiated...');
     setup();
@@ -91,13 +93,6 @@ class NotificationsService extends GetxService {
     Terminated app notification ...
      */
 
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? initialMessage) async {
-      if (initialMessage != null) {
-        onSelectNotification(json.encode(initialMessage.data));
-      }
-    });
     /*
     Foreground notification ...
      */
@@ -158,6 +153,17 @@ class NotificationsService extends GetxService {
       ),
       payload: json.encode(message),
     );
+  }
+
+  void onGetInitialMessage() {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? initialMessage) async {
+      if (initialMessage != null && !_initialNotificationFetched) {
+        _initialNotificationFetched = true;
+        onSelectNotification(json.encode(initialMessage.data));
+      }
+    });
   }
 
   //-----Useful method...

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:khalsha/core/data/services/http_service.dart';
-import 'package:khalsha/core/presentation/routes/app_routes.dart';
-import 'package:khalsha/features/notifications/data/models/notification_model.dart';
-import 'package:khalsha/features/widgets/cached_image.dart';
-
 import 'package:khalsha/core/data/models/enums/service_types.dart';
+import 'package:khalsha/core/presentation/routes/app_routes.dart';
 import 'package:khalsha/core/presentation/themes/colors_manager.dart';
+import 'package:khalsha/features/notifications/data/models/notification_model.dart';
 import 'package:khalsha/features/order_details/presentation/view.dart';
 
 class NotificationItem extends StatelessWidget {
@@ -38,7 +35,7 @@ class NotificationItem extends StatelessWidget {
         );
       },
       child: Container(
-        height: 90,
+        constraints: const BoxConstraints(minHeight: 90),
         color: isOdd ? Colors.grey[200] : Colors.grey[100],
         padding: const EdgeInsets.symmetric(horizontal: 35),
         child: Row(
@@ -52,25 +49,13 @@ class NotificationItem extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-                child: Row(
-              children: [
-                CachedImage(
-                  imgUrl:
-                      HttpService.fileBaseURL + notification.from.photoProfile,
-                  width: 35,
-                  height: 35,
-                  borderRadius: const BorderRadius.all(Radius.circular(60)),
+              child: Text(
+                notification.text,
+                style: Get.textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                    child: Text(
-                  notification.text,
-                  style: Get.textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ))
-              ],
-            ))
+              ),
+            ),
           ],
         ),
       ),

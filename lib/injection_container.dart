@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_maps_webservice/places.dart' as place;
 import 'package:khalsha/core/data/repository_impl/core_repository_impl.dart';
 import 'package:khalsha/core/data/services/http_service.dart';
 import 'package:khalsha/core/data/source/remote/core_remote_data_source.dart';
@@ -12,7 +11,6 @@ import 'package:khalsha/core/domain/use_cases/download_file_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/get_particular_env_data_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/get_profile_use_case.dart';
 import 'package:khalsha/core/domain/use_cases/upload_image_use_case.dart';
-import 'package:khalsha/core/utils.dart';
 import 'package:khalsha/features/account_settings/data/data_source/account_settings_remote_data_source.dart';
 import 'package:khalsha/features/account_settings/data/repo_impl/account_settings_repository_impl.dart';
 import 'package:khalsha/features/account_settings/domain/repository/account_settings_repository.dart';
@@ -84,7 +82,6 @@ import 'package:khalsha/features/statistics/data/data_source/statistics_remote_d
 import 'package:khalsha/features/statistics/data/repo_impl/statistics_repository_impl.dart';
 import 'package:khalsha/features/statistics/domain/repository/statistics_repository.dart';
 import 'package:khalsha/features/statistics/domain/use_cases/get_statistics_use_case.dart';
-import 'package:location/location.dart';
 
 class InjectionContainer {
   static GetIt sl = GetIt.I;
@@ -188,11 +185,6 @@ class InjectionContainer {
         () => GetOrderDetailsUseCase(sl()));
     sl.registerLazySingleton<CreateInvoiceUseCase>(
         () => CreateInvoiceUseCase(sl()));
-
-    //Map
-    sl.registerLazySingleton<Location>(() => Location());
-    sl.registerLazySingleton<place.GoogleMapsPlaces>(
-        () => place.GoogleMapsPlaces(apiKey: apiKey));
 
     //Notifications
     sl.registerLazySingleton<NotificationsRemoteDataSource>(

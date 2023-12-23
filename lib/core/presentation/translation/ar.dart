@@ -15,6 +15,7 @@ Map<String, String> ar = {
   'file': 'ملف',
   'back': 'رجوع',
   'photo-must-be-smaller-than-4mb': 'حجم الصوره يجب ان يكون اقل من ٤ ميجا',
+  'file-must-be-smaller-than-2mb': 'يجب ان يكون حجم الملف أقل من ٢ ميجا',
   'take-image-from': 'إختيار الصوره من',
   'gallery': 'معرض الصور',
   'camera': 'الكاميرا',

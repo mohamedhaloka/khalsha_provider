@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khalsha/core/presentation/themes/colors_manager.dart';
-
 import 'package:khalsha/features/account_settings/presentation/get/controllers/controller.dart';
 
 class ProfilePhoto extends GetView<AccountSettingsController> {
@@ -74,7 +73,12 @@ class ProfilePhoto extends GetView<AccountSettingsController> {
   }
 
   void chooseImage() async {
-    XFile? result = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? result = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 30,
+      maxHeight: 350,
+      maxWidth: 350,
+    );
 
     if (result == null) return;
     controller.profilePhoto(File(result.path));
